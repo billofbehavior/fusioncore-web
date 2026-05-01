@@ -1,8 +1,7 @@
 upcoming:
-  - venue: KubeCon + CloudNativeCon Europe 2026
-    title: ""
-  - venue: OpenSource Security Con Europe 2026
-    title: ""
+  - venue: European Resilience Summit, Vienna 2026
+    title: "Open Source as Strategic Infrastructure: Enabling a Federated, Resilient Digital Europe"
+    url: https://www.europeanresiliencesummit.com/vienna
   - venue: Cloud Native Zurich 2026
     when: "June 11–12, 2026"
     url: https://cloudnativezurich.ch
@@ -12,14 +11,25 @@ upcoming:
   - venue: Cloud Native Linz
     when: "May 2026"
     url: https://cloudnativelinz.at
+  - venue: IKT Linz 2026
+    when: "Sept 2026"
+    url: https://seminar.bundesheer.at
   - venue: Cloud Native Austria 2026
     url: https://cloudnativedays.at
 
 past:
-  - venue: KubeCon NA Atlanta
+  - venue: KubeCon + CloudNativeCon Europe 2026
+    title: "Attack Defense with rich context"
+    role: workshop
+  - venue: KubeCon + CloudNativeCon Europe 2026
+    title: "Instant Anomaly Detection for Kubernetes with SBOB"
+    role: poster
+  - venue: OpenSource Security Con Europe 2026
+    title: ""
+  - venue: KubeCon NA Atlanta 2025
     title: "Multimessenger Security: Adaptive Kubernetes SOC"
     url: https://colocatedeventsna2025.sched.com/event/28D5r/multi-messenger-security-adaptive-kubernetes-soc-from-disparate-ebpf-tools-constanze-roedig-sba-research-technical-university-of-vienna-ben-hirschberg-armo-dom-delnano-cosmic
-  - venue: KubeCon NA Atlanta
+  - venue: KubeCon NA Atlanta 2025
     title: "Security Panel"
     role: panel
   - venue: Cloud Native Denmark
