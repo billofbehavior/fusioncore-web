@@ -1,0 +1,51 @@
+<footer class="site-footer" id="impressum">
+  <div class="site-footer__inner">
+
+    <div class="site-footer__col">
+      <h4>FusionCore</h4>
+      <p>
+        © {{ now.Year }}<br>
+        <a href="{{ site.BaseURL }}">fusioncore.ai</a>
+      </p>
+      <p>
+        The Kubernetes Storm Center is licensed under
+        Apache&nbsp;2.0 and GPLv2.
+      </p>
+    </div>
+
+    <div class="site-footer__col">
+      <h4>Contact</h4>
+      <p>
+        <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a><br>
+        {{ site.Params.location }}
+      </p>
+    </div>
+
+    <div class="site-footer__impressum">
+      <h4>Impressum</h4>
+      <p><strong>Zweck der Website:</strong>
+        Diese Website dient der Information über ein Forschungs- und
+        Technologieprojekt im Bereich Cybersicherheit.
+      </p>
+      <p><strong>Hinweis:</strong>
+        fusioncore ist derzeit kein eingetragenes Unternehmen. Die Inhalte
+        dieser Website stellen keine verbindlichen Angebote dar.
+      </p>
+      <p><strong>Datenschutzhinweis:</strong>
+        Diese Website verarbeitet keine personenbezogenen Daten aktiv. Es gibt
+        keine Kontaktformulare, keine Benutzerkonten und kein Tracking. Beim
+        Aufruf der Seite werden durch den Hosting-Provider technisch
+        notwendige Zugriffsdaten (z.&nbsp;B. IP-Adresse, Zeitpunkt, Browsertyp)
+        verarbeitet, um den sicheren Betrieb der Website zu gewährleisten.
+        Eingebettete YouTube-Videos und externe Links können beim Aufruf Daten
+        an die jeweiligen Drittanbieter übertragen. Es gelten dabei die
+        Datenschutzbestimmungen der jeweiligen Plattformen. Verantwortlich im
+        Sinne der DSGVO ist Constanze Roedig, erreichbar unter
+        <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+        Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung und
+        Einschränkung der Verarbeitung Ihrer Daten gemäß Art.&nbsp;15–18 DSGVO.
+      </p>
+    </div>
+
+  </div>
+</footer>

@@ -1,0 +1,18 @@
+baseURL = "https://fusioncore.ai/"
+languageCode = "en-us"
+title = "FusionCore.ai"
+
+# Single-page site; no taxonomies / RSS / sitemap needed for this scope.
+disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+
+[params]
+  tagline     = "Security through understanding"
+  hero        = "Cloud Security for Humans"
+  description = "Making society more resilient by using human understanding, state-of-the-art technology (eBPF, WebAssembly and AI) and empirical methods for achievable threat-informed cloud security."
+  email       = "info@fusioncore.ai"
+  location    = "Vienna, Austria"
+  github      = "https://github.com/k8sstormcenter"
+  bobctl      = "https://github.com/k8sstormcenter/bobctl"
+
+[markup.goldmark.renderer]
+  unsafe = true

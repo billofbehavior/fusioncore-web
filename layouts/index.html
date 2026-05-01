@@ -1,0 +1,137 @@
+{{ define "main" }}
+
+<!-- ============== HERO / HOME ============== -->
+<section id="home" class="hero">
+  <div class="hero__inner">
+    <p class="hero__kicker">{{ site.Params.tagline }}</p>
+    <h1 class="hero__title">{{ site.Params.hero }}</h1>
+    <p class="hero__lede">{{ site.Params.description }}</p>
+    <ul class="hero__pills">
+      <li>100% independent</li>
+      <li>100% reality-checked</li>
+      <li>for critical infrastructure</li>
+    </ul>
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="#open-source">Our research</a>
+      <a class="btn btn--ghost"   href="#contact">Talk to us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SECURITY FOR HUMANS ============== -->
+<section id="security" class="band">
+  <div class="band__inner">
+    <p class="band__kicker">Our offering</p>
+    <h2>Sovereign Cloud Security</h2>
+    <p>
+      The
+      <a href="{{ site.Params.github }}">Kubernetes Storm Center</a>
+      combines mature eBPF projects to form an adaptive detection stack with
+      tunable signal-to-noise.
+    </p>
+    <p>
+      Research is currently ongoing as part of <strong>NetIdee</strong> and
+      <strong>FFG</strong> projects.
+    </p>
+  </div>
+</section>
+
+<!-- ============== OPEN SOURCE ============== -->
+<section id="open-source" class="band band--soft">
+  <div class="band__inner">
+    <p class="band__kicker">Open Source Tools</p>
+    <h2>Software Bill of Behavior</h2>
+    <p>
+      <strong>SBoB</strong> is the runtime addition to the Software Bill of
+      Materials (SBoM). It allows the <em>intended behavior</em> of software
+      to be transferred from the vendor to the end user — enabling defenders
+      to maintain up-to-date detection rules and achieve genuine anomaly
+      detection.
+    </p>
+    <p>
+      We are creating this standard especially for the EU Cyber Resilience
+      Act and NIS&nbsp;2 regulation, to help defenders get ahead of breaches.
+    </p>
+    <ul class="links">
+      <li><a href="{{ site.Params.bobctl }}">github.com/k8sstormcenter/bobctl</a> — reference CLI</li>
+      <li><a href="{{ site.Params.github }}">github.com/k8sstormcenter</a> — research org</li>
+      <li><a href="https://billofbehavior.com">billofbehavior.com</a> — open standard home</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============== WORKSHOPS / TRAININGS ============== -->
+<section id="trainings" class="band">
+  <div class="band__inner">
+    <p class="band__kicker">Workshops &amp; Training</p>
+    <h2>Next trainings</h2>
+    <div class="cards">
+      {{ range site.Data.trainings }}
+        <div class="card">
+          <h3>{{ .name }}</h3>
+          <p>{{ .blurb }}</p>
+        </div>
+      {{ end }}
+    </div>
+    <p class="band__contact">
+      Interested? Write to
+      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ============== SPEAKING ============== -->
+<section id="speaking" class="band band--soft">
+  <div class="band__inner">
+    <p class="band__kicker">Speaking</p>
+    <h2>Conference appearances</h2>
+    <p>
+      You can book <a href="https://informatics.tuwien.ac.at/people/constanze-roedig">Dr.&nbsp;Constanze&nbsp;Roedig</a>
+      to speak at your event for a fee — write to
+      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+    </p>
+
+    <h3 class="talks-heading">Upcoming</h3>
+    <ul class="talks">
+      {{ range site.Data.talks.upcoming }}
+        <li>
+          <span class="talks__venue">{{ .venue }}</span>
+          {{ with .when }}<span class="talks__when">— {{ . }}</span>{{ end }}
+          {{ with .title }} — <span class="talks__title">{{ . }}</span>{{ end }}
+          {{ with .role }}<span class="talks__role">{{ . }}</span>{{ end }}
+          {{ with .url }}<a class="talks__link" href="{{ . }}">↗</a>{{ end }}
+        </li>
+      {{ end }}
+    </ul>
+
+    <h3 class="talks-heading">Past</h3>
+    <ul class="talks">
+      {{ range site.Data.talks.past }}
+        <li>
+          <span class="talks__venue">{{ .venue }}</span>
+          {{ with .role }}<span class="talks__role">{{ . }}</span>{{ end }}
+          {{ with .title }} — <span class="talks__title">{{ . }}</span>{{ end }}
+          {{ with .url }}<a class="talks__link" href="{{ . }}">↗</a>{{ end }}
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+</section>
+
+<!-- ============== CONTACT ============== -->
+<section id="contact" class="band">
+  <div class="band__inner">
+    <p class="band__kicker">Contacts</p>
+    <h2>Get in touch</h2>
+    <p>
+      <a href="mailto:{{ site.Params.email }}"><strong>{{ site.Params.email }}</strong></a><br>
+      {{ site.Params.location }}
+    </p>
+    <p>
+      <a href="{{ site.Params.github }}">GitHub</a> ·
+      <a href="https://billofbehavior.com">billofbehavior.com</a>
+    </p>
+  </div>
+</section>
+
+{{ end }}

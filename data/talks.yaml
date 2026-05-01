@@ -1,0 +1,41 @@
+upcoming:
+  - venue: KubeCon + CloudNativeCon Europe 2026
+    title: ""
+  - venue: OpenSource Security Con Europe 2026
+    title: ""
+  - venue: Cloud Native Zurich 2026
+    when: "June 11–12, 2026"
+    url: https://cloudnativezurich.ch
+  - venue: SecurityNative Europe 2026 — Munich Edition
+    role: panellist
+    url: https://community.cncf.io/events/details/cncf-security-native-europe-presents-sovereign-done-right-common-misconceptions-revealed/
+  - venue: Cloud Native Linz
+    when: "May 2026"
+    url: https://cloudnativelinz.at
+  - venue: Cloud Native Austria 2026
+    url: https://cloudnativedays.at
+
+past:
+  - venue: KubeCon NA Atlanta
+    title: "Multimessenger Security: Adaptive Kubernetes SOC"
+    url: https://colocatedeventsna2025.sched.com/event/28D5r/multi-messenger-security-adaptive-kubernetes-soc-from-disparate-ebpf-tools-constanze-roedig-sba-research-technical-university-of-vienna-ben-hirschberg-armo-dom-delnano-cosmic
+  - venue: KubeCon NA Atlanta
+    title: "Security Panel"
+    role: panel
+  - venue: Cloud Native Denmark
+    title: "BobCTL — Bill of Behavior"
+    role: keynote
+    url: https://cloudnativedenmark.dk/schedule/
+  - venue: DevOpsCon Munich
+    title: "Resilience from Verifiable Trust"
+  - venue: Cloud Native Days Austria
+    title: "SBoB: Bill of Behavior, Harbor and OCI"
+    url: https://cloudnativedays.at/
+  - venue: KCD Sofia
+    title: "SBoB: Bill of Behavior"
+    url: https://community.cncf.io/events/details/cncf-kcd-sofia-presents-kubernetes-community-days-sofia/
+  - venue: IT-Security Summit
+    title: "Verifiable Trust — Bill of Behavior, Supply Chain Security"
+    url: https://it-security-summit.de/secure-coding-software-development-lifecycle/verifiable-trus-bill-behavior-supply-chain-security/
+  - venue: IT Forum Wien
+    title: "CloudNative Security Best Practices"
