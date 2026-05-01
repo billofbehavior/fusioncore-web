@@ -1,18 +1,28 @@
-baseURL = "https://fusioncore.ai/"
+baseURL = "https://billofbehavior.com/"
 languageCode = "en-us"
-title = "FusionCore.ai"
+title = "Bill of Behavior"
 
 # Single-page site; no taxonomies / RSS / sitemap needed for this scope.
 disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
 
 [params]
-  tagline     = "Security through understanding"
-  hero        = "Cloud Security for Humans"
-  description = "Making society more resilient by using human understanding, state-of-the-art technology (eBPF, WebAssembly and AI) and empirical methods for achievable threat-informed cloud security."
-  email       = "info@fusioncore.ai"
-  location    = "Vienna, Austria"
-  github      = "https://github.com/k8sstormcenter"
-  bobctl      = "https://github.com/k8sstormcenter/bobctl"
+  brand_short  = "BoB"
+  brand_full   = "Bill of Behavior"
+  parent_name  = "FusionCore"
+  parent_url   = "https://fusioncore.ai"
+
+  hero_kicker  = "An open standard, in development"
+  hero_title   = "Software Bill of Behavior"
+  hero_lede    = "The runtime companion to the Software Bill of Materials. Vendor-neutral, machine-checkable, designed for EU Cyber Resilience Act and NIS 2 readiness."
+
+  description  = "Software Bill of Behavior (SBoB) — an open standard for declaring, verifying and auditing the runtime behavior of software. Created by FusionCore."
+  email        = "info@fusioncore.ai"
+  location     = "Vienna, Austria"
+
+  github_org_bob   = "https://github.com/billofbehavior"
+  github_org_sbob  = "https://github.com/softwarebillofbehavior"
+  github_research  = "https://github.com/k8sstormcenter"
+  bobctl           = "https://github.com/k8sstormcenter/bobctl"
 
 [markup.goldmark.renderer]
   unsafe = true

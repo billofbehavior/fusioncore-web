@@ -1,13 +1,21 @@
 <header class="topnav">
   <div class="topnav__inner">
-    <a class="topnav__brand" href="#home">
-      <span class="topnav__brand-text">FusionCore<span class="topnav__brand-dot">.ai</span></span>
+    <a class="topnav__brand" href="{{ "/" | relURL }}">
+      {{ $mark := .Params.brand_mark | default "favicon.svg" }}
+      <img class="topnav__logomark"
+           src="{{ (cond (eq $mark "favicon.svg") (relURL "favicon.svg") (relURL (printf "brand/%s/icon.svg" $mark))) }}"
+           alt="">
+      <span class="topnav__brand-text">
+        {{ .Params.brand_full | default "FusionCore" }}
+      </span>
+      {{ with .Params.brand_attribution }}
+        <span class="topnav__brand-by">{{ . | safeHTML }}</span>
+      {{ end }}
     </a>
     <nav class="topnav__menu" aria-label="Primary">
-      <a href="#home">Home</a>
-      <a href="#security">Security for Humans</a>
-      <a href="#open-source">Open Source</a>
-      <a href="#trainings">Workshops</a>
+      <a href="{{ "/" | relURL }}">FusionCore</a>
+      <a href="{{ "/bob/" | relURL }}">Bill of Behavior</a>
+      <a href="{{ "/stormcenter/" | relURL }}">Storm Center</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>

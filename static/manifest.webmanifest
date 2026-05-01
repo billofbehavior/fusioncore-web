@@ -1,0 +1,15 @@
+{
+  "name": "Bill of Behavior",
+  "short_name": "BoB",
+  "description": "Software Bill of Behavior — an open standard for declaring, verifying and auditing the runtime behavior of software.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#400049",
+  "theme_color": "#400049",
+  "icons": [
+    { "src": "/brand/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/brand/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/brand/favicon.svg",  "type": "image/svg+xml", "sizes": "any" }
+  ]
+}

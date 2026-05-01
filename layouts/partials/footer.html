@@ -5,12 +5,21 @@
       <h4>FusionCore</h4>
       <p>
         © {{ now.Year }}<br>
-        <a href="{{ site.BaseURL }}">fusioncore.ai</a>
+        <a href="{{ "/" | relURL }}">FusionCore</a> — independent
+        defensive-security research, Vienna.
       </p>
       <p>
-        The Kubernetes Storm Center is licensed under
-        Apache&nbsp;2.0 and GPLv2.
+        Open work licensed under Apache&nbsp;2.0 and GPLv2.
       </p>
+    </div>
+
+    <div class="site-footer__col">
+      <h4>Properties</h4>
+      <ul>
+        <li><a href="{{ "/" | relURL }}">FusionCore</a> — company</li>
+        <li><a href="{{ "/bob/" | relURL }}">Bill of Behavior</a> — open standard</li>
+        <li><a href="{{ "/stormcenter/" | relURL }}">Kubernetes Storm Center</a> — research</li>
+      </ul>
     </div>
 
     <div class="site-footer__col">
@@ -19,17 +28,22 @@
         <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a><br>
         {{ site.Params.location }}
       </p>
+      <p>
+        <a href="https://github.com/k8sstormcenter">GitHub</a> ·
+        <a href="https://github.com/billofbehavior">BoB org</a>
+      </p>
     </div>
 
     <div class="site-footer__impressum">
       <h4>Impressum</h4>
       <p><strong>Zweck der Website:</strong>
         Diese Website dient der Information über ein Forschungs- und
-        Technologieprojekt im Bereich Cybersicherheit.
+        Technologieprojekt im Bereich Cybersicherheit — geführt von FusionCore.
       </p>
       <p><strong>Hinweis:</strong>
-        fusioncore ist derzeit kein eingetragenes Unternehmen. Die Inhalte
-        dieser Website stellen keine verbindlichen Angebote dar.
+        FusionCore ist derzeit kein eingetragenes Unternehmen. Die Inhalte
+        dieser Website stellen keine verbindlichen Angebote dar. Bill of
+        Behavior und Kubernetes Storm Center sind FusionCore-eigene Initiativen.
       </p>
       <p><strong>Datenschutzhinweis:</strong>
         Diese Website verarbeitet keine personenbezogenen Daten aktiv. Es gibt

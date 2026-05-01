@@ -3,18 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ site.Title }} — {{ site.Params.tagline }}</title>
-  <meta name="description" content="{{ site.Params.description }}">
+  <title>{{ if .Title }}{{ .Title }} — {{ end }}{{ site.Title }}</title>
+  <meta name="description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="{{ site.BaseURL }}">
+  <link rel="canonical" href="{{ .Permalink }}">
 
   <meta property="og:type"        content="website">
-  <meta property="og:url"         content="{{ site.BaseURL }}">
-  <meta property="og:title"       content="{{ site.Title }} — {{ site.Params.hero }}">
-  <meta property="og:description" content="{{ site.Params.description }}">
+  <meta property="og:url"         content="{{ .Permalink }}">
+  <meta property="og:title"       content="{{ if .Title }}{{ .Title }} — {{ end }}{{ site.Title }}">
+  <meta property="og:description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+  <meta property="og:image"       content="{{ printf "%sbrand/og-image.png" site.BaseURL }}">
+  <meta property="og:image:width"  content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:image"       content="{{ printf "%sbrand/og-image.png" site.BaseURL }}">
+  <meta name="theme-color"         content="#400049">
 
   <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
-  <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+
+  {{/* Per-page favicon: front matter `favicon: <slug>` selects from static/brand/<slug>/.
+       Fallback to the geometric BoB logomark at the static root. */}}
+  {{ $fav := .Params.favicon }}
+  {{ if $fav }}
+    <link rel="icon"           href="{{ printf "brand/%s/icon.svg" $fav | relURL }}" type="image/svg+xml">
+    <link rel="alternate icon" href="{{ printf "brand/%s/favicon.ico" $fav | relURL }}" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ printf "brand/%s/apple-touch-icon.png" $fav | relURL }}">
+  {{ else }}
+    <link rel="icon"           href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+    <link rel="alternate icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ "apple-touch-icon.png" | relURL }}">
+  {{ end }}
+  <link rel="manifest"       href="{{ "manifest.webmanifest" | relURL }}">
 </head>
 <body>
 

@@ -1,135 +1,144 @@
 {{ define "main" }}
 
-<!-- ============== HERO / HOME ============== -->
-<section id="home" class="hero">
-  <div class="hero__inner">
-    <p class="hero__kicker">{{ site.Params.tagline }}</p>
-    <h1 class="hero__title">{{ site.Params.hero }}</h1>
-    <p class="hero__lede">{{ site.Params.description }}</p>
-    <ul class="hero__pills">
-      <li>100% independent</li>
-      <li>100% reality-checked</li>
-      <li>for critical infrastructure</li>
-    </ul>
-    <div class="hero__cta">
-      <a class="btn btn--primary" href="#open-source">Our research</a>
-      <a class="btn btn--ghost"   href="#contact">Talk to us</a>
+<!-- ============== HERO / FUSIONCORE LANDING ============== -->
+<section id="home" class="hero hero--fusioncore">
+  <div class="hero__inner hero__inner--split">
+
+    <div class="hero__copy">
+      <p class="hero__kicker">Independent security research</p>
+      <h1 class="hero__title">Defensive security<br>for cloud-native infrastructure.</h1>
+      <p class="hero__lede">
+        FusionCore builds threat-informed <strong>detection engineering</strong>
+        for Kubernetes, grounded in the Linux Kernel and empirical validation.
+        Independent. Open source. Reality-tested on critical infrastructure.
+      </p>
+      <ul class="hero__pills">
+        <li>100% independent</li>
+        <li>100% reality-checked</li>
+        <li>for critical infrastructure</li>
+      </ul>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="{{ "/bob/" | relURL }}">The standard</a>
+        <a class="btn btn--ghost"   href="{{ "/stormcenter/" | relURL }}">The research</a>
+      </div>
     </div>
+
+    <div class="hero__art">
+      <img src="{{ "brand/fusioncore/icon-512.png" | relURL }}"
+           alt="FusionCore"
+           width="320" height="320" loading="eager">
+    </div>
+
   </div>
 </section>
 
-<!-- ============== SECURITY FOR HUMANS ============== -->
-<section id="security" class="band">
+<!-- ============== WHAT WE DO ============== -->
+<section id="what" class="band">
   <div class="band__inner">
-    <p class="band__kicker">Our offering</p>
-    <h2>Sovereign Cloud Security</h2>
-    <p>
-      The
-      <a href="{{ site.Params.github }}">Kubernetes Storm Center</a>
-      combines mature eBPF projects to form an adaptive detection stack with
-      tunable signal-to-noise.
-    </p>
-    <p>
-      Research is currently ongoing as part of <strong>NetIdee</strong> and
-      <strong>FFG</strong> projects.
-    </p>
-  </div>
-</section>
-
-<!-- ============== OPEN SOURCE ============== -->
-<section id="open-source" class="band band--soft">
-  <div class="band__inner">
-    <p class="band__kicker">Open Source Tools</p>
-    <h2>Software Bill of Behavior</h2>
-    <p>
-      <strong>SBoB</strong> is the runtime addition to the Software Bill of
-      Materials (SBoM). It allows the <em>intended behavior</em> of software
-      to be transferred from the vendor to the end user — enabling defenders
-      to maintain up-to-date detection rules and achieve genuine anomaly
-      detection.
-    </p>
-    <p>
-      We are creating this standard especially for the EU Cyber Resilience
-      Act and NIS&nbsp;2 regulation, to help defenders get ahead of breaches.
-    </p>
-    <ul class="links">
-      <li><a href="{{ site.Params.bobctl }}">github.com/k8sstormcenter/bobctl</a> — reference CLI</li>
-      <li><a href="{{ site.Params.github }}">github.com/k8sstormcenter</a> — research org</li>
-      <li><a href="https://billofbehavior.com">billofbehavior.com</a> — open standard home</li>
-    </ul>
-  </div>
-</section>
-
-<!-- ============== WORKSHOPS / TRAININGS ============== -->
-<section id="trainings" class="band">
-  <div class="band__inner">
-    <p class="band__kicker">Workshops &amp; Training</p>
-    <h2>Next trainings</h2>
+    <p class="band__kicker">What we do</p>
+    <h2>Three pillars, one mission.</h2>
     <div class="cards">
-      {{ range site.Data.trainings }}
-        <div class="card">
-          <h3>{{ .name }}</h3>
-          <p>{{ .blurb }}</p>
-        </div>
-      {{ end }}
+
+      <a class="card card--link" href="{{ "/bob/" | relURL }}">
+        <h3>The standard</h3>
+        <p>
+          <strong>Bill of Behavior</strong> — human-friendly, machine-verifyable
+          runtime profiles. The companion to the SBoM, designed for EU CRA and
+          NIS&nbsp;2 compliance.
+        </p>
+        <p class="card__more">→ billofbehavior.com</p>
+      </a>
+
+      <a class="card card--link" href="{{ "/stormcenter/" | relURL }}">
+        <h3>The research</h3>
+        <p>
+          <strong>Kubernetes Storm Center</strong> — adaptive eBPF detection
+          stack. Combines mature OSS into a tunable signal-to-noise SOC,
+          funded by NetIdee and FFG.
+        </p>
+        <p class="card__more">→ /stormcenter/</p>
+      </a>
+
+      <a class="card card--link" href="#services">
+        <h3>The services</h3>
+        <p>
+          <strong>Consulting &amp; workshops/trainings</strong> — CRA-readiness for
+          Kubernetes, detection engineering for cloud-native SOCs, runtime
+          security architecture, secure AI-coding sessions.
+        </p>
+        <p class="card__more">→ Talk to us</p>
+      </a>
+
     </div>
-    <p class="band__contact">
-      Interested? Write to
-      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+  </div>
+</section>
+
+<!-- ============== ABOUT FOUNDER ============== -->
+<section id="about" class="band band--soft">
+  <div class="band__inner">
+    <p class="band__kicker">Who builds this</p>
+    <h2>Founder</h2>
+    <p>
+      <strong>Dr.&nbsp;Constanze Roedig</strong> — key researcher at
+      <a href="https://www.sba-research.org">SBA&nbsp;Research</a> (Vienna)
+      and lecturer at <a href="https://informatics.tuwien.ac.at/">TU&nbsp;Wien
+      Informatics</a>. Currently
+      leading a funded research program on Sovereign Cloud Security.
+    </p>
+    <p>
+      Speaker at KubeCon NA, Cloud Native Denmark, DevOpsCon Munich, and
+      multiple Cloud Native Days events. 
+      FusionCore is her independent research vehicle - to work with global leaders in cloud-native security, and to deliver open-source research outcomes vendor-independently.
     </p>
   </div>
 </section>
 
-<!-- ============== SPEAKING ============== -->
-<section id="speaking" class="band band--soft">
+<!-- ============== SERVICES ============== -->
+<section id="services" class="band">
   <div class="band__inner">
-    <p class="band__kicker">Speaking</p>
-    <h2>Conference appearances</h2>
-    <p>
-      You can book <a href="https://informatics.tuwien.ac.at/people/constanze-roedig">Dr.&nbsp;Constanze&nbsp;Roedig</a>
-      to speak at your event for a fee — write to
-      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
-    </p>
-
-    <h3 class="talks-heading">Upcoming</h3>
-    <ul class="talks">
-      {{ range site.Data.talks.upcoming }}
-        <li>
-          <span class="talks__venue">{{ .venue }}</span>
-          {{ with .when }}<span class="talks__when">— {{ . }}</span>{{ end }}
-          {{ with .title }} — <span class="talks__title">{{ . }}</span>{{ end }}
-          {{ with .role }}<span class="talks__role">{{ . }}</span>{{ end }}
-          {{ with .url }}<a class="talks__link" href="{{ . }}">↗</a>{{ end }}
-        </li>
-      {{ end }}
-    </ul>
-
-    <h3 class="talks-heading">Past</h3>
-    <ul class="talks">
-      {{ range site.Data.talks.past }}
-        <li>
-          <span class="talks__venue">{{ .venue }}</span>
-          {{ with .role }}<span class="talks__role">{{ . }}</span>{{ end }}
-          {{ with .title }} — <span class="talks__title">{{ . }}</span>{{ end }}
-          {{ with .url }}<a class="talks__link" href="{{ . }}">↗</a>{{ end }}
-        </li>
-      {{ end }}
-    </ul>
+    <p class="band__kicker">Services</p>
+    <h2>Engagements</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Consulting</h3>
+        <ul>
+          <li>CRA-readiness assessment for Kubernetes deployments</li>
+          <li>Detection engineering for cloud-native SOCs</li>
+          <li>Runtime security architecture (eBPF, ApplicationProfiles, policy)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Workshops</h3>
+        <ul>
+          <li>Secure AI-Coding — practical session for engineering teams</li>
+          <li>CRA-Readiness Check for Kubernetes — half-day or full-day</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Speaking</h3>
+        <ul>
+          <li>Conference keynotes &amp; panels</li>
+          <li>Customer workshops &amp; executive briefings</li>
+          <li>Available worldwide</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ============== CONTACT ============== -->
-<section id="contact" class="band">
+<section id="contact" class="band band--soft">
   <div class="band__inner">
-    <p class="band__kicker">Contacts</p>
+    <p class="band__kicker">Contact</p>
     <h2>Get in touch</h2>
     <p>
       <a href="mailto:{{ site.Params.email }}"><strong>{{ site.Params.email }}</strong></a><br>
       {{ site.Params.location }}
     </p>
     <p>
-      <a href="{{ site.Params.github }}">GitHub</a> ·
-      <a href="https://billofbehavior.com">billofbehavior.com</a>
+      <a href="{{ "/bob/" | relURL }}">Bill of Behavior</a> ·
+      <a href="{{ "/stormcenter/" | relURL }}">Storm Center</a> ·
+      <a href="https://github.com/k8sstormcenter">GitHub</a>
     </p>
   </div>
 </section>

@@ -1,0 +1,177 @@
+{{ define "main" }}
+
+<!-- ============== HERO / BoB ============== -->
+<section id="home" class="hero">
+  <div class="hero__inner hero__inner--split">
+    <div class="hero__copy">
+      <p class="hero__kicker">{{ site.Params.hero_kicker }}</p>
+      <h1 class="hero__title">{{ site.Params.hero_title }}</h1>
+      <p class="hero__lede">{{ site.Params.hero_lede }}</p>
+      <ul class="hero__pills">
+        <li>vendor-neutral</li>
+        <li>machine-checkable</li>
+        <li>CRA &amp; NIS&nbsp;2 ready</li>
+      </ul>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#standard">The standard</a>
+        <a class="btn btn--ghost"   href="#contact">Talk to us</a>
+      </div>
+    </div>
+    <div class="hero__art">
+      <img src="{{ "brand/bob-registered/icon-512.png" | relURL }}"
+           alt="bob § Bill of Behavior — registered" width="280" height="280" loading="eager">
+    </div>
+  </div>
+</section>
+
+<!-- ============== THE STANDARD ============== -->
+<section id="standard" class="band">
+  <div class="band__inner">
+    <p class="band__kicker">The standard</p>
+    <h2>What SBoB is</h2>
+    <p>
+      <strong>SBoMs describe what is <em>in</em> the software.</strong>
+      The Bill of Behavior prescribes what the software is
+      <strong><em>intended to do at runtime</em></strong> — expressing intent
+      in the form of signed yaml profiles, suitable for detection
+      engineering, supply-chain assurance, and emerging compliance regimes
+      (EU Cyber Resilience Act, NIS&nbsp;2).
+    </p>
+    <p>
+      The vendor declares the behavior in a prescriptive manner. The end user verifies it. Defenders
+      get up-to-date detection rules without reverse-engineering every
+      release.
+    </p>
+
+
+    <h3>Where things live today</h3>
+    <ul class="links">
+      <li><a href="{{ site.Params.github_org_bob }}">github.com/billofbehavior</a> — documentation</li>
+      <li><a href="{{ site.Params.bobctl }}">github.com/k8sstormcenter/bobctl</a> — reference CLI (contact us for access)</li>
+      <li><a href="{{ site.Params.github_research }}">github.com/k8sstormcenter</a> — research </li>
+    </ul>
+
+    <h3>Get involved</h3>
+    <p>
+      The standard is open and currently expressed as a pseudo spec /a>.
+    </p>
+
+
+  </div>
+</section>
+
+<!-- ============== RESEARCH ============== -->
+<section id="research" class="band band--soft">
+  <div class="band__inner">
+    <p class="band__kicker">Research</p>
+    <h2>Sovereign Cloud Security</h2>
+    <p>
+      The Kubernetes Storm Center combines mature eBPF projects to form an
+      adaptive detection stack with tunable signal-to-noise.
+    </p>
+    <p>
+      Research is currently ongoing as part of <strong>NetIdee</strong> and
+      <strong>FFG</strong> projects, in affiliation with research partners.
+    </p>
+    <ul class="links">
+      <li><a href="{{ site.Params.github_research }}">github.com/k8sstormcenter</a> — research code &amp; deliverables</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============== WORKSHOPS / TRAININGS ============== -->
+<section id="workshops" class="band">
+  <div class="band__inner">
+    <p class="band__kicker">Workshops &amp; Training</p>
+    <h2>Bring SBoB into your team</h2>
+    <div class="cards">
+      {{ range site.Data.trainings }}
+        <div class="card">
+          <h3>{{ .name }}</h3>
+          <p>{{ .blurb }}</p>
+        </div>
+      {{ end }}
+    </div>
+    <p class="band__contact">
+      Trainings are delivered by FusionCore. Interested? Write to
+      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ============== SPEAKING ============== -->
+<section id="speaking" class="band band--soft">
+  <div class="band__inner">
+    <p class="band__kicker">Speaking</p>
+    <h2>Conference appearances</h2>
+    <p>
+      You can book <a href="https://informatics.tuwien.ac.at/people/constanze-roedig">Dr.&nbsp;Constanze&nbsp;Roedig</a>
+      to speak at your event for a fee — write to
+      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+    </p>
+
+    <h3 class="talks-heading">Upcoming</h3>
+    <ul class="talks">
+      {{ range site.Data.talks.upcoming }}
+        <li>
+          <span class="talks__venue">{{ .venue }}</span>
+          {{ with .when }}<span class="talks__when">— {{ . }}</span>{{ end }}
+          {{ with .title }} — <span class="talks__title">{{ . }}</span>{{ end }}
+          {{ with .role }}<span class="talks__role">{{ . }}</span>{{ end }}
+          {{ with .url }}<a class="talks__link" href="{{ . }}">↗</a>{{ end }}
+        </li>
+      {{ end }}
+    </ul>
+
+    <h3 class="talks-heading">Past</h3>
+    <ul class="talks">
+      {{ range site.Data.talks.past }}
+        <li>
+          <span class="talks__venue">{{ .venue }}</span>
+          {{ with .role }}<span class="talks__role">{{ . }}</span>{{ end }}
+          {{ with .title }} — <span class="talks__title">{{ . }}</span>{{ end }}
+          {{ with .url }}<a class="talks__link" href="{{ . }}">↗</a>{{ end }}
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+</section>
+
+<!-- ============== ABOUT FUSIONCORE ============== -->
+<section id="about" class="band">
+  <div class="band__inner">
+    <p class="band__kicker">About</p>
+    <h2>Who builds this</h2>
+    <p>
+      The Bill of Behavior standard, the <code>bobctl</code> reference
+      implementation, and the workshops above are created by
+      <a href="{{ "/" | relURL }}">FusionCore</a> — an independent
+      defensive-security research initiative led by
+      Dr.&nbsp;Constanze&nbsp;Roedig.
+    </p>
+    <p>
+      Company overview, services, and contact:
+      <a href="{{ "/" | relURL }}">FusionCore</a>.<br>
+      Sister research initiative:
+      <a href="{{ "/stormcenter/" | relURL }}">Kubernetes Storm Center</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ============== CONTACT ============== -->
+<section id="contact" class="band band--soft">
+  <div class="band__inner">
+    <p class="band__kicker">Contact</p>
+    <h2>Get in touch</h2>
+    <p>
+      <a href="mailto:{{ site.Params.email }}"><strong>{{ site.Params.email }}</strong></a><br>
+      {{ site.Params.location }}
+    </p>
+    <p>
+      <a href="{{ site.Params.github_org_bob }}">GitHub</a> ·
+      <a href="{{ site.Params.parent_url }}">fusioncore.ai</a>
+    </p>
+  </div>
+</section>
+
+{{ end }}

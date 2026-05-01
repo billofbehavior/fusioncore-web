@@ -1,0 +1,91 @@
+{{ define "main" }}
+
+<!-- ============== HERO / STORM CENTER ============== -->
+<section id="home" class="hero">
+  <div class="hero__inner hero__inner--split">
+    <div class="hero__copy">
+      <p class="hero__kicker">Funded research initiative</p>
+      <h1 class="hero__title">Kubernetes Storm Center.</h1>
+      <p class="hero__lede">
+        An adaptive eBPF detection stack for Kubernetes. We combine mature
+        open-source projects into a tunable signal-to-noise SOC, with
+        application-aware policy and verifiable behavior baselines.
+      </p>
+      <ul class="hero__pills">
+        <li>eBPF first</li>
+        <li>tunable S/N</li>
+        <li>NetIdee &amp; FFG funded</li>
+      </ul>
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="https://github.com/k8sstormcenter">GitHub org</a>
+        <a class="btn btn--ghost"   href="#contact">Talk to us</a>
+      </div>
+    </div>
+    <div class="hero__art">
+      <img src="{{ "brand/k8sstormcenter/icon-512.png" | relURL }}"
+           alt="Kubernetes Storm Center" width="280" height="280" loading="eager">
+    </div>
+  </div>
+</section>
+
+<!-- ============== WHAT IT IS ============== -->
+<section id="what" class="band">
+  <div class="band__inner">
+    <p class="band__kicker">What it is</p>
+    <h2>An adaptive detection stack.</h2>
+    <p>
+      <strong>Sample text — to be replaced.</strong> The Storm Center is a
+      research program that fuses several mature open-source eBPF projects
+      into a single, tunable detection plane: protocol capture from Pixie, runtime
+      anomaly detection from Kubescape, and Signal to Noise tuning
+      via the Bill of Behavior reference implementation.
+    </p>
+    <p>
+      Each component is upstream-maintained; and we work closely with the maintainers.
+    </p>
+
+    <h3>Components</h3>
+    <ul class="links">
+      <li><a href="https://github.com/k8sstormcenter">github.com/k8sstormcenter</a> — research org &amp; deliverables</li>
+      <li>Pixie — eBPF observability plane</li>
+      <li>Kubescape — runtime anomaly detection</li>
+      <li><a href="https://github.com/k8sstormcenter/bobctl">bobctl</a> — Bill-of-Behavior reference verifier</li>
+      <li>ClickHouse — adaptive-write data lake</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============== FUNDING ============== -->
+<section id="funding" class="band band--soft">
+  <div class="band__inner">
+    <p class="band__kicker">Research funding</p>
+    <h2>Open by mandate.</h2>
+    <p>
+      The Storm Center is funded
+      by Austrian and EU research programs that require open-source delivery.
+      Code lives in public repos under Apache&nbsp;2.0 and GPLv2; deliverables
+      are reproducible end-to-end on a local lab.
+    </p>
+    <ul class="links">
+      <li>NetIdee — open Internet research grant</li>
+      <li>FFG — Austrian research promotion agency</li>
+      <li>SBA Research / TU Wien Informatics — institutional affiliation</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============== GET INVOLVED ============== -->
+<section id="contact" class="band">
+  <div class="band__inner">
+    <p class="band__kicker">Get involved</p>
+    <h2>Use it. Break it. Tell us.</h2>
+    <p>
+      The lab is published as a runnable iximiuz scenario. If you're operating
+      a sovereign-cloud SOC and want to collaborate on detection coverage,
+      benchmarks, or compliance mapping — write to
+      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+    </p>
+  </div>
+</section>
+
+{{ end }}
