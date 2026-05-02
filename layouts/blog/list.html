@@ -1,0 +1,25 @@
+{{ define "main" }}
+
+<section class="hero hero--compact">
+  <div class="hero__inner">
+    <p class="hero__kicker">Blog</p>
+    <h1 class="hero__title hero__title--md">{{ .Title }}</h1>
+    {{ with .Params.description }}<p class="hero__lede">{{ . }}</p>{{ end }}
+  </div>
+</section>
+
+<section class="band">
+  <div class="band__inner">
+    <ul class="postlist">
+      {{ range (where .Site.RegularPages "Section" "blog").ByDate.Reverse }}
+        <li>
+          <p><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time></p>
+          <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+          {{ with .Params.summary }}<p>{{ . }}</p>{{ end }}
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+</section>
+
+{{ end }}

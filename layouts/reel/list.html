@@ -1,0 +1,37 @@
+{{ define "main" }}
+
+{{ $featured := .Site.Data.videos.featured }}
+{{ $videos := .Site.Data.videos.videos }}
+
+<section class="hero hero--compact">
+  <div class="hero__inner">
+    <p class="hero__kicker">Reel</p>
+    <h1 class="hero__title hero__title--md">{{ .Title }}</h1>
+    {{ with .Params.description }}<p class="hero__lede">{{ . }}</p>{{ end }}
+
+    <div style="margin-top:2rem; padding:2rem; background:rgba(0,0,0,0.25); border-radius:6px; text-align:center;">
+      <p style="color:#E5D4EA; margin:0;">
+        Placeholder featured slot.<br>
+        Set <code>featured.id</code> in <code>data/videos.yaml</code>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="band band--soft">
+  <div class="band__inner">
+    <p class="band__kicker">Placeholder</p>
+    <h2>Placeholder grid</h2>
+    <div class="cards">
+      {{ range $videos }}
+        <div class="card">
+          <h3>Placeholder</h3>
+          <p>{{ .title }}</p>
+          <p class="card__more">{{ .id }}</p>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+{{ end }}

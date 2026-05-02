@@ -1,0 +1,24 @@
+{{- /*
+  Render-link hook: rewrite relative .md links so the same markdown source
+  works in both MkDocs Material (kubescape.io) and Hugo (this site).
+
+  - bare ".md"  → ".md" stripped (leaving the section URL)
+  - "foo.md"    → "../foo/"
+  - "foo.md#x"  → "../foo/#x"
+  - external URLs (https://, mailto:, etc.) are passed through untouched.
+*/ -}}
+{{- $dest := .Destination -}}
+{{- $isExternal := or (hasPrefix $dest "http://") (hasPrefix $dest "https://") -}}
+{{- $isExternal = or $isExternal (hasPrefix $dest "mailto:") -}}
+{{- $isExternal = or $isExternal (hasPrefix $dest "/") -}}
+{{- $isExternal = or $isExternal (hasPrefix $dest "#") -}}
+{{- if and (not $isExternal) (or (in $dest ".md") (hasSuffix $dest ".md")) -}}
+  {{- $parts := split $dest "#" -}}
+  {{- $path := index $parts 0 -}}
+  {{- $anchor := "" -}}
+  {{- if gt (len $parts) 1 -}}{{- $anchor = printf "#%s" (index $parts 1) -}}{{- end -}}
+  {{- $path = strings.TrimSuffix ".md" $path -}}
+  {{- $path = strings.TrimPrefix "./" $path -}}
+  {{- $dest = printf "%s/%s" $path $anchor -}}
+{{- end -}}
+<a href="{{ $dest | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $isExternal }} target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>

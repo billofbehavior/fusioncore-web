@@ -1,0 +1,35 @@
+{{ define "main" }}
+
+<section class="hero hero--compact">
+  <div class="hero__inner">
+    <p class="hero__kicker">Documentation</p>
+    <h1 class="hero__title hero__title--md">{{ .Title }}</h1>
+    {{ with .Params.description }}
+      <p class="hero__lede">{{ . }}</p>
+    {{ end }}
+  </div>
+</section>
+
+<section class="band">
+  <div class="band__inner band__inner--reading">
+    <p class="band__kicker">Pages</p>
+    <ul class="docs__index">
+      {{ range .Pages.ByWeight }}
+        <li>
+          <a href="{{ .RelPermalink }}">
+            <span class="docs__index-title">{{ .Title }}</span>
+            {{ with .Params.description }}
+              <span class="docs__index-summary">{{ . }}</span>
+            {{ end }}
+          </a>
+        </li>
+      {{ end }}
+    </ul>
+
+    <div class="docs__landing-body">
+      {{ .Content }}
+    </div>
+  </div>
+</section>
+
+{{ end }}

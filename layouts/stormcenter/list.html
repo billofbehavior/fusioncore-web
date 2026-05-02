@@ -9,7 +9,7 @@
       <p class="hero__lede">
         An adaptive eBPF detection stack for Kubernetes. We combine mature
         open-source projects into a tunable signal-to-noise SOC, with
-        application-aware policy and verifiable behavior baselines.
+        node-local detection and a sovereign architecture.
       </p>
       <ul class="hero__pills">
         <li>eBPF first</li>
@@ -34,11 +34,11 @@
     <p class="band__kicker">What it is</p>
     <h2>An adaptive detection stack.</h2>
     <p>
-      <strong>Sample text — to be replaced.</strong> The Storm Center is a
+      <strong>To detect attack paths, you need sensors and interpretation:</strong> The Kubernetes StormCenter is a
       research program that fuses several mature open-source eBPF projects
       into a single, tunable detection plane: protocol capture from Pixie, runtime
       anomaly detection from Kubescape, and Signal to Noise tuning
-      via the Bill of Behavior reference implementation.
+      via the Bill of Behavior reference implementation `bobctl`.
     </p>
     <p>
       Each component is upstream-maintained; and we work closely with the maintainers.
@@ -47,32 +47,15 @@
     <h3>Components</h3>
     <ul class="links">
       <li><a href="https://github.com/k8sstormcenter">github.com/k8sstormcenter</a> — research org &amp; deliverables</li>
-      <li>Pixie — eBPF observability plane</li>
-      <li>Kubescape — runtime anomaly detection</li>
-      <li><a href="https://github.com/k8sstormcenter/bobctl">bobctl</a> — Bill-of-Behavior reference verifier</li>
+      <li><a href="https://github.com/pixie-io">github.com/pixie-io</a>  — eBPF observability plane</li>
+      <li><a href="https?://github.com/kubescape">github.com/kubescape</a> — runtime anomaly detection</li>
+      <li><a href="https://github.com/k8sstormcenter/bobctl">bobctl</a> — Bill-of-Behavior generator (not yet publicly released)</li>
       <li>ClickHouse — adaptive-write data lake</li>
     </ul>
   </div>
 </section>
 
-<!-- ============== FUNDING ============== -->
-<section id="funding" class="band band--soft">
-  <div class="band__inner">
-    <p class="band__kicker">Research funding</p>
-    <h2>Open by mandate.</h2>
-    <p>
-      The Storm Center is funded
-      by Austrian and EU research programs that require open-source delivery.
-      Code lives in public repos under Apache&nbsp;2.0 and GPLv2; deliverables
-      are reproducible end-to-end on a local lab.
-    </p>
-    <ul class="links">
-      <li>NetIdee — open Internet research grant</li>
-      <li>FFG — Austrian research promotion agency</li>
-      <li>SBA Research / TU Wien  — institutional affiliation</li>
-    </ul>
-  </div>
-</section>
+
 
 <!-- ============== GET INVOLVED ============== -->
 <section id="contact" class="band">

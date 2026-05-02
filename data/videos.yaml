@@ -1,0 +1,18 @@
+# Placeholder data — replace TODO entries with real YouTube IDs.
+featured:
+  id: "TODO_FEATURED_ID"
+  title: "Placeholder featured title"
+  event: "Placeholder event"
+
+videos:
+  - id: "TODO_1"
+    title: "Placeholder one"
+    event: "Placeholder event"
+  - id: "TODO_2"
+    title: "Placeholder two"
+    event: "Placeholder event"
+  - id: "TODO_3"
+    title: "Placeholder three"
+    event: "Placeholder event"
+
+channel_url: "TODO_CHANNEL_URL"

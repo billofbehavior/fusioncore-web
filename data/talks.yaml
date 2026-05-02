@@ -2,12 +2,12 @@ upcoming:
   - venue: European Resilience Summit, Vienna 2026
     title: "Open Source as Strategic Infrastructure: Enabling a Federated, Resilient Digital Europe"
     url: https://www.europeanresiliencesummit.com/vienna
-  - venue: Cloud Native Zurich 2026
-    when: "June 11–12, 2026"
-    url: https://cloudnativezurich.ch
   - venue: SecurityNative Europe 2026 — Munich Edition
     role: panellist
     url: https://community.cncf.io/events/details/cncf-security-native-europe-presents-sovereign-done-right-common-misconceptions-revealed/
+  - venue: Cloud Native Zurich 2026
+    when: "June 11–12, 2026"
+    url: https://cloudnativezurich.ch  
   - venue: Cloud Native Linz
     when: "May 2026"
     url: https://cloudnativelinz.at
@@ -15,6 +15,7 @@ upcoming:
     when: "Sept 2026"
     url: https://seminar.bundesheer.at
   - venue: Cloud Native Austria 2026
+    when: "Sept 2026"
     url: https://cloudnativedays.at
 
 past:
@@ -25,12 +26,12 @@ past:
     title: "Instant Anomaly Detection for Kubernetes with SBOB"
     role: poster
   - venue: OpenSource Security Con Europe 2026
-    title: ""
+    role: coChair
   - venue: KubeCon NA Atlanta 2025
     title: "Multimessenger Security: Adaptive Kubernetes SOC"
     url: https://colocatedeventsna2025.sched.com/event/28D5r/multi-messenger-security-adaptive-kubernetes-soc-from-disparate-ebpf-tools-constanze-roedig-sba-research-technical-university-of-vienna-ben-hirschberg-armo-dom-delnano-cosmic
   - venue: KubeCon NA Atlanta 2025
-    title: "Security Panel"
+    title: "Security Theater"
     role: panel
   - venue: Cloud Native Denmark
     title: "BobCTL — Bill of Behavior"

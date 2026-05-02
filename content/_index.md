@@ -1,6 +1,6 @@
 ---
 title: ""
-description: "FusionCore — independent defensive-security research for cloud-native infrastructure. Threat-informed detection engineering grounded in eBPF, WebAssembly and empirical validation."
+description: "FusionCore — independent defensive-security research for cloud-native infrastructure. Threat-model-informed detection engineering with eBPF."
 brand_mark: "fusioncore"
 brand_full: "FusionCore"
 brand_attribution: ""

@@ -1,0 +1,47 @@
+{{ define "main" }}
+
+<article class="post post--docs">
+  <header class="post__header">
+    <div class="post__inner">
+      <p class="post__kicker">
+        <a href="{{ .Parent.RelPermalink }}">← {{ .Parent.Title }}</a>
+      </p>
+      <h1 class="post__title">{{ .Title }}</h1>
+      {{ with .Params.description }}
+        <p class="post__meta">{{ . }}</p>
+      {{ end }}
+    </div>
+  </header>
+
+  <div class="post__body">
+    <div class="post__inner">
+      {{ .Content }}
+    </div>
+  </div>
+
+  <footer class="post__footer">
+    <div class="post__inner">
+      {{ $pages := .Parent.Pages.ByWeight }}
+      {{ $cur := .Permalink }}
+      {{ $prev := false }}
+      {{ $next := false }}
+      {{ $found := false }}
+      {{ range $pages }}
+        {{ if $found }}
+          {{ if not $next }}{{ $next = . }}{{ end }}
+        {{ else if eq .Permalink $cur }}
+          {{ $found = true }}
+        {{ else }}
+          {{ $prev = . }}
+        {{ end }}
+      {{ end }}
+      <p class="docs__nav">
+        {{ if $prev }}<a href="{{ $prev.RelPermalink }}">← {{ $prev.Title }}</a>{{ else }}<span></span>{{ end }}
+        <a href="{{ .Parent.RelPermalink }}">{{ .Parent.Title }}</a>
+        {{ if $next }}<a href="{{ $next.RelPermalink }}">{{ $next.Title }} →</a>{{ else }}<span></span>{{ end }}
+      </p>
+    </div>
+  </footer>
+</article>
+
+{{ end }}
