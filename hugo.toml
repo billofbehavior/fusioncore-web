@@ -15,7 +15,7 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
   hero_title   = "Software Bill of Behavior"
   hero_lede    = "The runtime companion to the Software Bill of Materials. Vendor-neutral, machine-checkable, designed for EU Cyber Resilience Act and NIS 2 readiness."
 
-  description  = "Software Bill of Behavior (SBoB) — an open standard for declaring, verifying and auditing the runtime behavior of software. Created by FusionCore."
+  description  = "Software Bill of Behavior (SBoB) — an open standard for declaring, verifying and auditing the runtime behavior of software."
   email        = "info@fusioncore.ai"
   location     = "Austria"
 
