@@ -1,0 +1,4 @@
+[submodule "content/bob/docs/drafts"]
+	path = content/bob/docs/drafts
+	url = git@github.com:billofbehavior/private-bob-drafts.git
+	update = merge

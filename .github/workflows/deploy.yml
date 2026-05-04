@@ -10,7 +10,6 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment; don't cancel in-progress ones.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -30,6 +29,18 @@ jobs:
           wget -qO "${RUNNER_TEMP}/hugo.deb" \
             "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
           sudo dpkg -i "${RUNNER_TEMP}/hugo.deb"
+
+      # Load SSH deploy key(s) for any PRIVATE submodules. Multi-line value
+      # supports multiple keys (one per private submodule). No-op if the
+      # secret is empty — repo still builds with public submodules only.
+      # See docs/PRIVATE_CONTENT.md for the setup recipe.
+      - name: Load private-submodule SSH key
+        if: ${{ env.HAS_KEY == 'true' }}
+        env:
+          HAS_KEY: ${{ secrets.SUBMODULE_DEPLOY_KEY != '' }}
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SUBMODULE_DEPLOY_KEY }}
 
       - name: Checkout
         uses: actions/checkout@v4

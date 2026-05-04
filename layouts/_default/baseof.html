@@ -50,5 +50,15 @@
 
 {{ partial "footer.html" . }}
 
+{{/* Mermaid JS — loaded only on pages that contained a ```mermaid block.
+     The render hook at layouts/_default/_markup/render-codeblock-mermaid.html
+     sets .Store "hasMermaid" while rendering content. */}}
+{{ if .Store.Get "hasMermaid" }}
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "base", securityLevel: "loose" });
+</script>
+{{ end }}
+
 </body>
 </html>

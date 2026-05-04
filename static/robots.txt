@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /bob/docs/drafts/
+
+# Drafts under /bob/docs/drafts/ are NOT YET RELEASED. Subject to daily change.
+# They are also gated client-side via layouts/shortcodes/passwordgate.html, but
+# search engines should not index them.

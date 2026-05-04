@@ -1,0 +1,18 @@
+# Apache / LiteSpeed Basic-Auth gate for /bob/docs/drafts/.
+# Effective on Namecheap shared hosting; ignored on GitHub Pages and
+# Cloudflare Pages (use Cloudflare Access on those hosts instead).
+#
+# Pair with a .htpasswd file. Generate the file OUT OF BAND and upload to
+# the server filesystem — DO NOT commit .htpasswd to git.
+#
+#   htpasswd -B -c /path/to/.htpasswd <username>
+#
+# Then update AuthUserFile below to match the absolute path on the host.
+
+AuthType Basic
+AuthName "Bill of Behavior — draft access"
+AuthUserFile /home/CHANGE_ME_CPANEL_USER/.htpasswd-bob-drafts
+Require valid-user
+
+# Defense-in-depth: tell crawlers and archives to leave it alone.
+Header always set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
