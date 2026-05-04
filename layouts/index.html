@@ -18,8 +18,8 @@
         <li>for critical infrastructure</li>
       </ul>
       <div class="hero__cta">
-        <a class="btn btn--primary" href="{{ "/bob/" | relURL }}">The standard</a>
-        <a class="btn btn--ghost"   href="{{ "/stormcenter/" | relURL }}">The research</a>
+        <a class="btn btn--primary" href="#services">Engagements</a>
+        <a class="btn btn--ghost"   href="#contact">Talk to us</a>
       </div>
     </div>
 
@@ -32,41 +32,41 @@
   </div>
 </section>
 
-<!-- ============== WHAT WE DO ============== -->
+<!-- ============== THREE PILLARS ============== -->
 <section id="what" class="band">
   <div class="band__inner">
-    <p class="band__kicker">What we do</p>
-    <h2>Three pillars, one mission.</h2>
+    <p class="band__kicker">What FusionCore is</p>
+    <h2>One company, three lanes.</h2>
     <div class="cards">
+
+      <div class="card">
+        <h3>Commercial</h3>
+        <p>
+          <strong>This page.</strong> Consulting, workshops, speaking, and
+          (planned) the SBoB-feed subscription. Where FusionCore makes its
+          money.
+        </p>
+        <p class="card__more">↓ Engagements below</p>
+      </div>
 
       <a class="card card--link" href="{{ "/bob/" | relURL }}">
         <h3>The standard</h3>
         <p>
-          <strong>Bill of Behavior</strong> — human-friendly, machine-verifyable
-          runtime profiles. The companion to the SBoM, designed for EU CRA and
-          NIS&nbsp;2 compliance.
+          <strong>Bill of Behavior</strong> — a free and open-source
+          standard FusionCore <em>stewards</em>, not sells. Runtime
+          companion to the SBoM.
         </p>
-        <p class="card__more">→ billofbehavior.com</p>
+        <p class="card__more">→ /bob/</p>
       </a>
 
       <a class="card card--link" href="{{ "/stormcenter/" | relURL }}">
         <h3>The research</h3>
         <p>
-          <strong>Kubernetes Storm Center</strong> — adaptive eBPF detection
-          stack. Combines mature OSS into a tunable signal-to-noise SOC,
-          funded by NetIdee and FFG.
+          <strong>Kubernetes Storm Center</strong> — an adaptive eBPF
+          detection stack, NetIdee- and FFG-funded, all deliverables
+          open-source.
         </p>
         <p class="card__more">→ /stormcenter/</p>
-      </a>
-
-      <a class="card card--link" href="#services">
-        <h3>The services</h3>
-        <p>
-          <strong>Consulting &amp; workshops/trainings</strong> — CRA-readiness for
-          Kubernetes, detection engineering for cloud-native SOCs, runtime
-          security architecture, secure AI-coding sessions.
-        </p>
-        <p class="card__more">→ Talk to us</p>
       </a>
 
     </div>
@@ -80,47 +80,108 @@
     <h2>Founder</h2>
     <p>
       <strong>Dr.&nbsp;Constanze Roedig</strong> — key researcher at
-      <a href="https://www.sba-research.org">SBA&nbsp;Research</a> (Vienna)
+      <a href="https://www.sba-research.org">SBA&nbsp;Research</a> (Vienna).
       Currently serving as PI for two funded research projects on Sovereign Cloud Security. Through these grants, upstream maintainers and partners are funded or supported.
     </p>
     <p>
       Speaker at KubeCon NA, Cloud Native Denmark, DevOpsCon Munich, and
-      multiple Cloud Native Days events. 
-      FusionCore is her independent research vehicle - to work with global leaders in cloud-native security, and to deliver open-source research outcomes vendor-independently.
+      multiple Cloud Native Days events.
+      FusionCore is her independent research vehicle — to work with global leaders in cloud-native security, and to deliver open-source research outcomes vendor-independently.
     </p>
   </div>
 </section>
 
-<!-- ============== SERVICES ============== -->
+<!-- ============== SERVICES (CONSULTING) ============== -->
 <section id="services" class="band">
   <div class="band__inner">
     <p class="band__kicker">Services</p>
-    <h2>Engagements</h2>
+    <h2>Consulting engagements</h2>
     <div class="cards">
       <div class="card">
-        <h3>Consulting</h3>
+        <h3>CRA-readiness</h3>
         <ul>
-          <li>CRA-readiness assessment for Kubernetes deployments</li>
-          <li>Detection engineering for cloud-native SOCs</li>
-          <li>Runtime security architecture (eBPF, ApplicationProfiles, policy)</li>
+          <li>Cyber Resilience Act assessment for Kubernetes deployments</li>
+          <li>Annex I gap analysis (product properties + vulnerability handling)</li>
+          <li>Article 14 reporting-pipeline design</li>
         </ul>
       </div>
       <div class="card">
-        <h3>Workshops</h3>
+        <h3>Detection engineering</h3>
         <ul>
-          <li>Secure AI-Coding — practical session for engineering teams</li>
-          <li>CRA-Readiness Check for Kubernetes — half-day or full-day</li>
+          <li>Cloud-native SOC build-outs</li>
+          <li>eBPF-based runtime detection</li>
+          <li>ApplicationProfile / policy architecture</li>
         </ul>
       </div>
       <div class="card">
-        <h3>Speaking</h3>
+        <h3>Architecture review</h3>
         <ul>
-          <li>Conference keynotes &amp; panels</li>
-          <li>Customer workshops &amp; executive briefings</li>
-          <li>Available worldwide</li>
+          <li>Runtime security architecture for sovereign-cloud workloads</li>
+          <li>Supply-chain and SBOM/SBoB integration design</li>
+          <li>Executive briefings</li>
         </ul>
       </div>
     </div>
+    <p class="band__contact">
+      Engagements via <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ============== WORKSHOPS / TRAININGS ============== -->
+<section id="workshops" class="band band--soft">
+  <div class="band__inner">
+    <p class="band__kicker">Workshops &amp; Training</p>
+    <h2>Bring it into your team</h2>
+    <div class="cards">
+      {{ range site.Data.trainings }}
+        <div class="card">
+          <h3>{{ .name }}</h3>
+          <p>{{ .blurb }}</p>
+        </div>
+      {{ end }}
+    </div>
+    <p class="band__contact">
+      Half- or full-day formats. Contact
+      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ============== SPEAKING ============== -->
+<section id="speaking" class="band talks">
+  <div class="band__inner">
+    <p class="band__kicker">Speaking</p>
+    <h2>Conference appearances</h2>
+    <p>
+      Book Dr.&nbsp;Constanze&nbsp;Roedig to speak — write to
+      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+    </p>
+
+    <h3 class="talks-heading">Upcoming</h3>
+    <ul class="talks">
+      {{ range site.Data.talks.upcoming }}
+        <li>
+          <span class="talks__venue">{{ .venue }}</span>
+          {{ with .when }}<span class="talks__when">— {{ . }}</span>{{ end }}
+          {{ with .title }} — <span class="talks__title">{{ . }}</span>{{ end }}
+          {{ with .role }}<span class="talks__role">{{ . }}</span>{{ end }}
+          {{ with .url }}<a class="talks__link" href="{{ . }}">↗</a>{{ end }}
+        </li>
+      {{ end }}
+    </ul>
+
+    <h3 class="talks-heading">Past</h3>
+    <ul class="talks">
+      {{ range site.Data.talks.past }}
+        <li>
+          <span class="talks__venue">{{ .venue }}</span>
+          {{ with .role }}<span class="talks__role">{{ . }}</span>{{ end }}
+          {{ with .title }} — <span class="talks__title">{{ . }}</span>{{ end }}
+          {{ with .url }}<a class="talks__link" href="{{ . }}">↗</a>{{ end }}
+        </li>
+      {{ end }}
+    </ul>
   </div>
 </section>
 
@@ -134,8 +195,8 @@
       {{ site.Params.location }}
     </p>
     <p>
-      <a href="https://billofbehavior.com/bob">Bill of Behavior</a> ·
-      <a href="https://billofbehavior.com/stormcenter">Storm Center</a> ·
+      <a href="{{ "/bob/" | relURL }}">Bill of Behavior (standard)</a> ·
+      <a href="{{ "/stormcenter/" | relURL }}">Storm Center (research)</a> ·
       <a href="https://github.com/k8sstormcenter">GitHub</a>
     </p>
   </div>

@@ -1,16 +1,11 @@
 <header class="topnav">
   <div class="topnav__inner">
     <a class="topnav__brand" href="{{ "/" | relURL }}">
-      {{ $mark := .Params.brand_mark | default "favicon.svg" }}
+      {{ $mark := .Params.brand_mark | default "fusioncore" }}
       <img class="topnav__logomark"
-           src="{{ (cond (eq $mark "favicon.svg") (relURL "favicon.svg") (relURL (printf "brand/%s/icon.svg" $mark))) }}"
-           alt="">
-      <span class="topnav__brand-text">
-        {{ .Params.brand_full | default "FusionCore" }}
-      </span>
-      {{ with .Params.brand_attribution }}
-        <span class="topnav__brand-by">{{ . | safeHTML }}</span>
-      {{ end }}
+           src="{{ (printf "brand/%s/icon-192.png" $mark) | relURL }}"
+           alt="{{ .Params.brand_full | default "FusionCore" }}">
+      <span class="topnav__brand-text">{{ .Params.brand_full | default "FusionCore" }}</span>
     </a>
     <nav class="topnav__menu" aria-label="Primary">
       <a href="{{ "/" | relURL }}">FusionCore</a>

@@ -14,7 +14,7 @@
       </ul>
       <div class="hero__cta">
         <a class="btn btn--primary" href="#standard">The standard</a>
-        <a class="btn btn--ghost"   href="#contact">Talk to us</a>
+        <a class="btn btn--ghost"   href="#contribute">Contribute</a>
       </div>
     </div>
     <div class="hero__art">
@@ -43,127 +43,47 @@
       release.
     </p>
 
-
     <h3>Where things live today</h3>
     <ul class="links">
       <li><a href="{{ site.Params.github_org_bob }}">github.com/billofbehavior</a> — COMING SOON documentation</li>
       <li><a href="{{ site.Params.bobctl }}">github.com/k8sstormcenter/bobctl</a> — reference CLI (contact us for access)</li>
       <li><a href="{{ site.Params.github_research }}">github.com/k8sstormcenter</a> — research </li>
     </ul>
-
-    <h3>Get involved</h3>
-    <p>
-      The standard is open and currently expressed as a pseudo spec. We will soon release the first draft of the specification.
-    </p>
-
-
   </div>
 </section>
 
-<!-- ============== RESEARCH ============== -->
-<section id="research" class="band band--soft">
+<!-- ============== STEWARDSHIP ============== -->
+<section id="stewardship" class="band band--soft">
   <div class="band__inner">
-    <p class="band__kicker">Research</p>
-    <h2>Sovereign Cloud Security</h2>
+    <p class="band__kicker">Stewardship</p>
+    <h2>An open standard, stewarded — not sold.</h2>
     <p>
-      The Kubernetes Storm Center combines mature eBPF projects to form an
-      adaptive detection stack with tunable signal-to-noise.
+      Bill of Behavior is a free and open-source standard. It is not a
+      FusionCore product, not a paid tier, not a funnel into commercial
+      services. <a href="{{ "/" | relURL }}">FusionCore</a> stewards the
+      standard's development under the OSS-steward regime defined in the
+      EU Cyber Resilience Act (Article&nbsp;24).
     </p>
     <p>
-      Research is currently ongoing as part of <strong>NetIdee</strong> and
-      <strong>FFG</strong> projects, in affiliation with research partners.
-    </p>
-    <ul class="links">
-      <li><a href="{{ site.Params.github_research }}">github.com/k8sstormcenter</a> — research code &amp; deliverables</li>
-    </ul>
-  </div>
-</section>
-
-<!-- ============== WORKSHOPS / TRAININGS ============== -->
-<section id="workshops" class="band">
-  <div class="band__inner">
-    <p class="band__kicker">Workshops &amp; Training</p>
-    <h2>Bring SBoB into your team</h2>
-    <div class="cards">
-      {{ range site.Data.trainings }}
-        <div class="card">
-          <h3>{{ .name }}</h3>
-          <p>{{ .blurb }}</p>
-        </div>
-      {{ end }}
-    </div>
-    <p class="band__contact">
-      Trainings are delivered by FusionCore. Interested? Write to
-      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+      Commercial services that <em>integrate</em> BoB — workshops,
+      consulting, the planned SBoB feed subscription — live on the
+      <a href="{{ "/" | relURL }}">FusionCore site</a>, not here.
     </p>
   </div>
 </section>
 
-<!-- ============== SPEAKING ============== -->
-<section id="speaking" class="band band--soft">
+<!-- ============== CONTRIBUTE ============== -->
+<section id="contribute" class="band">
   <div class="band__inner">
-    <p class="band__kicker">Speaking</p>
-    <h2>Conference appearances</h2>
+    <p class="band__kicker">Contribute</p>
+    <h2>Get involved</h2>
     <p>
-      You can book Dr.&nbsp;Constanze&nbsp;Roedig</a>
-      to speak at your event for a fee — write to
-      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
-    </p>
-
-    <h3 class="talks-heading">Upcoming</h3>
-    <ul class="talks">
-      {{ range site.Data.talks.upcoming }}
-        <li>
-          <span class="talks__venue">{{ .venue }}</span>
-          {{ with .when }}<span class="talks__when">— {{ . }}</span>{{ end }}
-          {{ with .title }} — <span class="talks__title">{{ . }}</span>{{ end }}
-          {{ with .role }}<span class="talks__role">{{ . }}</span>{{ end }}
-          {{ with .url }}<a class="talks__link" href="{{ . }}">↗</a>{{ end }}
-        </li>
-      {{ end }}
-    </ul>
-
-    <h3 class="talks-heading">Past</h3>
-    <ul class="talks">
-      {{ range site.Data.talks.past }}
-        <li>
-          <span class="talks__venue">{{ .venue }}</span>
-          {{ with .role }}<span class="talks__role">{{ . }}</span>{{ end }}
-          {{ with .title }} — <span class="talks__title">{{ . }}</span>{{ end }}
-          {{ with .url }}<a class="talks__link" href="{{ . }}">↗</a>{{ end }}
-        </li>
-      {{ end }}
-    </ul>
-  </div>
-</section>
-
-<!-- ============== ABOUT FUSIONCORE ============== -->
-<section id="about" class="band">
-  <div class="band__inner">
-    <p class="band__kicker">About</p>
-    <h2>Who builds this</h2>
-    <p>
-      The Bill of Behavior standard, the <code>bobctl</code> reference
-      implementation, and the workshops above are created by
-      <a href="{{ "/" | relURL }}">FusionCore</a> — an independent
-      defensive-security research initiative.
-    </p>
-
-  </div>
-</section>
-
-<!-- ============== CONTACT ============== -->
-<section id="contact" class="band band--soft">
-  <div class="band__inner">
-    <p class="band__kicker">Contact</p>
-    <h2>Get in touch</h2>
-    <p>
-      <a href="mailto:{{ site.Params.email }}"><strong>{{ site.Params.email }}</strong></a><br>
-      {{ site.Params.location }}
+      The standard is open and currently expressed as a pseudo spec. We
+      will release the first draft of the specification soon.
+      Contributors welcome via GitHub issues and pull requests.
     </p>
     <p>
-      <a href="{{ site.Params.github_org_bob }}">GitHub</a> ·
-      <a href="{{ site.Params.parent_url }}">fusioncore.ai</a>
+      <a href="{{ site.Params.github_org_bob }}">github.com/billofbehavior</a>
     </p>
   </div>
 </section>

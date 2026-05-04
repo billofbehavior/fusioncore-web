@@ -35,7 +35,12 @@
   {{ end }}
   <link rel="manifest"       href="{{ "manifest.webmanifest" | relURL }}">
 </head>
-<body>
+{{/* data-section drives per-pillar colour palette in main.css.
+     bob = legal/formal black+white, stormcenter = research blue+gold,
+     anything else = FusionCore purple (default). */}}
+{{ $section := .Section }}
+{{ if not $section }}{{ $section = "fusioncore" }}{{ end }}
+<body data-section="{{ $section }}">
 
 {{ partial "header.html" . }}
 

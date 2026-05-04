@@ -3,28 +3,123 @@
    biz/talks/BRAND.md. No external font imports — system stack only. */
 
 :root {
-  /* Canonical FusionCore palette — biz/talks/BRAND.md is source of truth.
-     BoB is a sub-brand within this family; gold is reserved for the
-     "verified" mark inside the logomark and accent rules. */
+  /* Default = FusionCore (purple background). Gold (#C3A50D) is the unified
+     accent across all three pillars; only the BACKGROUND distinguishes them.
+     CRA positioning:
+       /            = FusionCore (commercial)        → purple bg + gold accent
+       /bob/        = Bill of Behavior (standard)    → white hero + black sections + gold accent
+       /stormcenter/ = Research initiative            → navy bg + gold accent  */
   --bg:          #ffffff;
   --bg-soft:     #f6f4ee;
   --bg-deep:     #400049;     /* FusionCore primary purple */
-  --bg-deep-2:   #28002e;     /* deeper stop for gradients */
-  --bg-deep-3:   #5a1a66;     /* lighter stop for gradients */
+  --bg-deep-2:   #28002e;
+  --bg-deep-3:   #5a1a66;
   --ink:         #1c2030;
   --ink-soft:    #4a5060;
   --muted:       #7a808c;
-  --muted-dark:  #C9A5CF;     /* muted on dark — captions on hero */
+  --muted-dark:  #C9A5CF;
   --rule:        #e6e2d6;
   --rule-dk:     #5e3568;
-  --accent:      #DE5AFF;     /* FusionCore accent purple */
-  --accent-dk:   #a82fc7;
-  --accent-lt:   #f4dcff;
-  --gold:        #C3A50D;     /* used in logomark + section underlines */
-  --coral:       #D43F5B;     /* reserved for caution */
+  --accent:      #C3A50D;     /* GOLD — unified across all three pillars */
+  --accent-dk:   #9a8208;
+  --accent-lt:   #fff5d6;
+  --gold:        #C3A50D;
+  --coral:       #D43F5B;
   --maxw:        960px;
   --radius:      6px;
 }
+
+/* ============== /bob/ — Bill of Behavior — INVERTED (white hero, black sections) ==============
+   Formal/legal aesthetic, with the FusionCore gold accent for continuity.
+   The registered bee bobs (no pun) on a clean white hero. Sections below
+   flip to dark so the doc-density reads as "the law itself". */
+body[data-section="bob"] {
+  --bg:          #ffffff;       /* page bg = white */
+  --bg-deep:     #ffffff;       /* hero bg = white */
+  --bg-deep-2:   #f4f4f4;
+  --bg-deep-3:   #fcfcfc;
+  --bg-soft:     #0a0a0a;       /* SOFT bands flip to dark */
+  --rule:        #1a1a1a;
+  --rule-dk:     #1a1a1a;
+  --muted-dark:  #b8b8b8;
+  --ink:         #0a0a0a;
+  --ink-soft:    #2a2a2a;
+}
+/* Hero on white */
+body[data-section="bob"] .hero {
+  background: #ffffff;
+  color: #0a0a0a;
+  border-bottom: 1px solid #1a1a1a;
+}
+body[data-section="bob"] .hero__title { color: #0a0a0a; }
+body[data-section="bob"] .hero__lede  { color: #2a2a2a; }
+body[data-section="bob"] .hero__kicker { color: var(--accent); }
+body[data-section="bob"] .hero__pills li {
+  background: rgba(195,165,13,0.10);
+  border-color: rgba(195,165,13,0.55);
+  color: #2a2a2a;
+}
+/* Topnav — light over white hero */
+body[data-section="bob"] .topnav {
+  background: rgba(255,255,255,0.94);
+  border-bottom: 1px solid #1a1a1a;
+}
+body[data-section="bob"] .topnav__brand,
+body[data-section="bob"] .topnav__brand-text,
+body[data-section="bob"] .topnav__menu a {
+  color: #0a0a0a;
+}
+body[data-section="bob"] .topnav__menu a:hover { color: var(--accent); }
+/* Bands invert: default band = black, soft = darker */
+body[data-section="bob"] .band {
+  background: #0a0a0a;
+  color: #f4f4f4;
+}
+body[data-section="bob"] .band--soft {
+  background: #000000;
+}
+body[data-section="bob"] .band h2,
+body[data-section="bob"] .band h3 { color: #ffffff; }
+body[data-section="bob"] .band p  { color: #c4c4c4; }
+body[data-section="bob"] .band a  { color: var(--accent); }
+body[data-section="bob"] .band__kicker { color: var(--accent); }
+body[data-section="bob"] .band__note {
+  background: rgba(195,165,13,0.10);
+  border-left-color: var(--accent);
+  color: #d4d4d4;
+}
+body[data-section="bob"] .links li::before { color: var(--accent); }
+/* Buttons */
+body[data-section="bob"] .btn--primary { background: var(--accent); color: #0a0a0a; }
+body[data-section="bob"] .btn--primary:hover { background: #e0bf18; }
+body[data-section="bob"] .btn--ghost { color: #0a0a0a; border-color: #0a0a0a; }
+body[data-section="bob"] .btn--ghost:hover { background: rgba(0,0,0,0.06); }
+
+/* ============== /stormcenter/ — Research — navy + gold ============== */
+body[data-section="stormcenter"] {
+  --bg-deep:     #0a2c4a;       /* navy */
+  --bg-deep-2:   #051a2e;
+  --bg-deep-3:   #15426e;
+  --bg-soft:     #f6f1e0;       /* parchment */
+  --rule:        #e3dcc4;
+  --rule-dk:     #234870;
+  --muted-dark:  #c8cfd8;
+  /* --accent stays GOLD #C3A50D from :root — unified across pillars */
+}
+body[data-section="stormcenter"] .hero {
+  background:
+    radial-gradient(800px 300px at 80% 20%, rgba(195,165,13,0.16), transparent 60%),
+    radial-gradient(1100px 500px at 20% 0%, rgba(80,140,220,0.20), transparent 70%),
+    linear-gradient(180deg, var(--bg-deep-3) 0%, var(--bg-deep) 60%, var(--bg-deep-2) 100%);
+}
+body[data-section="stormcenter"] .hero__pills li {
+  background: rgba(195,165,13,0.16);
+  border-color: rgba(195,165,13,0.55);
+  color: #fff5d6;
+}
+body[data-section="stormcenter"] .topnav { background: rgba(10,44,74,0.94); }
+body[data-section="stormcenter"] .btn--primary { background: var(--accent); color: #0a2c4a; }
+body[data-section="stormcenter"] .btn--primary:hover { background: #e0bf18; }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
@@ -61,18 +156,21 @@ a:hover { color: var(--ink); }
   text-decoration: none;
   gap: 0.6rem;
   color: #fff;
+  flex-shrink: 0;
 }
 .topnav__logomark {
-  height: 28px;
-  width: 28px;
+  height: 38px;
+  width: 38px;
   display: block;
   flex-shrink: 0;
+  object-fit: contain;
 }
 .topnav__brand-text {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: #fff;
   letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 .topnav__inner {
   max-width: var(--maxw);
@@ -84,17 +182,6 @@ a:hover { color: var(--ink); }
   flex-wrap: wrap;
   gap: 0.75rem;
 }
-.topnav__brand-by {
-  font-size: 0.78rem;
-  font-weight: 400;
-  color: #9b85a5;
-  letter-spacing: 0.02em;
-}
-.topnav__brand-by a {
-  color: #E5D4EA;
-  text-decoration: none;
-}
-.topnav__brand-by a:hover { color: var(--accent); }
 .topnav__menu {
   display: flex;
   gap: 1.25rem;
