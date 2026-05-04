@@ -39,17 +39,22 @@ jobs:
           fetch-depth: 0
 
       # Authorize private submodule clones via fine-grained PAT.
-      # SUBMODULE_PAT scope: read-only Contents on the specific private
-      # repo(s) referenced from .gitmodules. No-op if the secret is empty.
-      # See docs/PRIVATE_CONTENT.md for the setup recipe.
+      # Sets each submodule's effective URL in .git/config (preserves
+      # gitlink semantics) with the PAT baked in. Reads .gitmodules
+      # generically — works for any number of submodules. No-op if the
+      # secret is empty. See docs/PRIVATE_CONTENT.md for the setup recipe.
       - name: Init submodules with PAT auth
         if: ${{ env.HAS_PAT == 'true' }}
         env:
           HAS_PAT: ${{ secrets.SUBMODULE_PAT != '' }}
           PAT: ${{ secrets.SUBMODULE_PAT }}
         run: |
-          git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf "git@github.com:"
-          git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf "https://github.com/"
+          git submodule init
+          git config -f .gitmodules --get-regexp 'submodule\..*\.url' | while read -r key url; do
+            name=$(printf '%s' "$key" | sed -E 's/^submodule\.(.+)\.url$/\1/')
+            newurl=$(printf '%s' "$url" | sed -E "s|^git@github\\.com:|https://x-access-token:${PAT}@github.com/|")
+            git config "submodule.${name}.url" "$newurl"
+          done
           git submodule update --init --recursive
 
       - name: Setup Pages
