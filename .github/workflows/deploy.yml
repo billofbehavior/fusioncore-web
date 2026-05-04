@@ -30,17 +30,18 @@ jobs:
             "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
           sudo dpkg -i "${RUNNER_TEMP}/hugo.deb"
 
-      # Load SSH deploy key(s) for any PRIVATE submodules. Multi-line value
-      # supports multiple keys (one per private submodule). No-op if the
-      # secret is empty — repo still builds with public submodules only.
+      # Authorize private submodule clones via fine-grained PAT.
+      # SUBMODULE_PAT scope: read-only Contents on the specific private
+      # repo(s) referenced from .gitmodules. No-op if the secret is empty.
       # See docs/PRIVATE_CONTENT.md for the setup recipe.
-      - name: Load private-submodule SSH key
-        if: ${{ env.HAS_KEY == 'true' }}
+      - name: Configure git for private submodules
+        if: ${{ env.HAS_PAT == 'true' }}
         env:
-          HAS_KEY: ${{ secrets.SUBMODULE_DEPLOY_KEY != '' }}
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SUBMODULE_DEPLOY_KEY }}
+          HAS_PAT: ${{ secrets.SUBMODULE_PAT != '' }}
+          PAT: ${{ secrets.SUBMODULE_PAT }}
+        run: |
+          git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf "git@github.com:"
+          git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf "https://github.com/"
 
       - name: Checkout
         uses: actions/checkout@v4
