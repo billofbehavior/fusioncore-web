@@ -26,15 +26,23 @@ jobs:
     steps:
       - name: Install Hugo CLI (extended)
         run: |
-          wget -qO "${RUNNER_TEMP}/hugo.deb" \
-            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+          wget -qO "${RUNNER_TEMP}/hugo.deb" "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
           sudo dpkg -i "${RUNNER_TEMP}/hugo.deb"
+
+      # Parent repo only — actions/checkout would override our git config
+      # if we asked it to do submodules here. We do submodules below with
+      # our PAT-based URL rewrite still in effect.
+      - name: Checkout parent
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+          fetch-depth: 0
 
       # Authorize private submodule clones via fine-grained PAT.
       # SUBMODULE_PAT scope: read-only Contents on the specific private
       # repo(s) referenced from .gitmodules. No-op if the secret is empty.
       # See docs/PRIVATE_CONTENT.md for the setup recipe.
-      - name: Configure git for private submodules
+      - name: Init submodules with PAT auth
         if: ${{ env.HAS_PAT == 'true' }}
         env:
           HAS_PAT: ${{ secrets.SUBMODULE_PAT != '' }}
@@ -42,12 +50,7 @@ jobs:
         run: |
           git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf "git@github.com:"
           git config --global url."https://x-access-token:${PAT}@github.com/".insteadOf "https://github.com/"
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
+          git submodule update --init --recursive
 
       - name: Setup Pages
         id: pages
@@ -58,10 +61,7 @@ jobs:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
         run: |
-          hugo \
-            --gc \
-            --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+          hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
