@@ -1,17 +1,17 @@
 /* billofbehavior.com — minimal Hugo theme stylesheet
-   Visual identity: FusionCore family. Palette canonicalised in
+   Visual identity: fusioncore.ai family. Palette canonicalised in
    biz/talks/BRAND.md. No external font imports — system stack only. */
 
 :root {
-  /* Default = FusionCore (purple background). Gold (#C3A50D) is the unified
+  /* Default = fusioncore.ai (purple background). Gold (#C3A50D) is the unified
      accent across all three pillars; only the BACKGROUND distinguishes them.
      CRA positioning:
-       /            = FusionCore (commercial)        → purple bg + gold accent
+       /            = fusioncore.ai (commercial)        → purple bg + gold accent
        /bob/        = Bill of Behavior (standard)    → white hero + black sections + gold accent
        /stormcenter/ = Research initiative            → navy bg + gold accent  */
   --bg:          #ffffff;
   --bg-soft:     #f6f4ee;
-  --bg-deep:     #400049;     /* FusionCore primary purple */
+  --bg-deep:     #400049;     /* fusioncore.ai primary purple */
   --bg-deep-2:   #28002e;
   --bg-deep-3:   #5a1a66;
   --ink:         #1c2030;
@@ -30,7 +30,7 @@
 }
 
 /* ============== /bob/ — Bill of Behavior — INVERTED (white hero, black sections) ==============
-   Formal/legal aesthetic, with the FusionCore gold accent for continuity.
+   Formal/legal aesthetic, with the fusioncore.ai gold accent for continuity.
    The registered bee bobs (no pun) on a clean white hero. Sections below
    flip to dark so the doc-density reads as "the law itself". */
 body[data-section="bob"] {

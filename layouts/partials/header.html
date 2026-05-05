@@ -4,11 +4,11 @@
       {{ $mark := .Params.brand_mark | default "fusioncore" }}
       <img class="topnav__logomark"
            src="{{ (printf "brand/%s/icon-192.png" $mark) | relURL }}"
-           alt="{{ .Params.brand_full | default "FusionCore" }}">
-      <span class="topnav__brand-text">{{ .Params.brand_full | default "FusionCore" }}</span>
+           alt="{{ .Params.brand_full | default "fusioncore.ai" }}">
+      <span class="topnav__brand-text">{{ .Params.brand_full | default "fusioncore.ai" }}</span>
     </a>
     <nav class="topnav__menu" aria-label="Primary">
-      <a href="{{ "/" | relURL }}">FusionCore</a>
+      <a href="{{ "/" | relURL }}">fusioncore.ai</a>
       <a href="{{ "/bob/" | relURL }}">Bill of Behavior</a>
       <a href="{{ "/stormcenter/" | relURL }}">Storm Center</a>
       <a href="{{ "/blog/" | relURL }}">Blog</a>

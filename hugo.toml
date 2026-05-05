@@ -8,7 +8,7 @@ disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
 [params]
   brand_short  = "BoB"
   brand_full   = "Bill of Behavior"
-  parent_name  = "FusionCore"
+  parent_name  = "fusioncore.ai"
   parent_url   = "https://fusioncore.ai"
 
   hero_kicker  = "An open standard, in development"
