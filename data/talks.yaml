@@ -7,7 +7,8 @@ upcoming:
     url: https://community.cncf.io/events/details/cncf-security-native-europe-presents-sovereign-done-right-common-misconceptions-revealed/
   - venue: Cloud Native Zurich 2026
     when: "June 11–12, 2026"
-    url: https://cloudnativezurich.ch  
+    role: invited talk
+    url: https://cloudnativezurich.ch
   - venue: Cloud Native Linz
     when: "May 2026"
     url: https://cloudnativelinz.at

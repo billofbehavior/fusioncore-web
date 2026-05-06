@@ -314,6 +314,170 @@ a:hover { color: var(--ink); }
   max-width: var(--maxw);
   margin: 0 auto;
 }
+.band__inner--reading {
+  max-width: 860px;
+}
+/* Hero image breaks out of the reading column for a wider lead visual */
+.band__inner--reading figure.hero {
+  margin: 0 -2rem 2rem -2rem;
+  text-align: center;
+}
+.band__inner--reading figure.hero img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+/* In-flow figures fit the column exactly — predictable width, every image */
+.band__inner--reading figure {
+  margin: 2rem 0;
+  text-align: center;
+}
+.band__inner--reading figure img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.band__inner--reading pre {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+  background: #2d2d2d;
+}
+.band__inner--reading code {
+  font-size: 0.92em;
+}
+.band__inner--reading p {
+  line-height: 1.7;
+}
+.band__inner--reading h2 {
+  margin-top: 2.75rem;
+}
+.band__inner--reading h3 {
+  margin-top: 1.75rem;
+}
+.band__inner--reading ul {
+  line-height: 1.7;
+}
+.band__inner--reading ul li {
+  margin: 0.35rem 0;
+}
+/* Outlined tables — visible borders, header band */
+.band__inner--reading table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  border: 1px solid var(--rule);
+}
+.band__inner--reading th,
+.band__inner--reading td {
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--rule);
+  text-align: left;
+}
+.band__inner--reading th {
+  background: var(--bg-soft, #f7f5f9);
+  font-weight: 700;
+}
+.band__inner--reading blockquote {
+  border-left: 3px solid var(--accent-dk);
+  margin: 1.5rem 0;
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  color: var(--ink);
+  background: var(--bg-soft, transparent);
+  border-radius: 0 4px 4px 0;
+}
+.byline {
+  color: var(--muted, #666);
+  font-size: 0.95rem;
+  margin: -0.25rem 0 2.5rem;
+  line-height: 1.55;
+}
+.netidee-logo {
+  height: 60px;
+  width: auto;
+  margin: 1rem 0 1.5rem;
+}
+
+/* Zoomable hero image + no-JS lightbox via :target */
+.band__inner--reading .zoomable {
+  position: relative;
+  display: block;
+  cursor: zoom-in;
+  text-decoration: none;
+  border: 0;
+}
+.band__inner--reading .zoomable img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.15s ease;
+}
+.band__inner--reading .zoomable:hover img {
+  opacity: 0.92;
+}
+.zoom-hint {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 0, 12, 0.94);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  cursor: zoom-out;
+}
+.lightbox:target {
+  display: flex;
+}
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+.lightbox-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 400;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+  cursor: pointer;
+}
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
 .band__kicker {
   font-size: 0.78rem;
   font-weight: 700;

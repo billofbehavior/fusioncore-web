@@ -1,5 +1,5 @@
 ---
 title: "Blog"
-description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+description: "Updates from the cloud native, security, SBoB and sovereign SOC world"
 favicon: "fusioncore"
 ---

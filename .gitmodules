@@ -2,3 +2,7 @@
 	path = content/bob/docs/drafts
 	url = git@github.com:billofbehavior/private-bob-drafts.git
 	update = merge
+[submodule "content/blog/sovereign-soc"]
+	path = content/blog/sovereign-soc
+	url = git@github.com:billofbehavior/private-blog.git
+	update = merge
