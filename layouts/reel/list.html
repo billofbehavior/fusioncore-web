@@ -1,6 +1,5 @@
 {{ define "main" }}
 
-{{ $featured := .Site.Data.videos.featured }}
 {{ $videos := .Site.Data.videos.videos }}
 
 <section class="hero hero--compact">
@@ -8,30 +7,145 @@
     <p class="hero__kicker">Reel</p>
     <h1 class="hero__title hero__title--md">{{ .Title }}</h1>
     {{ with .Params.description }}<p class="hero__lede">{{ . }}</p>{{ end }}
-
-    <div style="margin-top:2rem; padding:2rem; background:rgba(0,0,0,0.25); border-radius:6px; text-align:center;">
-      <p style="color:#E5D4EA; margin:0;">
-        Placeholder featured slot.<br>
-        Set <code>featured.id</code> in <code>data/videos.yaml</code>.
-      </p>
-    </div>
   </div>
 </section>
 
 <section class="band band--soft">
   <div class="band__inner">
-    <p class="band__kicker">Placeholder</p>
-    <h2>Placeholder grid</h2>
-    <div class="cards">
-      {{ range $videos }}
-        <div class="card">
-          <h3>Placeholder</h3>
-          <p>{{ .title }}</p>
-          <p class="card__more">{{ .id }}</p>
-        </div>
-      {{ end }}
+
+    <div class="reel-carousel reel-carousel--pair" data-rotate-seconds="12">
+      <div class="reel-carousel__stage">
+        {{ range $i, $v := $videos }}
+          <article class="reel-slide{{ if or (eq $i 0) (eq $i 1) }} is-active{{ end }}"
+                   data-index="{{ $i }}"
+                   data-video-id="{{ .id }}"
+                   {{ with .start }}data-start="{{ . }}"{{ end }}>
+            <div class="reel-slide__frame">
+              {{ if or (eq $i 0) (eq $i 1) }}
+                <iframe class="reel-slide__iframe"
+                        src="https://www.youtube-nocookie.com/embed/{{ .id }}{{ with .start }}?start={{ . }}{{ end }}"
+                        title="{{ .title }}"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        loading="lazy"></iframe>
+              {{ end }}
+            </div>
+            <div class="reel-slide__meta">
+              <h2 class="reel-slide__title">{{ .title }}</h2>
+              <p class="reel-slide__event">{{ .event }}{{ with .speakers }} · {{ . }}{{ end }}</p>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+
+      <button class="reel-carousel__nav reel-carousel__nav--prev" aria-label="Previous video">‹</button>
+      <button class="reel-carousel__nav reel-carousel__nav--next" aria-label="Next video">›</button>
+
+      <div class="reel-carousel__dots" role="tablist" aria-label="Video selector">
+        {{ range $i, $v := $videos }}
+          <button class="reel-carousel__dot{{ if eq $i 0 }} is-active{{ end }}"
+                  data-target="{{ $i }}"
+                  role="tab"
+                  aria-label="Video {{ add $i 1 }}: {{ .title }}"></button>
+        {{ end }}
+      </div>
     </div>
+
   </div>
 </section>
+
+<script>
+(function () {
+  var carousel = document.querySelector('.reel-carousel');
+  if (!carousel) return;
+
+  var slides = Array.prototype.slice.call(carousel.querySelectorAll('.reel-slide'));
+  var dots = Array.prototype.slice.call(carousel.querySelectorAll('.reel-carousel__dot'));
+  var prev = carousel.querySelector('.reel-carousel__nav--prev');
+  var next = carousel.querySelector('.reel-carousel__nav--next');
+  var rotateMs = (parseInt(carousel.dataset.rotateSeconds, 10) || 12) * 1000;
+  var pairMode = carousel.classList.contains('reel-carousel--pair');
+  var visible = pairMode ? 2 : 1;
+  var current = 0;
+  var timer = null;
+  var paused = false;
+
+  function activeIndices(start) {
+    var out = [];
+    for (var k = 0; k < visible; k++) {
+      out.push(((start + k) % slides.length + slides.length) % slides.length);
+    }
+    return out;
+  }
+
+  function ensureIframe(slide) {
+    var holder = slide.querySelector('.reel-slide__frame');
+    if (holder.querySelector('iframe')) return;
+    var id = slide.dataset.videoId;
+    var start = slide.dataset.start;
+    var src = 'https://www.youtube-nocookie.com/embed/' + id + (start ? '?start=' + start : '');
+    var iframe = document.createElement('iframe');
+    iframe.className = 'reel-slide__iframe';
+    iframe.src = src;
+    iframe.title = slide.querySelector('.reel-slide__title').textContent;
+    iframe.frameBorder = '0';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy';
+    holder.appendChild(iframe);
+  }
+
+  function teardownIframe(slide) {
+    var f = slide.querySelector('.reel-slide__iframe');
+    if (f) f.parentNode.removeChild(f);
+  }
+
+  function show(idx) {
+    idx = ((idx % slides.length) + slides.length) % slides.length;
+    if (idx === current) return;
+
+    // Tear down outgoing iframes (both slots in pair mode)
+    activeIndices(current).forEach(function (i) {
+      teardownIframe(slides[i]);
+      slides[i].classList.remove('is-active');
+      dots[i].classList.remove('is-active');
+    });
+
+    current = idx;
+
+    // Build incoming iframes lazily for the new visible window
+    activeIndices(current).forEach(function (i) {
+      ensureIframe(slides[i]);
+      slides[i].classList.add('is-active');
+      dots[i].classList.add('is-active');
+    });
+  }
+
+  function startTimer() {
+    stopTimer();
+    if (paused) return;
+    timer = setInterval(function () { show(current + 1); }, rotateMs);
+  }
+  function stopTimer() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+
+  prev.addEventListener('click', function () { show(current - 1); startTimer(); });
+  next.addEventListener('click', function () { show(current + 1); startTimer(); });
+  dots.forEach(function (d) {
+    d.addEventListener('click', function () {
+      show(parseInt(d.dataset.target, 10));
+      startTimer();
+    });
+  });
+
+  // Pause auto-advance on hover so users can finish a video without it skipping
+  carousel.addEventListener('mouseenter', function () { paused = true; stopTimer(); });
+  carousel.addEventListener('mouseleave', function () { paused = false; startTimer(); });
+
+  startTimer();
+})();
+</script>
 
 {{ end }}

@@ -1,5 +1,5 @@
 ---
-title: "Reel"
-description: "Placeholder description. To be replaced."
+title: "Talks and Interviews"
+description: "highlights from the past"
 favicon: "fusioncore"
 ---

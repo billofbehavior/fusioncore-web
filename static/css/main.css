@@ -25,7 +25,7 @@
   --accent-lt:   #fff5d6;
   --gold:        #C3A50D;
   --coral:       #D43F5B;
-  --maxw:        960px;
+  --maxw:        min(1280px, 92vw);   /* responsive: caps at the typical desktop content max, otherwise fills 92% of viewport */
   --radius:      6px;
 }
 
@@ -223,6 +223,11 @@ a:hover { color: var(--ink); }
   height: auto;
   filter: drop-shadow(0 12px 32px rgba(0,0,0,0.35));
 }
+/* BoB hero is white — drop-shadow renders as a dark blob behind the
+   transparent-background PNG, so drop it on this section only. */
+body[data-section="bob"] .hero__art img {
+  filter: none;
+}
 @media (max-width: 720px) {
   .hero__inner--split {
     grid-template-columns: 1fr;
@@ -315,7 +320,28 @@ a:hover { color: var(--ink); }
   margin: 0 auto;
 }
 .band__inner--reading {
-  max-width: 860px;
+  max-width: var(--maxw);   /* same cap as the rest of the site (~1280px) */
+}
+
+/* Per-figure sizing modifiers — apply to <figure class="fig-…"> */
+.band__inner--reading figure.fig-small {
+  max-width: 700px;
+  margin: 2rem auto;
+}
+.band__inner--reading figure.fig-small img {
+  width: 100%;
+  max-width: 100%;
+}
+.band__inner--reading figure.fig-screen {
+  text-align: center;
+  margin: 2rem 0;
+}
+.band__inner--reading figure.fig-screen img {
+  max-height: 85vh;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
 }
 /* Hero image breaks out of the reading column for a wider lead visual */
 .band__inner--reading figure.hero {
@@ -334,10 +360,12 @@ a:hover { color: var(--ink); }
   text-align: center;
 }
 .band__inner--reading figure img {
-  width: 100%;
+  width: auto;
   height: auto;
   max-width: 100%;
+  max-height: 85vh;        /* cap height at one screen; aspect ratio preserved by max-* pair */
   display: block;
+  margin: 0 auto;          /* center when narrower than column due to vh cap */
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
@@ -363,6 +391,19 @@ a:hover { color: var(--ink); }
 }
 .band__inner--reading ul {
   line-height: 1.7;
+}
+/* Prose stays narrower than figures — extra inset for readability.
+   Compound .band__inner.band__inner--reading raises specificity above
+   the generic `.band p { margin: 0 0 1rem 0 }` rule further down. */
+.band__inner.band__inner--reading p,
+.band__inner.band__inner--reading ul,
+.band__inner.band__inner--reading ol,
+.band__inner.band__inner--reading blockquote,
+.band__inner.band__inner--reading h2,
+.band__inner.band__inner--reading h3 {
+  max-width: 56rem;         /* uniform ~896 px box for prose + headings — same visual width regardless of font-size */
+  margin-left: auto;
+  margin-right: auto;
 }
 .band__inner--reading ul li {
   margin: 0.35rem 0;
@@ -400,9 +441,123 @@ a:hover { color: var(--ink); }
   line-height: 1.55;
 }
 .netidee-logo {
+  display: block;
   height: 60px;
   width: auto;
-  margin: 1rem 0 1.5rem;
+  margin: 1rem auto 1.5rem;   /* the logo itself is centered; everything else stays left-aligned */
+}
+
+/* --------- Reel carousel ------------------------------------------------- */
+.reel-carousel {
+  position: relative;
+  margin: 2rem auto;
+  max-width: 100%;
+}
+.reel-carousel__stage {
+  position: relative;
+}
+.reel-slide {
+  display: none;
+}
+.reel-slide.is-active {
+  display: block;
+}
+/* Pair mode: two videos side-by-side; on narrow screens fall back to one column */
+.reel-carousel--pair .reel-carousel__stage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media (max-width: 720px) {
+  .reel-carousel--pair .reel-carousel__stage {
+    grid-template-columns: 1fr;
+  }
+}
+.reel-slide__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.reel-slide__iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.reel-slide__meta {
+  margin-top: 1rem;
+  text-align: center;
+}
+.reel-slide__title {
+  font-size: 1.2rem;
+  margin: 0 0 0.35rem;
+  color: var(--ink, #fff);
+}
+.reel-slide__event {
+  font-size: 0.92rem;
+  color: var(--muted, #aaa);
+  margin: 0;
+}
+.reel-carousel__nav {
+  position: absolute;
+  top: calc(50% - 2rem);     /* centred against video, ignoring meta below */
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.15s;
+}
+.reel-carousel__nav:hover {
+  background: rgba(0,0,0,0.85);
+}
+.reel-carousel__nav--prev { left: 0.5rem; }
+.reel-carousel__nav--next { right: 0.5rem; }
+
+.reel-carousel__dots {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+.reel-carousel__dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255,255,255,0.25);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s, transform 0.15s;
+}
+.reel-carousel__dot:hover {
+  background: rgba(255,255,255,0.55);
+}
+.reel-carousel__dot.is-active {
+  background: var(--accent, #de5aff);
+  transform: scale(1.25);
+}
+
+/* Funding/licence block — used by the funding-netidee shortcode.
+   Heading and prose follow the post's normal alignment; only the logo centers. */
+.funding-netidee {
+  margin: 3rem 0 1rem;
+}
+.funding-netidee .copyright {
+  font-size: 0.92rem;
+  color: var(--muted, #666);
 }
 
 /* Zoomable hero image + no-JS lightbox via :target */

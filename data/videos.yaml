@@ -1,18 +1,73 @@
-# Placeholder data — replace TODO entries with real YouTube IDs.
+# Reel — talks featuring Dr. Constanze Roedig at cloud-native + security
+# events. IDs and titles fetched from the legacy fusioncore.ai homepage
+# embeds; titles via the YouTube oEmbed API.
+#
+# Add new videos by appending to the `videos` list. The `featured` block is
+# the first slide on the carousel. `start` is optional (seconds offset).
+
 featured:
-  id: "TODO_FEATURED_ID"
-  title: "Placeholder featured title"
-  event: "Placeholder event"
+  id: "VA-ne25QX9g"
+  title: "Tutorial: Attack Defense — Leverage eBPF to Reveal Attack Flows"
+  event: "CNCF / KubeCon"
+  speakers: "Constanze Roedig, Markus G., Teodor P."
 
 videos:
-  - id: "TODO_1"
-    title: "Placeholder one"
-    event: "Placeholder event"
-  - id: "TODO_2"
-    title: "Placeholder two"
-    event: "Placeholder event"
-  - id: "TODO_3"
-    title: "Placeholder three"
-    event: "Placeholder event"
+  - id: "VA-ne25QX9g"
+    title: "Tutorial: Attack Defense — Leverage eBPF to Reveal Attack Flows"
+    event: "CNCF / KubeCon"
+    speakers: "Constanze Roedig, Markus G., Teodor P."
 
-channel_url: "TODO_CHANNEL_URL"
+  - id: "vIMoLpdsZZA"
+    title: "Multi-messenger Security: Adaptive Kubernetes SOC"
+    event: "CNCF / KubeCon"
+    speakers: "Constanze Roedig, Ben Hirschberg, Dom Delnano"
+
+  - id: "jETmMin6-_M"
+    title: "Security Theater or Real Defense? Navigating Cloud-Native Security"
+    event: "CNCF / KubeCon"
+    speakers: "Rotem R., Constanze R., Megan W., Stefana M., Oshrat N."
+
+  - id: "YDIW2CY8WPI"
+    title: "Brewing the Kubernetes Storm Center: Open Source Threat Intelligence"
+    event: "CNCF"
+
+  - id: "JNpbh0bqIFE"
+    title: "Can SBoB (Software Bill of Behavior) detect if AI is poisoned and exfiltrating data?"
+    event: "KCD Sofia"
+
+  - id: "l4r_Pvckc1s"
+    title: "Leveraging the Bill of Behavior for Enhanced Runtime Security in Third-Party Software"
+    event: "Cloud Native Days Austria"
+
+  - id: "cO0hF0ruOwU"
+    title: "Observable Lightning Talks — September 2024"
+    event: "Is it Observable"
+
+  - id: "axh7SOufh8M"
+    title: "Updates from the Kubernetes Storm Center: Open Source Threat Intelligence"
+    event: "Cloud Native Summit Munich"
+
+  - id: "W4WQ8gDo2HU"
+    title: "Cloud Native Threat Intelligence"
+    event: "The Linux Foundation"
+    speakers: "Constanze Roedig, Tobias Grantner, Lukas Mahler, Josef Taha"
+
+  - id: "RT9k5895jRk"
+    title: "KCD Austria 2023 — Introduction and Keynote"
+    event: "Cloud Native Days Austria"
+    start: 759
+
+  - id: "AcxPEuaxHdI"
+    title: "Exclusive Interview with Constanze Roedig"
+    event: "KCD Austria 2023"
+
+  - id: "XETuwndd_mw"
+    title: "Meet BOB: the supply-chain provided bill of behaviour for anomaly-based runtime security"
+    event: "Cloud Native Summit Munich"
+
+  - id: "crMZxSa_FeA"
+    title: "CloudNative Confidence"
+    event: "Cloud Native Computing Vienna"
+    start: 3945
+
+channel_url: ""
