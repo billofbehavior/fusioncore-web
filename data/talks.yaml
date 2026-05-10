@@ -23,9 +23,11 @@ past:
   - venue: KubeCon + CloudNativeCon Europe 2026
     title: "Attack Defense with rich context"
     role: workshop
+    url: https://kccnceu2026.sched.com/event/2CW07/tutorial-attack-defense-leverage-ebpf-to-reveal-attack-flows-with-rich-context-constanze-roedig-fusioncoreai-markus-gierlinger-independent-teodor-janez-podobnik-prewave-gmbh
   - venue: KubeCon + CloudNativeCon Europe 2026
     title: "Instant Anomaly Detection for Kubernetes with SBOB"
     role: poster
+    url: https://kccnceu2026.sched.com/event/2CW0n/poster-session-instant-kubernetes-runtime-anomaly-detection-via-sbobs-bill-of-behavior-constanze-roedig-fusioncoreai-matthias-bertschy-armo
   - venue: OpenSource Security Con Europe 2026
     role: coChair
   - venue: KubeCon NA Atlanta 2025

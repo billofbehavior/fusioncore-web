@@ -447,6 +447,161 @@ body[data-section="bob"] .hero__art img {
   margin: 1rem auto 1.5rem;   /* the logo itself is centered; everything else stays left-aligned */
 }
 
+/* --------- Docs / spec post layout (used by /bob/docs/, /stormcenter/docs/) -- */
+.post__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.post__header { padding-top: 2.5rem; padding-bottom: 1rem; }
+.post__body   { padding-bottom: 3rem; }
+.post__footer { padding-bottom: 3rem; }
+.post__title  { margin-top: 0.25rem; }
+.post__kicker {
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.04em;
+}
+.post__kicker a { color: var(--accent, #de5aff); text-decoration: none; }
+.post__kicker a:hover { text-decoration: underline; }
+.post__meta {
+  color: var(--muted, #aaa);
+  font-size: 0.95rem;
+}
+.docs__nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  font-size: 0.92rem;
+}
+
+/* --------- Free Materials: card + lead-capture form -------------------- */
+.material-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 3rem;
+}
+/* Fanned-cards teaser — three pages of the PDF overlapping like a hand of cards. */
+.material-fan {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin: 2.5rem auto 3.5rem;
+  /* Reserve enough vertical space for rotated cards without clipping. */
+  aspect-ratio: 16 / 11;
+  isolation: isolate;
+}
+.material-fan__card {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+  transform-origin: bottom center;
+  transition: transform 0.3s ease, z-index 0s 0s;
+}
+.material-fan__card--left {
+  left: 8%;
+  transform: rotate(-9deg);
+  z-index: 1;
+}
+.material-fan__card--right {
+  /* Title page sits separate from the two-card fan — pulled further right,
+     small gap and an upright tilt instead of overlapping the centre. */
+  right: 0;
+  transform: rotate(4deg) translateX(8%);
+  z-index: 4;
+}
+.material-fan__card--center {
+  left: 25%;
+  transform: rotate(0deg) translateY(-2%);
+  z-index: 3;
+}
+.material-fan:hover .material-fan__card--left  { transform: rotate(-13deg) translate(-3%, -2%); }
+.material-fan:hover .material-fan__card--right { transform: rotate( 13deg) translate( 3%, -2%); }
+.material-fan:hover .material-fan__card--center { transform: rotate(0deg) translateY(-6%); }
+@media (max-width: 720px) {
+  .material-fan { aspect-ratio: 4 / 5; max-width: 90vw; }
+  .material-fan__card { width: 70%; }
+  .material-fan__card--left  { left: 0; transform: rotate(-7deg); }
+  .material-fan__card--right { right: 0; transform: rotate( 7deg); }
+  .material-fan__card--center { left: 15%; }
+}
+.material-card__teaser {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+.material-card__bullets {
+  margin: 1rem 0 1.25rem;
+  padding-left: 1.25rem;
+}
+.material-card__bullets li { margin: 0.35rem 0; }
+.material-card__meta {
+  font-size: 0.9rem;
+  color: var(--muted, #aaa);
+}
+
+.material-form {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(0,0,0,0.18);
+  border: 1px solid var(--rule, rgba(255,255,255,0.10));
+  border-radius: 8px;
+}
+.material-form h3 { margin-top: 0; }
+.material-form__intro { color: var(--muted, #aaa); margin-bottom: 1.5rem; }
+.material-form__row { margin-bottom: 1rem; }
+.material-form__row label {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.material-form__row input[type="text"],
+.material-form__row input[type="email"] {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  background: rgba(255,255,255,0.05);
+  color: inherit;
+  border: 1px solid var(--rule, rgba(255,255,255,0.15));
+  border-radius: 4px;
+}
+.material-form__row input:focus {
+  outline: 2px solid var(--accent, #de5aff);
+  outline-offset: 1px;
+}
+.material-form__hint {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--muted, #aaa);
+}
+.material-form__row--check label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-weight: 400;
+}
+.material-form__row--check input { margin-top: 0.25rem; }
+.material-form__error {
+  color: #ff7a90;
+  background: rgba(255,80,100,0.1);
+  border: 1px solid rgba(255,80,100,0.3);
+  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  margin: 0.5rem 0 1rem;
+}
+.material-form__actions { margin-top: 1.5rem; }
+
 /* --------- Reel carousel ------------------------------------------------- */
 .reel-carousel {
   position: relative;

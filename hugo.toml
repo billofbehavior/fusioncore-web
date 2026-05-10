@@ -2,8 +2,9 @@ baseURL = "https://billofbehavior.com/"
 languageCode = "en-us"
 title = "Bill of Behavior"
 
-# Single-page site; no taxonomies / RSS / sitemap needed for this scope.
-disableKinds = ["taxonomy", "term", "RSS", "sitemap"]
+# Taxonomies still off (no tag/category indexes).
+# RSS + sitemap are now ON — site has grown beyond a single page.
+disableKinds = ["taxonomy", "term"]
 
 [params]
   brand_short  = "BoB"

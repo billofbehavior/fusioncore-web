@@ -3,21 +3,59 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ if .Title }}{{ .Title }} — {{ end }}{{ site.Title }}</title>
-  <meta name="description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="{{ .Permalink }}">
 
-  <meta property="og:type"        content="website">
-  <meta property="og:url"         content="{{ .Permalink }}">
-  <meta property="og:title"       content="{{ if .Title }}{{ .Title }} — {{ end }}{{ site.Title }}">
-  <meta property="og:description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+  {{/* Title chain: prefer per-page brand_full when .Title is empty (homepage,
+       section indexes); on regular pages, append the section's brand_full or
+       site.Title — but skip the suffix when it duplicates the page title. */}}
+  {{ $brand := or .Params.brand_full site.Title }}
+  {{ $title := "" }}
+  {{ if .Title }}
+    {{ if and $brand (ne .Title $brand) }}
+      {{ $title = printf "%s — %s" .Title $brand }}
+    {{ else }}
+      {{ $title = .Title }}
+    {{ end }}
+  {{ else }}
+    {{ $title = $brand }}
+  {{ end }}
+  <title>{{ $title }}</title>
+
+  {{/* Description chain: explicit description → summary param → autosummary → site default. */}}
+  {{ $desc := "" }}
+  {{ with .Params.description }}{{ $desc = . }}
+  {{ else }}{{ with .Params.summary }}{{ $desc = . }}
+  {{ else }}{{ with .Summary }}{{ $desc = . | plainify | truncate 200 }}
+  {{ else }}{{ $desc = site.Params.description }}
+  {{ end }}{{ end }}{{ end }}
+  <meta name="description" content="{{ $desc }}">
+
+  <meta name="robots" content="index, follow">
+
+  {{/* Canonical: per-page override (e.g. netidee co-publish) wins over the page's own permalink. */}}
+  {{ $canonical := .Permalink }}
+  {{ with .Params.canonical_url }}{{ $canonical = . }}{{ end }}
+  <link rel="canonical" href="{{ $canonical }}">
+
+  {{/* og:type is "article" for content under /blog/, otherwise "website". */}}
+  {{ $ogType := cond (eq .Section "blog") "article" "website" }}
+
+  <meta property="og:type"        content="{{ $ogType }}">
+  <meta property="og:url"         content="{{ $canonical }}">
+  <meta property="og:title"       content="{{ $title }}">
+  <meta property="og:description" content="{{ $desc }}">
   <meta property="og:image"       content="{{ printf "%sbrand/og-image.png" site.BaseURL }}">
   <meta property="og:image:width"  content="1200">
   <meta property="og:image:height" content="630">
+  {{ if eq $ogType "article" }}
+    {{ with .Date }}<meta property="article:published_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+    {{ with .Lastmod }}<meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+    {{ with .Params.author }}<meta property="article:author" content="{{ . }}">{{ end }}
+  {{ end }}
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:image"       content="{{ printf "%sbrand/og-image.png" site.BaseURL }}">
   <meta name="theme-color"         content="#400049">
+
+  {{ partial "schema.html" . }}
 
   <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
 

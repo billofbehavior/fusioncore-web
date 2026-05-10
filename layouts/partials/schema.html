@@ -1,0 +1,65 @@
+{{/* JSON-LD structured data — values are wired up from existing front-matter,
+     site params, and Hugo's built-in page metadata. No new prose introduced. */}}
+
+{{ $brand   := or .Params.brand_full site.Title }}
+{{ $desc    := "" }}
+{{ with .Params.description }}{{ $desc = . }}
+{{ else }}{{ with .Params.summary }}{{ $desc = . }}
+{{ else }}{{ with .Summary }}{{ $desc = . | plainify | truncate 200 }}
+{{ else }}{{ $desc = site.Params.description }}
+{{ end }}{{ end }}{{ end }}
+
+{{ $ogImage := printf "%sbrand/og-image.png" site.BaseURL }}
+{{ $author  := or .Params.author site.Params.parent_name }}
+
+{{/* WebSite (every page — gives sitelinks searchbox eligibility) */}}
+<script type="application/ld+json">
+{{ dict
+  "@context"   "https://schema.org"
+  "@type"      "WebSite"
+  "url"        site.BaseURL
+  "name"       (or site.Params.parent_name site.Title)
+  "description" site.Params.description
+  | jsonify (dict "indent" "  ")
+}}
+</script>
+
+{{/* Organization (homepage only — single source of truth) */}}
+{{ if .IsHome }}
+<script type="application/ld+json">
+{{ dict
+  "@context" "https://schema.org"
+  "@type"    "Organization"
+  "name"     (or site.Params.parent_name site.Title)
+  "url"      site.BaseURL
+  "logo"     $ogImage
+  "email"    site.Params.email
+  "sameAs"   (slice site.Params.github_research site.Params.github_org_bob site.Params.github_org_sbob)
+  | jsonify (dict "indent" "  ")
+}}
+</script>
+{{ end }}
+
+{{/* Article (blog posts) */}}
+{{ if eq .Section "blog" }}
+{{ $datePub := "" }}{{ with .Date }}{{ $datePub = .Format "2006-01-02T15:04:05Z07:00" }}{{ end }}
+{{ $dateMod := $datePub }}{{ with .Lastmod }}{{ $dateMod = .Format "2006-01-02T15:04:05Z07:00" }}{{ end }}
+<script type="application/ld+json">
+{{ dict
+  "@context"      "https://schema.org"
+  "@type"         "Article"
+  "headline"      .Title
+  "description"   $desc
+  "image"         $ogImage
+  "datePublished" $datePub
+  "dateModified"  $dateMod
+  "author"        (dict "@type" "Person" "name" $author)
+  "publisher"     (dict
+                     "@type" "Organization"
+                     "name"  (or site.Params.parent_name site.Title)
+                     "logo"  (dict "@type" "ImageObject" "url" $ogImage))
+  "mainEntityOfPage" .Permalink
+  | jsonify (dict "indent" "  ")
+}}
+</script>
+{{ end }}

@@ -1,0 +1,154 @@
+{{ define "main" }}
+
+<section class="hero hero--compact">
+  <div class="hero__inner">
+    <p class="hero__kicker">Free Materials</p>
+    <h1 class="hero__title hero__title--md">{{ .Title }}</h1>
+    {{ with .Params.description }}<p class="hero__lede">{{ . }}</p>{{ end }}
+  </div>
+</section>
+
+<section class="band">
+  <div class="band__inner band__inner--reading">
+
+    <article class="material-card">
+      <div class="material-card__copy">
+        <h2>Node-agent tutorial</h2>
+
+        <p class="material-card__teaser">D&amp;D-style walkthrough of Kubescape — KubeCon EU Special Edition.</p>
+
+        <ul class="material-card__bullets">
+          <li>How node-agent uses Inspektor Gadget</li>
+          <li>8 challenges to detect attack types</li>
+          <li>How an event travels from the kernel to the alert</li>
+        </ul>
+
+        <p class="material-card__meta">PDF · 16&nbsp;pages · 33&nbsp;MB</p>
+      </div>
+
+      <div class="material-fan" aria-hidden="true">
+        <img class="material-fan__card material-fan__card--left"
+             src="{{ "free-materials/nodeagent-tutorial-p15.webp" | relURL }}"
+             alt=""
+             loading="lazy">
+        <img class="material-fan__card material-fan__card--center"
+             src="{{ "free-materials/nodeagent-tutorial-p3.webp" | relURL }}"
+             alt=""
+             loading="lazy">
+        <img class="material-fan__card material-fan__card--right"
+             src="{{ "free-materials/nodeagent-tutorial-cover.webp" | relURL }}"
+             alt=""
+             loading="lazy">
+      </div>
+    </article>
+<!-- 
+    <form id="nodeagent-form" class="material-form"
+          method="POST"
+          action="TODO_FORM_ENDPOINT"
+          novalidate>
+      <h3>Get the PDF</h3>
+
+      <div class="material-form__row">
+        <label for="mf-name">Name <span aria-hidden="true">*</span>
+          <input type="text" id="mf-name" name="name" required autocomplete="name">
+        </label>
+      </div>
+
+      <div class="material-form__row">
+        <label for="mf-email">Work email <span aria-hidden="true">*</span>
+          <input type="email" id="mf-email" name="email" required autocomplete="email"
+                 placeholder="you@yourcompany.tld">
+          <span class="material-form__hint" id="mf-email-hint">No personal addresses (gmail / yahoo / outlook) — work email please.</span>
+        </label>
+      </div>
+
+      <div class="material-form__row">
+        <label for="mf-company">Company <span aria-hidden="true">*</span>
+          <input type="text" id="mf-company" name="company" required autocomplete="organization">
+        </label>
+      </div>
+
+      <div class="material-form__row">
+        <label for="mf-role">Role / Title
+          <input type="text" id="mf-role" name="role" autocomplete="organization-title">
+        </label>
+      </div>
+
+      <div class="material-form__row material-form__row--check">
+        <label>
+          <input type="checkbox" id="mf-consent" name="consent" required>
+          <span>I consent to the processing of my personal data (name, e-mail address, company, role) for the purpose of providing the requested document, on the basis of <abbr title="General Data Protection Regulation">Art.&nbsp;6(1)(a) GDPR</abbr>. I can revoke this consent at any time, without prejudice to the lawfulness of the processing based on consent before its withdrawal. <a href="https://www.bfdi.bund.de/EN/Meta/PrivacyPolicy/privacypolicy_node.html" rel="noopener" target="_blank">(Wording adapted from the German Federal Commissioner for Data Protection — BfDI.)</a></span>
+        </label>
+      </div>
+
+      <p class="material-form__error" id="mf-error" role="alert" hidden></p>
+
+      <div class="material-form__actions">
+        <button type="submit" class="btn btn--primary">Send me the PDF</button>
+      </div>
+
+      <input type="hidden" name="material" value="nodeagent-tutorial">
+    </form>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  var form = document.getElementById('nodeagent-form');
+  if (!form) return;
+  var emailEl = document.getElementById('mf-email');
+  var errEl = document.getElementById('mf-error');
+  var pdfPath = '{{ "free-materials/nodeagent-tutorial.pdf" | relURL }}';
+
+  // Block disposable / personal email providers — work email only.
+  var blockedDomains = [
+    'gmail.com', 'googlemail.com',
+    'yahoo.com', 'yahoo.co.uk', 'ymail.com',
+    'hotmail.com', 'outlook.com', 'live.com', 'msn.com',
+    'icloud.com', 'me.com', 'mac.com',
+    'aol.com', 'gmx.com', 'gmx.net', 'gmx.de', 'web.de',
+    'protonmail.com', 'proton.me', 'pm.me',
+    'mail.com', 'inbox.com', 'fastmail.com',
+    'mailinator.com', 'tempmail.com', 'guerrillamail.com', '10minutemail.com'
+  ];
+
+  function showError(msg) {
+    errEl.textContent = msg;
+    errEl.hidden = false;
+  }
+  function clearError() {
+    errEl.textContent = '';
+    errEl.hidden = true;
+  }
+
+  emailEl.addEventListener('input', clearError);
+
+  form.addEventListener('submit', function (e) {
+    clearError();
+    var email = (emailEl.value || '').trim().toLowerCase();
+    var at = email.indexOf('@');
+    if (at < 1 || at === email.length - 1) {
+      e.preventDefault();
+      showError('Please enter a valid email address.');
+      return;
+    }
+    var domain = email.slice(at + 1);
+    if (blockedDomains.indexOf(domain) !== -1) {
+      e.preventDefault();
+      showError('Personal email addresses are not accepted — please use your work email.');
+      return;
+    }
+    // If the form action hasn't been wired up yet, hand the user the PDF
+    // directly so the page is usable during development. Replace
+    // TODO_FORM_ENDPOINT with the real endpoint (Formspree / Netlify / etc.)
+    // to enable proper submission.
+    if (form.getAttribute('action') === 'TODO_FORM_ENDPOINT') {
+      e.preventDefault();
+      window.location.href = pdfPath;
+    }
+  });
+})();
+</script>
+ -->
+{{ end }}
