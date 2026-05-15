@@ -1,10 +1,4 @@
 upcoming:
-  - venue: European Resilience Summit, Vienna 2026
-    title: "Open Source as Strategic Infrastructure: Enabling a Federated, Resilient Digital Europe"
-    url: https://www.europeanresiliencesummit.com/vienna
-  - venue: SecurityNative Europe 2026 — Munich Edition
-    role: panellist
-    url: https://community.cncf.io/events/details/cncf-security-native-europe-presents-sovereign-done-right-common-misconceptions-revealed/
   - venue: Cloud Native Zurich 2026
     when: "June 11–12, 2026"
     role: invited talk
@@ -20,6 +14,12 @@ upcoming:
     url: https://cloudnativedays.at
 
 past:
+  - venue: European Resilience Summit, Vienna 2026
+    title: "Open Source as Strategic Infrastructure: Enabling a Federated, Resilient Digital Europe"
+    url: https://www.europeanresiliencesummit.com/vienna
+  - venue: SecurityNative Europe 2026 — Munich Edition
+    role: panellist
+    url: https://community.cncf.io/events/details/cncf-security-native-europe-presents-sovereign-done-right-common-misconceptions-revealed/
   - venue: KubeCon + CloudNativeCon Europe 2026
     title: "Attack Defense with rich context"
     role: workshop
