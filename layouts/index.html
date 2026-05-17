@@ -1,5 +1,15 @@
 {{ define "main" }}
 
+{{/* If a deploy-time landing_redirect is set, render only a tiny fallback
+     (meta-refresh + JS redirect live in baseof.html head) and stop. */}}
+{{ if site.Params.landing_redirect }}
+<section class="hero hero--compact">
+  <div class="hero__inner">
+    <p>Redirecting to <a href="{{ site.Params.landing_redirect | relURL }}">{{ site.Params.landing_redirect }}</a>…</p>
+  </div>
+</section>
+{{ else }}
+
 <!-- ============== HERO / FUSIONCORE LANDING ============== -->
 <section id="home" class="hero hero--fusioncore">
   <div class="hero__inner hero__inner--split">
@@ -197,5 +207,7 @@
     </p>
   </div>
 </section>
+
+{{ end }}{{/* end of landing_redirect else-branch */}}
 
 {{ end }}

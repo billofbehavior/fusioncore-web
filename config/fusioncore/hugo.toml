@@ -1,0 +1,8 @@
+# Env-specific overrides for the fusioncore.ai deploy (Namecheap origin).
+# Build with: hugo --environment fusioncore
+# Inherits everything else from the root hugo.toml.
+
+baseURL = "https://fusioncore.ai/"
+
+# Leaving landing_redirect UNSET — fusioncore.ai shows the full fusioncore
+# landing page (hero + three pillars + founder + services + etc.).

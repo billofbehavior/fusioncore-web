@@ -1,0 +1,11 @@
+# Env-specific overrides for the billofbehavior.com deploy (GitHub Pages).
+# Build with: hugo --environment billofbehavior
+# Inherits everything else from the root hugo.toml.
+
+baseURL = "https://billofbehavior.com/"
+
+[params]
+  # Redirect the homepage to /bob/. baseof.html injects a meta-refresh +
+  # canonical + JS redirect when this is set; layouts/index.html renders a
+  # tiny fallback message in the body.
+  landing_redirect = "/bob/"

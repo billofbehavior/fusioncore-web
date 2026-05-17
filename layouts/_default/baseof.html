@@ -4,6 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  {{/* Per-deploy landing redirect — set landing_redirect in the env config
+       (e.g. config/billofbehavior/hugo.toml sets it to /bob/) and the
+       homepage will hard-redirect there. fusioncore.ai env leaves it unset
+       so the normal landing page renders. */}}
+  {{ if and .IsHome site.Params.landing_redirect }}
+  <meta http-equiv="refresh" content="0; url={{ site.Params.landing_redirect | relURL }}">
+  <link rel="canonical" href="{{ site.Params.landing_redirect | absURL }}">
+  {{ end }}
+
   {{/* Title chain: prefer per-page brand_full when .Title is empty (homepage,
        section indexes); on regular pages, append the section's brand_full or
        site.Title — but skip the suffix when it duplicates the page title. */}}
@@ -34,7 +43,11 @@
   {{/* Canonical: per-page override (e.g. netidee co-publish) wins over the page's own permalink. */}}
   {{ $canonical := .Permalink }}
   {{ with .Params.canonical_url }}{{ $canonical = . }}{{ end }}
+  {{ if and .IsHome site.Params.landing_redirect }}{{ $canonical = (site.Params.landing_redirect | absURL) }}{{ end }}
+  {{/* Skip the canonical link tag on the redirecting homepage — already emitted above with the meta-refresh. */}}
+  {{ if not (and .IsHome site.Params.landing_redirect) }}
   <link rel="canonical" href="{{ $canonical }}">
+  {{ end }}
 
   {{/* og:type is "article" for content under /blog/, otherwise "website". */}}
   {{ $ogType := cond (eq .Section "blog") "article" "website" }}

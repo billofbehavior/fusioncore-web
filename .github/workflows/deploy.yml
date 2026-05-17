@@ -64,7 +64,11 @@ jobs:
       - name: Build with Hugo
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
-          HUGO_ENVIRONMENT: production
+          # billofbehavior env: loads config/billofbehavior/hugo.toml on top
+          # of the root config. Sets landing_redirect=/bob/ so / redirects
+          # to /bob/ on this deploy. For the fusioncore.ai deploy, build
+          # locally with `hugo --environment fusioncore` instead.
+          HUGO_ENVIRONMENT: billofbehavior
         run: |
           hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
 
