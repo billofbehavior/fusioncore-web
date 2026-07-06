@@ -41,23 +41,10 @@ draft: false
 .spec-doc .req { color: #D43F5B; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
 .spec-doc .opt { color: #7a808c; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
 .spec-doc h2 .secnum, .spec-doc h3 .secnum, .spec-doc h4 .secnum { display: inline-block; min-width: 2.4em; color: #C3A50D; font-variant-numeric: tabular-nums; }
-.spec-doc .draftbar {
-  background: #fdecef; border: 1px solid #D43F5B; color: #6f1729;
-  padding: 0.7rem 1rem; border-radius: 4px; margin: 0 0 1.4rem; font-size: 0.95rem;
-}
-.spec-doc .draftbar strong { color: #6f1729; }
 </style>
 
 <div class="spec-doc" markdown="1">
 
-<dl class="status">
-  <dt>Document</dt><dd>Bill of Behavior — base specification</dd>
-  <dt>Version</dt><dd>0.0.3</dd>
-  <dt>Stage</dt><dd>Stable</dd>
-  <dt>Editor</dt><dd>Constanze Roedig</dd>
-  <dt>Status</dt><dd>This is the only authoritative description of v0.0.3. Tooling claiming v0.0.3 conformance MUST link a pinned commit of this file.</dd>
-  <dt>Extends</dt><dd>None. The behavioral / stack-profile extension lives separately at <a href="../drafts/spec-stackprofile-v0.0.1/">spec-stackprofile-v0.0.1</a> (also draft).</dd>
-</dl>
 
 <details class="toc" open>
   <summary>Contents</summary>
@@ -934,8 +921,9 @@ against <span class="field">ipAddress</span> per §5.7. -->
 
 ### 8.4 Spec maturity {#8-4-maturity}
 
-This document is a draft. Any field name, default, or wildcard semantic
-MAY change in v0.0.2. 
+This is v0.0.3, a pre-1.0 specification. Field names and semantics are
+stabilising but MAY still change between minor versions; every change is
+recorded in Appendix A, and conformance claims MUST cite a pinned version.
 
 ## 9. Open issues for v0.0.2 {#9-open-issues}
 
