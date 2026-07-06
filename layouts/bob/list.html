@@ -31,16 +31,13 @@
     <h2>What SBoB is</h2>
     <p>
       <strong>SBoMs describe what is <em>in</em> the software.</strong>
-      The Bill of Behavior prescribes what the software is
-      <strong><em>intended to do at runtime</em></strong> — expressing intent
-      in the form of signed yaml profiles, suitable for detection
-      engineering, supply-chain assurance, and emerging compliance regimes
+      The Bill of Behavior prescribes what the software is <strong><em>intended to do at runtime</em></strong> — expressing intent
+      in the form of signed yaml profiles, suitable for detection engineering, verifcation of exposure and emerging compliance regimes
       (EU Cyber Resilience Act, NIS&nbsp;2).
     </p>
     <p>
       The vendor declares the behavior in a prescriptive manner. The end user verifies it. Defenders
-      get up-to-date detection rules with every
-      release.
+      get up-to-date detection rules with every release.
     </p>
 
     <h3>Where things live today</h3>
@@ -60,13 +57,8 @@
     <p class="band__kicker">Stewardship</p>
     <h2>An open standard, stewarded — not sold.</h2>
     <p>
-      Bill of Behavior is a free and open-source standard. It is not a
-      product, not a paid tier, not a funnel into commercial
-      services. 
-      <a href="{{ "/" | relURL }}">fusioncore.ai</a> stewards the
-      standard's development under the OSS-steward regime defined in the
-      EU Cyber Resilience Act (Article&nbsp;24). Whether or not the stewardship will
-      be transferred to a foundation or similar independent entity in the future is an open question and is actively being considered.
+      Bill of Behavior is a free and open-source standard. It is not a product.
+      Any interpreter can implement it, the usage of eBPF is strongly encouraged.
     </p>
   </div>
 </section>
@@ -77,9 +69,10 @@
     <p class="band__kicker">Contribute</p>
     <h2>Get involved</h2>
     <p>
-      The standard is open and currently expressed as a pseudo spec. We
-      will release the first draft of the specification soon.
-      Contributors welcome via GitHub issues and pull requests.
+      The standard is open and currently only CNCF kubescape implements it. We have an active backlog. 
+      Currently, the most useful way to contribute is twofold:
+      1) join the Kubescape Community and help test and implement all features.
+      2) work with us on a specific CNCF project to convert its functional and security tests into a robust SBoB profile. (For this you should have deep knowledge of this CNCF project)
     </p>
     <p>
       <a href="{{ site.Params.github_org_bob }}">github.com/billofbehavior</a>
