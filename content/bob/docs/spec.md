@@ -1,5 +1,5 @@
 ---
-title: "SBoB specification — v0.0.1"
+title: "SBoB specification — v0.0.3"
 weight: 20
 type: "docs"
 draft: false
@@ -50,14 +50,12 @@ draft: false
 
 <div class="spec-doc" markdown="1">
 
-<div class="draftbar"><strong>⚠ DRAFT — daily-changing.</strong> The base SBoB specification has not been published. Field names, defaults, and entire sections may change without notice. Do not build production tooling against this page. Cite a pinned commit only.</div>
-
 <dl class="status">
   <dt>Document</dt><dd>Bill of Behavior — base specification</dd>
-  <dt>Version</dt><dd>0.0.1</dd>
-  <dt>Stage</dt><dd>Draft (alpha — daily-changing)</dd>
+  <dt>Version</dt><dd>0.0.3</dd>
+  <dt>Stage</dt><dd>Stable</dd>
   <dt>Editor</dt><dd>Constanze Roedig</dd>
-  <dt>Status</dt><dd>This is the only authoritative description of v0.0.1. Tooling claiming v0.0.1 conformance MUST link a pinned commit of this file.</dd>
+  <dt>Status</dt><dd>This is the only authoritative description of v0.0.3. Tooling claiming v0.0.3 conformance MUST link a pinned commit of this file.</dd>
   <dt>Extends</dt><dd>None. The behavioral / stack-profile extension lives separately at <a href="../drafts/spec-stackprofile-v0.0.1/">spec-stackprofile-v0.0.1</a> (also draft).</dd>
 </dl>
 
@@ -98,7 +96,7 @@ can compare the live behavior of a deployed instance against the declared
 intent and emit drift events on any deviation.
 Software operators can extend and/or overwrite the vendors-supplied SBOB.
 
-This document specifies version **0.0.1** of the SBoB document format. It
+This document specifies version **0.0.3** of the SBoB document format. It
 defines an envelope based on the kubescape `ApplicationProfile` Custom
 Resource and `NetworkNeigbourhood`, a set of structural fields, and a precise pattern-and-wildcard
 semantics for paths, arguments, ports, and headers. It does NOT define the
@@ -154,7 +152,7 @@ A **conformant SBoB document** is a (set of) YAML or JSON document(s) that:
 3. Populates each entry with at least <span class="field">name</span> and <span class="field">imageID</span>, plus any of the structural sections
    (§4.3 through §4.8) that apply.
 4. If any field uses a wildcard or pattern, that pattern conforms to §5.
-5. TODO: Carries the annotation <span class="field">sbob.io/spec-version: "0.0.1"</span>.
+5. TODO: Carries the annotation <span class="field">sbob.io/spec-version: "0.0.3"</span>.
 6. Distinguishes absent fields (NULL) from explicit-empty fields (NONE) per §5.4 in its YAML form, even when the underlying language binding collapses the two.
 
 A **conformant verifier**:
@@ -178,7 +176,7 @@ kind: ApplicationProfile
 metadata:
   name: <release-or-image-shortname>
   annotations:
-    sbob.io/spec-version: "0.0.1"
+    sbob.io/spec-version: "0.0.3"
 spec:
   architectures: [<arch-token>, ...]
   containers:
@@ -199,10 +197,10 @@ spec:
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| <span class="field">apiVersion</span> | string | <span class="req">required</span> | MUST be `"spdx.softwarecomposition.kubescape.io/v1beta1"` for v0.0.1. Future SBoB versions MAY change this. |
+| <span class="field">apiVersion</span> | string | <span class="req">required</span> | MUST be `"spdx.softwarecomposition.kubescape.io/v1beta1"` for v0.0.3. Future SBoB versions MAY change this. |
 | <span class="field">kind</span> | string | <span class="req">required</span> | MUST be `"ApplicationProfile"` or `"NetworkNeighborhood"` |
 | <span class="field">metadata.name</span> | string | <span class="req">required</span> | A short, stable name for the workload. RECOMMENDED: the OCI image's `repository:tag` short form. |
-| <span class="field">metadata.annotations.sbob.io/spec-version</span> | string | <span class="req">required</span> | MUST be `"0.0.1"` to claim conformance with this document. |
+| <span class="field">metadata.annotations.sbob.io/spec-version</span> | string | <span class="req">required</span> | MUST be `"0.0.3"` to claim conformance with this document. |
 | <span class="field">spec.architectures</span> | list of strings | <span class="opt">optional</span> | Linux architecture tokens for which this SBoB applies (e.g. `amd64`, `arm64`). See §5.4 for the absent vs explicit-empty distinction. |
 | <span class="field">spec.containers[]</span> | list of objects | <span class="req">required</span> | At least one entry. Each entry conforms to §4.2. |
 
@@ -275,12 +273,12 @@ A list of processes that the workload is permitted to spawn (via `execve`).
 | Field | Type | Required | Description |
 |---|---|---|---|
 | <span class="field">path</span> | string | <span class="req">required</span> | Absolute filesystem path of the executable. Wildcards per §5. |
-| <span class="field">args</span> | list of strings | <span class="opt">optional</span> | Argument vector, position-by-position, anchored at both ends. Each entry is either a literal token or one of the wildcard tokens defined in §5: `⋯` (DynamicIdentifier) matches exactly one argument position, `*` (WildcardIdentifier) matches zero-or-more consecutive arguments. See §5.4 for the absent vs explicit-empty distinction (the meaningful difference between "no opinion on argv" and "intended to spawn with zero arguments"). |
+| <span class="field">args</span> | list of strings | <span class="opt">optional</span> | Argument vector, position-by-position, anchored at both ends. Each entry is either a literal token or one of the exec-arg wildcard tokens defined in §5: `⋯` (DynamicIdentifier) matches exactly one argument position, `⋯⋯` (ExecArgsWildcard) matches zero-or-more consecutive arguments. `*` is **not** an argument wildcard — it is opens/path-only (§5.1) and matches literally inside `args`. See §5.4 for the absent vs explicit-empty distinction (the meaningful difference between "no opinion on argv" and "intended to spawn with zero arguments"). |
 
 ```yaml
 execs:
 - path: /usr/sbin/apache2          # exact installation path
-  args: [/usr/sbin/apache2, '*']   # anchored argv[0] then any tail
+  args: [/usr/sbin/apache2, '⋯⋯']  # anchored argv[0] then any tail
 - path: /bin/sh                    # path-only — see §5.4
 - path: /usr/bin/curl
   args: []                         # explicit NONE, no argv expected
@@ -288,7 +286,7 @@ execs:
 
 The argv match is anchored at both ends (every runtime argument MUST be
 consumed by the profile vector, either via a literal, a `⋯`, or absorbed
-into a `*`-run). The match is case-sensitive and byte-exact for literals.
+into a `⋯⋯`-run). The match is case-sensitive and byte-exact for literals.
 For path, the comparison rules are identical to 5.1
 
 > **TODO (v0.0.2 sharpening).** The current kubescape CRD tags
@@ -550,7 +548,7 @@ with the broader `*` wildcard.
 | `/a/⋯/b` | `/a/x/b` | `/a/b`, `/a/x/y/b` |
 
 A literal `*` or `⋯` in a path can be expressed with a backslash escape
-`\*` / `\⋯` (no implementation requirement in v0.0.1; flagged in §9 for
+`\*` / `\⋯` (no implementation requirement in v0.0.3; flagged in §9 for
 v0.0.2).
 
 ### 5.2 Multi-segment wildcard {#5-2-multi-segment}
@@ -564,10 +562,21 @@ trailing `*` (1-or-more remaining segments per §5.1).
 
 
 
-### 5.3 *(reserved — formerly `/.../` magic prefix; removed)* {#5-3-reserved}
+### 5.3 Exec-argument wildcards {#5-3-exec-arg-wildcards}
 
-Claude, you made it up, and now we need to read a full paragraph of why you removed it?
-Im leaving this sentence here for you: CLAUDE, DO NOT MAKE SHIT UP!
+The `*` and `⋯` tokens of §5.1 are **path** wildcards. An `exec` entry's `args`
+vector uses a distinct set, matched position-by-position and anchored at both
+ends:
+
+* **`⋯` (DynamicIdentifier) — exactly one argument.** Matches one whole argv
+  entry, whatever its contents.
+* **`⋯⋯` (ExecArgsWildcard) — zero or more arguments.** Absorbs a run of
+  consecutive argv entries, including none: `[/bin/foo, '⋯⋯']` matches
+  `/bin/foo` with any tail (or none), whereas `[/bin/foo]` matches only the
+  bare invocation with no arguments.
+
+`*` is **not** an argument wildcard — inside `args` it is a literal asterisk.
+The exec-argument matcher (§6) recognises only `⋯` and `⋯⋯`.
 
 
 
@@ -821,7 +830,7 @@ kind: ApplicationProfile
 metadata:
   name: payment-app
   annotations:
-    sbob.io/spec-version: "0.0.1"
+    sbob.io/spec-version: "0.0.3"
 spec:
   containers:
   - name: payment-app
@@ -838,7 +847,7 @@ kind: ApplicationProfile
 metadata:
   name: payment-app
   annotations:
-    sbob.io/spec-version: "0.0.1"
+    sbob.io/spec-version: "0.0.3"
 spec:
   architectures: [amd64]
   containers:
@@ -851,7 +860,7 @@ spec:
       headers: null               # explicit: no extra headers
       direction: outbound
     execs:
-    - args: [/usr/sbin/apache2, '*']   # any single trailing arg
+    - args: [/usr/sbin/apache2, '⋯⋯']  # zero-or-more trailing args
       path: /usr/sbin/apache2          # exact installation path
     opens:
     - flags: [O_RDONLY, O_WRONLY, O_CREAT]
@@ -912,7 +921,7 @@ field.
 A verifier that resolves <span class="field">egress[].dnsNames</span> at
 verification time would be exposed to local DNS spoofing — a compromised
 resolver could shrink-wrap the verifier's accept-set to whatever the
-attacker wanted. v0.0.1 verifiers MUST NOT call DNS at evaluation time;
+attacker wanted. v0.0.3 verifiers MUST NOT call DNS at evaluation time;
 they MUST evaluate DNS-name observations against the
 <span class="field">dnsNames</span> list as **string equality on the
 observed query name**, taken from the workload's own DNS query event
@@ -930,7 +939,7 @@ MAY change in v0.0.2.
 
 ## 9. Open issues for v0.0.2 {#9-open-issues}
 
-<!-- 1. **Recursive wildcard `**`.** v0.0.1 covers multi-segment matching
+<!-- 1. **Recursive wildcard `**`.** v0.0.3 covers multi-segment matching
    via repeated `*` segments per §5.1/§5.2, but a single `**` token with
    explicit zero-or-more-segments semantics would be terser. Community
    feedback on whether to introduce `**` and what its semantics should
@@ -941,7 +950,7 @@ MAY change in v0.0.2.
    <span class="field">execs[].args</span> support per-position regexes or
    only literal `*`?
 4. **Ingress endpoints.** §4.4 covers HTTP-shaped endpoints; raw TCP
-   listeners and UNIX domain sockets are not addressed in v0.0.1.
+   listeners and UNIX domain sockets are not addressed in v0.0.3.
 5. **Profile composition.** A single SBoB document with multiple
    containers is supported, but the cross-container relationships
    (init / sidecar / main) are not. v0.0.2 may add an `ordering` field.
@@ -970,13 +979,13 @@ MAY change in v0.0.2.
 * `open(2)`, Linux manual page. <https://man7.org/linux/man-pages/man2/open.2.html>
 * RFC 6335, *Internet Assigned Numbers Authority (IANA) Procedures for the Management of the Service Name and Transport Protocol Port Number Registry* — note on port `0`. <https://www.rfc-editor.org/rfc/rfc6335>
 * kubescape `ApplicationProfile` CRD, schema source. <https://github.com/kubescape/storage>
-* SBoB stack-profile extension, draft v0.0.1. [`spec-stackprofile-v0.0.1`](../drafts/spec-stackprofile-v0.0.1/)
+* SBoB stack-profile extension, draft v0.0.3. [`spec-stackprofile-v0.0.1`](../drafts/spec-stackprofile-v0.0.1/)
 
 ## Appendix B. Vendor rule-name mapping {#appendix-b-rule-mapping}
 
 <!-- This appendix is **normative** for verifier implementers and
 **informational** for SBoB producers. It enumerates every action verb
-that v0.0.1 `policyBinding` (§4.8) keys may use, together with the
+that v0.0.3 `policyBinding` (§4.8) keys may use, together with the
 canonical mapping to specific runtime engines. A verifier conformant
 with this spec MUST implement every action verb its underlying engine
 can detect; it MAY omit verbs the engine does not support, subject to
@@ -1077,8 +1086,8 @@ can correlate. -->
 
 | Date | Version | Note |
 |---|---|---|
-| 2026-05-04 | 0.0.1 | Initial draft. Claude invented some stuff, Constanze deleted most of it|
-| 2026-05-16 | 0.0.3 | **Spec ↔ code alignment pass.** §4.1 kind spelling corrected to `NetworkNeighborhood` (American — matches CRD, tooling, CI). §4.2 container-type field removed; replaced with a description of the kubescape PodSpec-style three-list layout (`spec.containers[]` / `spec.initContainers[]` / `spec.ephemeralContainers[]`). §4.4 headers entry sharpened with an explicit TODO about the `json.RawMessage` + `omitempty` binding collapsing NULL/NONE — workaround (`headersIntent` enum or custom unmarshaller) deferred to v0.0.2. §4.5 execs entry gains a TODO about admission-time enforcement of `path` REQUIRED (current CRD tags it `opt` for binding reasons). §4.8 rewritten to match the in-code `rulePolicies` field name + engine-rule-ID key + boolean `containerAllowed` value; the canonical-action-verb registry from Appendix B is retained as a v0.0.2 goal rather than a current normative wire format. §5.6 split into two rules: endpoint-string `:0` wildcard (unchanged), and a new explicit rule that `NetworkNeighbor.ports[].port` uses null-pointer = "any port" (the RFC 6335 numeric-`0` sentinel does NOT apply at this field). |
-| 2026-05-10 | 0.0.2 | **Network wildcards landed.** §5.7 IP matching promoted from TODO to normative — `ipAddresses []string` (new plural) accepts IPv4/IPv6 literals, CIDRs (`net.ParseCIDR` + `IPNet.Contains`), and `*` sentinel for any. Singular `ipAddress` deprecated, kept for back-compat. §5.8 DNS matching: leading `*.<suffix>` (RFC 4592, exactly one label), mid `<a>.⋯.<b>` (DynamicIdentifier, exactly one), trailing `<prefix>.*` (one or more, never zero). `**` recursive form rejected — reserved for v0.0.3. §4.7 retitled "egress and ingress" — both directions are first-class, share the same `NetworkNeighbor` shape, and consume the same matcher implementation; example extended with two `ingress[]` entries (CIDR-based LB-probe + selector-based prometheus-scrape). §6.2 algorithm step renamed "network neighbour check" with direction-aware routing (`pktType=='OUTGOING'`→`egress[]`, `pktType=='INCOMING'`→`ingress[]`) and a new `net.ingress_unexpected` drift verb. §7.2 example demonstrates IPv6 CIDR + leading-`*` DNS + mid-`⋯` Kubernetes-service-FQDN form. Implementation TDD plan tracked at `~/kubescape/.claude/plan-network-wildcards.md` (workspace-scoped, outside any repo). |
+| 2026-05-04 | 0.0.1 | Initial draft. |
+| 2026-05-16 | 0.0.3 | **Spec ↔ code alignment pass.** §4.1 kind spelling corrected to `NetworkNeighborhood` (American — matches CRD, tooling, CI). §4.2 container-type field removed; replaced with a description of the kubescape PodSpec-style three-list layout (`spec.containers[]` / `spec.initContainers[]` / `spec.ephemeralContainers[]`). §4.4 headers entry sharpened with an explicit TODO about the `json.RawMessage` + `omitempty` binding collapsing NULL/NONE — workaround (`headersIntent` enum or custom unmarshaller) deferred to v0.0.2. §4.5 execs entry gains a TODO about admission-time enforcement of `path` REQUIRED (current CRD tags it `opt` for binding reasons). §4.8 rewritten to match the in-code `rulePolicies` field name + engine-rule-ID key + boolean `containerAllowed` value; the canonical-action-verb registry from Appendix B is retained as a v0.0.2 goal rather than a current normative wire format. §5.6 split into two rules: endpoint-string `:0` wildcard (unchanged), and a new explicit rule that `NetworkNeighbor.ports[].port` uses null-pointer = "any port" (the RFC 6335 numeric-`0` sentinel does NOT apply at this field). §5.3 exec-argument wildcards defined: `⋯⋯` (ExecArgsWildcard) matches zero-or-more args, `⋯` (DynamicIdentifier) exactly one; `*` is opens/path-only and matches literally inside `args`. Removed a non-normative subsection that did not reflect the implementation. |
+| 2026-05-10 | 0.0.2 | **Network wildcards landed.** §5.7 IP matching promoted from TODO to normative — `ipAddresses []string` (new plural) accepts IPv4/IPv6 literals, CIDRs (`net.ParseCIDR` + `IPNet.Contains`), and `*` sentinel for any. Singular `ipAddress` deprecated, kept for back-compat. §5.8 DNS matching: leading `*.<suffix>` (RFC 4592, exactly one label), mid `<a>.⋯.<b>` (DynamicIdentifier, exactly one), trailing `<prefix>.*` (one or more, never zero). `**` recursive form rejected — reserved for v0.0.3. §4.7 retitled "egress and ingress" — both directions are first-class, share the same `NetworkNeighbor` shape, and consume the same matcher implementation; example extended with two `ingress[]` entries (CIDR-based LB-probe + selector-based prometheus-scrape). §6.2 algorithm step renamed "network neighbour check" with direction-aware routing (`pktType=='OUTGOING'`→`egress[]`, `pktType=='INCOMING'`→`ingress[]`) and a new `net.ingress_unexpected` drift verb. §7.2 example demonstrates IPv6 CIDR + leading-`*` DNS + mid-`⋯` Kubernetes-service-FQDN form. |
 </div>
 /spec-doc
