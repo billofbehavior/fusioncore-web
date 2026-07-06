@@ -58,7 +58,7 @@ draft: false
   <dt>Stage</dt><dd>Draft (alpha — daily-changing)</dd>
   <dt>Editor</dt><dd>Constanze Roedig</dd>
   <dt>Status</dt><dd>This is the only authoritative description of v0.0.1. Tooling claiming v0.0.1 conformance MUST link a pinned commit of this file.</dd>
-  <dt>Extends</dt><dd>None. The behavioral / stack-profile extension lives separately at <a href="../spec-stackprofile-v0.0.1/">spec-stackprofile-v0.0.1</a> (also draft).</dd>
+  <dt>Extends</dt><dd>None. The behavioral / stack-profile extension lives separately at <a href="../drafts/spec-stackprofile-v0.0.1/">spec-stackprofile-v0.0.1</a> (also draft).</dd>
 </dl>
 
 <details class="toc" open>
@@ -103,7 +103,7 @@ defines an envelope based on the kubescape `ApplicationProfile` Custom
 Resource and `NetworkNeigbourhood`, a set of structural fields, and a precise pattern-and-wildcard
 semantics for paths, arguments, ports, and headers. It does NOT define the
 CPU-stack-profile layer — that is in a separate extension
-document, [spec-stackprofile-v0.0.1](../spec-stackprofile-v0.0.1/).
+document, [spec-stackprofile-v0.0.1](../drafts/spec-stackprofile-v0.0.1/).
 It does not specify in how many seperate files such a spec would be supplied, only the definitions of the fields.
 
 ## 1. Introduction {#1-introduction}
@@ -896,7 +896,7 @@ spec:
 
 To extend the document above with the **behavioral** layer (CPU stack
 profile + abstraction handles), see
-[`spec-stackprofile-v0.0.1`](../spec-stackprofile-v0.0.1/) §6. The two
+[`spec-stackprofile-v0.0.1`](../drafts/spec-stackprofile-v0.0.1/) §6. The two
 extensions compose: the same `spec.containers[]` entry carries both the
 structural fields above and the new <span class="field">stackProfile</span>
 field.
@@ -970,7 +970,7 @@ MAY change in v0.0.2.
 * `open(2)`, Linux manual page. <https://man7.org/linux/man-pages/man2/open.2.html>
 * RFC 6335, *Internet Assigned Numbers Authority (IANA) Procedures for the Management of the Service Name and Transport Protocol Port Number Registry* — note on port `0`. <https://www.rfc-editor.org/rfc/rfc6335>
 * kubescape `ApplicationProfile` CRD, schema source. <https://github.com/kubescape/storage>
-* SBoB stack-profile extension, draft v0.0.1. [`spec-stackprofile-v0.0.1`](../spec-stackprofile-v0.0.1/)
+* SBoB stack-profile extension, draft v0.0.1. [`spec-stackprofile-v0.0.1`](../drafts/spec-stackprofile-v0.0.1/)
 
 ## Appendix B. Vendor rule-name mapping {#appendix-b-rule-mapping}
 
