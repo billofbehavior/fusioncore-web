@@ -54,12 +54,21 @@
 <!-- ============== STEWARDSHIP ============== -->
 <section id="stewardship" class="band band--soft">
   <div class="band__inner">
-    <p class="band__kicker">Stewardship</p>
+    <p class="band__kicker">Stewardship and FAQ</p>
     <h2>An open standard</h2>
     <p>
       Bill of Behavior is a free and open-source standard. It is not a product.
       Any interpreter can implement it, the usage of eBPF is strongly encouraged.
     </p>
+     <h2>FAQ</h2>
+      <ol class="faq__list">
+      <li>Does the SBOB replace Linux Security Modules? NO - please use LSMs as you always did. SBOB is an addition </li>
+      <li>Does the SBOB replace SBOMs? NO - they solve entirely different problems. Please use SBOMs!</li>
+      <li>Can I create an SBOB in CI?  Not entirely, automation gives you a base, but `intent` can only be defined by humans.</li>
+      <li>Can I test an SBOB in CI? Yes, that is one use-case </li>
+      <li>Can I use an SBOB to detect malicious behavior? Yes, that is one of the main use-cases</li>
+      <li>Does the SBOB replace my SIEM, EDR etc.? NO - SBOB is designed to work alongside these.</li>
+    </ol>
   </div>
 </section>
 
