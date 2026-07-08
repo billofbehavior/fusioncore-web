@@ -478,8 +478,7 @@ Ports appear in two contexts curretly
 * **<span class="field">endpoints[].endpoint</span> string** — for http, use the integer 0 to express the intent of `ANY PORT`.
   `:0/api/data`
 
-* **<span class="field">NetworkNeighbor.ports[].port</span>** — typed
-  as a **nullable** `*int32` 
+<!-- * **<span class="field">NetworkNeighbor.ports[].port</span>** — TODO: backlog for node-agent to alert on ports here -->
 
 
 
