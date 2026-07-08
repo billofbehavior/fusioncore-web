@@ -396,9 +396,9 @@ allow / deny clause for that action.
 
 **Value :**
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| <span class="field">&lt;rule-id&gt;.allowedProcesses</span> | list of strings | <span class="opt">optional</span> | Process `comm` names that ARE permitted to perform the action. |
+| Field | Type |Description |
+|---|---|---|
+| <span class="field">&lt;rule-id&gt;.allowedProcesses</span> | list of strings | Process `comm` names that ARE permitted to perform the action. |
 
 
 ```yaml
@@ -411,9 +411,7 @@ policyBinding:
 `exec.*` (process spawning),  
 `file.*` (filesystem activity),  
 `net.*` (network),  
-`syscall.*` (raw syscalls),  
-etc
-This is not ready.
+`syscall.*` (raw syscalls) <span class="ri unmerged">WIP</span>
 
 
 ## 5. Pattern and wildcard semantics {#5-pattern-semantics}
@@ -532,8 +530,6 @@ rule for `<prefix>.*` trailing form.
 #### Empty / `**` rejection
 
 A `dnsNames[i]` containing `**` (recursive wildcard) MUST be rejected
-by the apiserver write strategy in v0.0.2. v0.0.3 is expected to
-specify the recursive form.
 
 #### List semantics
 
