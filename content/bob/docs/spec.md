@@ -179,12 +179,12 @@ An SBOB document is a single YAML stream containing one Kubernetes-style resourc
 ```yaml
 apiVersion: spdx.softwarecomposition.kubescape.io/v1beta1
 metadata:
-  name: <release-or-image-shortname>
+  name: <name-unique-to-environment> #mandatory
 spec:
   architectures: [...]
   containers:
   - type: init| null
-  - name: <container-name>
+  - name: <container-name> #mandatory
     imageID: <oci-image-with-digest>
     capabilities:   [...]
     endpoints:      [...]
@@ -200,19 +200,18 @@ spec:
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| <span class="field">apiVersion</span> | string | <span class="req">required</span> | MUST be `"spdx.softwarecomposition.kubescape.io/v1beta1"` for v0.0.3. Future SBoB versions MAY change this. |
-| <span class="field">kind</span> | string | <span class="req">required</span> | MUST be `"ApplicationProfile"` or `"NetworkNeighborhood"` |
+| <span class="field">apiVersion</span> | string | <span class="req">required</span> | MUST be `"spdx.softwarecomposition.kubescape.io/v1beta1"` for v0.0.3. Future SBOB versions MAY change this. |
+| <span class="field">kind</span> | string | <span class="req">required</span> | <span class="ri defacto">MUST</span> be `"ApplicationProfile"` or `"NetworkNeighborhood"` . This will change in summer 2026 |
 | <span class="field">metadata.name</span> | string | <span class="req">required</span> | A short, stable name for the workload. RECOMMENDED: the OCI image's `repository:tag` short form. |
-| <span class="field">metadata.annotations.sbob.io/spec-version</span> | string | <span class="req">required</span> | MUST be `"0.0.3"` to claim conformance with this document. |
-| <span class="field">spec.architectures</span> | list of strings | <span class="opt">optional</span> | Linux architecture tokens for which this SBoB applies (e.g. `amd64`, `arm64`). See §5.4 for the absent vs explicit-empty distinction. |
+| <span class="field">spec.architectures</span> | list of strings | <span class="opt">optional</span> | Linux architecture tokens for which this SBOB applies (e.g. `amd64`, `arm64`). |
 | <span class="field">spec.containers[]</span> | list of objects | <span class="req">required</span> | At least one entry. Each entry conforms to §4.2. |
 
 ### 4.2 Container entry {#4-2-container-entry}
 
-The container lifecycle phase (regular / init / ephemeral) is NOT carried
-as a field on the entry. Instead — matching the
+The container <span class="ri unmerged">lifecycle phase (regular / init / ephemeral) is currently not implemented</span>
+as a field on the entry. Only,
 [Kubernetes `PodSpec` convention](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) —
-the SBOB envelope uses three parallel lists at the spec level:
+is supported:
 
 * <span class="field">spec.containers[]</span> — regular workload containers
 * <span class="field">spec.initContainers[]</span> — init containers (run to
@@ -225,12 +224,13 @@ the SBOB envelope uses three parallel lists at the spec level:
 | Field | Type | Required | Description |
 |---|---|---|---|
 | <span class="field">name</span> | string | <span class="req">required</span> | A unique-within-document identifier for the container. |
-| <span class="field">imageID</span> | string | <span class="req">required</span> | The fully qualified OCI image reference, including digest (e.g. `ghcr.io/example/app@sha256:...`). |
+| <span class="field">imageID</span> | string | <span class="req">required</span> | The OCI image reference, ideally pinned|
 | <span class="field">capabilities</span> | list of strings | <span class="opt">optional</span> | See §4.3. |
 | <span class="field">endpoints</span> | list of objects | <span class="opt">optional</span> | See §4.4. |
 | <span class="field">execs</span> | list of objects | <span class="opt">optional</span> | See §4.5. |
 | <span class="field">opens</span> | list of objects | <span class="opt">optional</span> | See §4.6. |
-| <span class="field">egress</span> | list of objects | <span class="opt">optional</span> | See §4.7. |
+| <span class="field">ingress</span> | list of objects | <span class="opt">optional</span> | See §4.7. highly recommended|
+| <span class="field">egress</span> | list of objects | <span class="opt">optional</span> | See §4.7.  highly recommended|
 | <span class="field">policyBinding</span> | map | <span class="opt">optional</span> | See §4.8. |
 
 ### 4.3 capabilities {#4-3-capabilities}
