@@ -479,19 +479,9 @@ Ports appear in two contexts curretly
   `:0/api/data`
 
 * **<span class="field">NetworkNeighbor.ports[].port</span>** — typed
-  as a **nullable** `*int32` in the kubescape CRD. The absent / null
-  case (the YAML key is omitted, OR `port: null` is set explicitly) is
-  the "any port" wildcard; the numeric value `0` is just zero (not a
-  wildcard sentinel). This follows the §5.4 absent-vs-empty model
-  rather than the RFC 6335 sentinel convention. Producers MUST use the
-  absent/null form for "any port"; verifiers MUST NOT interpret a
-  numeric `0` as a wildcard.
+  as a **nullable** `*int32` 
 
-| Pattern (endpoint string) | Host part | Port part | Path part |
-|---|---|---|---|
-| `:0/api/data` | any host | any port | exact `/api/data` |
-| `localhost:8080/admin/*` | exact `localhost` | exact `8080` | one segment under `/admin/` |
-| `:443/` | any host | exact `443` | exact `/` |
+
 
 ### 5.7 IP address matching {#5-7-ip}
 
@@ -503,37 +493,9 @@ order. Each entry is one of:
 |---|---|---|
 | **IPv4 / IPv6 literal** | `162.0.217.171`, `2001:db8::1` | Byte-equality on the parsed IP. The textual canonicalisation is the verifier's responsibility (e.g. `2001:db8::1` and `2001:0db8:0000:0000:0000:0000:0000:0001` MUST compare equal). |
 | **CIDR** | `10.0.0.0/8`, `2001:db8::/32` | The verifier parses the entry with `net.ParseCIDR` (or equivalent) once and stores the `*net.IPNet`; matches via `IPNet.Contains(observedIP)`. |
-| **`*` (any-IP sentinel)** | `*` | Sugar for the union of `0.0.0.0/0` (RFC 4632, all IPv4) and `::/0` (RFC 4291, all IPv6). Matches any observed IP. |
+| **0.0.0.0/0** | `*` | (RFC 4632, all IPv4) and `::/0` (RFC 4291, all IPv6). Matches any observed IP. |
 
-Match algorithm:
 
-```
-for each entry e in profile.ipAddresses:
-  if e == "*":                              return true
-  if e contains "/":                        if ParseCIDR(e).Contains(observedIP) → return true
-  else:                                     if ParseIP(e).Equal(observedIP)      → return true
-return false
-```
-
-The verifier MUST also evaluate the **deprecated singular** field
-<span class="field">ipAddress</span> (string) using the literal-equality
-rule, and treat both fields as a logical OR — backward compatibility for
-profiles authored before v0.0.2.
-
-**Compile-once contract.** Verifiers SHOULD compile each entry's parsed
-form (IP or `*net.IPNet`) at profile-load time, not at every match call,
-to keep the per-event match O(len(ipAddresses)) on already-parsed
-structures. The hot path fires on every outbound network event captured
-by the runtime sensor.
-
-**DNS resolution at match time MUST NOT be performed.** If a producer
-needs to permit traffic to a name, they MUST add the FQDN to
-`dnsNames` (§5.8) — not rely on the verifier to resolve a literal-IP
-field to a name.
-
-**`*` is strongly discouraged outside development profiles.** Producers
-that author `ipAddresses: ["*"]` are explicitly opting out of egress
-filtering for the workload.
 
 ### 5.8 DNS name matching {#5-8-network-wildcards}
 
