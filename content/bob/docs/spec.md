@@ -691,12 +691,10 @@ spec:
 
 ### 7.3 Companion stack-profile example {#7-3-stack}
 
-To extend the document above with the **behavioral** layer (CPU stack
-profile + abstraction handles), see
-[`spec-stackprofile-v0.0.1`](../drafts/spec-stackprofile-v0.0.1/) §6. The two
-extensions compose: the same `spec.containers[]` entry carries both the
-structural fields above and the new <span class="field">stackProfile</span>
-field.
+WIP: extend the document above with CPU stack profile + abstraction handles, see
+[`spec-stackprofile-v0.0.1`](../drafts/spec-stackprofile-v0.0.1/) 
+
+
 
 ## 8. Security considerations {#8-security-considerations}
 
