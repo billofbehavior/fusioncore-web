@@ -483,7 +483,7 @@ Ports appear in two contexts curretly
 
 ### 5.7 IP address matching {#5-7-ip}
 
-A v0.0.2 verifier matches an observed IP against an
+Matches an observed IP against an
 <span class="field">ipAddresses[]</span> list using these forms in
 order. Each entry is one of:
 
@@ -521,9 +521,6 @@ own `getaddrinfo` / `res_query` event see §8.2) against the
   `mycorp.com.*` does not silently allow access to the bare apex.
 
 
-#### Trailing-dots
-
-are required.
 
 #### Apex matching
 
@@ -618,8 +615,6 @@ apiVersion: spdx.softwarecomposition.kubescape.io/v1beta1
 kind: ApplicationProfile
 metadata:
   name: payment-app
-  annotations:
-    sbob.io/spec-version: "0.0.3"
 spec:
   containers:
   - name: payment-app
@@ -649,8 +644,12 @@ spec:
       headers: null               # explicit: no extra headers
       direction: outbound
     execs:
-    - args: [/usr/sbin/apache2, '⋯⋯']  # zero-or-more trailing args
-      path: /usr/sbin/apache2          # exact installation path
+      path: /usr/sbin/apache2                  # intended exact path
+    - args: [/usr/sbin/apache2, '⋯⋯']          # zero-or-more trailing args
+    - path: /usr/lib/postgresql/⋯/bin/postgres # version number does NOT matter 
+      args: ["postgres"]
+    - path: /usr/lib/postgresql/16/bin/initdb  # version number DOES matter
+      args: ["initdb"]
     opens:
     - flags: [O_RDONLY, O_WRONLY, O_CREAT]
       path: /var/log/apache2/*       # any descendant (1+ segments under, never the bare dir)
@@ -680,7 +679,7 @@ spec:
     - identifier: kube-svc-resolver       # demonstrates the mid-label ⋯ form
       type: internal
       dnsNames:
-        - "svc.⋯.cluster.local."         # exactly one ns label between svc and cluster.local
+        - "svc.⋯.cluster.local."         # leaves NAMESPACE label open to user
       ports:
       - {name: UDP-53, protocol: UDP, port: 53}
     policyBinding:

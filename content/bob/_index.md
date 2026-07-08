@@ -5,5 +5,9 @@ brand_mark: "bob-registered"
 brand_full: "Bill of Behavior"
 brand_attribution: 'by <a href="https://fusioncore.ai">fusioncore.ai</a>'
 favicon: "bob-registered"
+# Cascade the SBoB favicon to every page under /bob (spec, docs, drafts, …),
+# unless a page overrides it in its own front matter.
+cascade:
+  favicon: "bob-registered"
 ---
 <!-- Body rendered by layouts/bob/list.html. -->
