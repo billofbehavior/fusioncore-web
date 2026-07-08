@@ -471,22 +471,12 @@ TBD
 
 
 
-### 5.5 `flags` subset semantics {#5-5-flags}
-
-For <span class="field">opens[].flags</span>, the live `open(2)` flags MUST be a subset of the listed flags. 
-For http(s) traffic, we have a similar issue with `headers` 
-Those must be concatenated predictively.
-
->TODO: spec this
-
 ### 5.6 Port wildcards {#5-6-port-wildcard}
 
-Two structurally distinct fields carry port intent and they wildcard differently:
+Ports appear in two contexts curretly
 
-* **<span class="field">endpoints[].endpoint</span> string** — when the
-  port component is omitted (empty between the colon and slash, e.g.
-  `:0/api/data`), the host or the port is treated as a wildcard for
-  that component. The path component is matched by §5.1 rules.
+* **<span class="field">endpoints[].endpoint</span> string** — for http, use the integer 0 to express the intent of `ANY PORT`.
+  `:0/api/data`
 
 * **<span class="field">NetworkNeighbor.ports[].port</span>** — typed
   as a **nullable** `*int32` in the kubescape CRD. The absent / null
