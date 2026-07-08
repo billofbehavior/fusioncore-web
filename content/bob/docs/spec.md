@@ -323,13 +323,9 @@ exchange traffic with:
   to **accept connections from** (the peer initiates)
 
 Both lists carry entries of the same  shape (table
-below) and are evaluated by symmetric verifier paths — every IP / DNS /
-CIDR / wildcard rule in §5.7 and §5.8 applies identically to both
-directions. Producers MAY populate either list, both, or neither
-(absent = NULL per §5.4; explicit empty = NONE — declared zero
-traffic in that direction).
+below) and are evaluated by symmetric verifier paths. 
 
-
+<!-- 
 > **Note on current rule coverage.** As of v0.0.2 the kubescape default
 > rule set (R0005, R0011, R1003, R1009, etc.) only consults
 > `egress` — every shipped rule expression filters on
@@ -339,14 +335,13 @@ traffic in that direction).
 > are registered CEL functions), but no built-in rule consumes them
 > yet. Producers MAY author custom rules that do, and the matchers
 > behave identically to their egress counterparts.
-
+ -->
 
 
 | Field | Type | Required | Description |
 |---|---|---|---|
 | <span class="field">identifier</span> | string | <span class="opt">optional</span> | Free-form short name to refer to this entry in `policyBinding` or in cross-document references. |
 | <span class="field">type</span> | enum | <span class="opt">optional</span> | `external` (default) or `internal`. |
-| <span class="field">ipAddress</span> | string | <span class="opt">optional</span> | **Deprecated since v0.0.2** — single IPv4 or IPv6 literal, byte-equality match. Producers SHOULD migrate to `ipAddresses` (plural) below. Verifiers MUST accept both fields and treat them as a logical OR; producers MUST NOT populate both on the same entry. |
 | <span class="field">ipAddresses</span> | list of strings | <span class="opt">optional</span> | **New in v0.0.2.** Each entry is one of: an IPv4/IPv6 literal, a CIDR (`10.0.0.0/8`, `2001:db8::/32`), or the `*` sentinel meaning "any IP" (sugar for `0.0.0.0/0`+`::/0`). The verifier matches the live observed IP against each entry per §5.7; an observation that matches ANY entry passes. Empty list `[]` is NONE per §5.4 (no IP traffic intended). |
 | <span class="field">dnsNames</span> | list of strings | <span class="opt">optional</span> | Set of DNS names (FQDN form with trailing dot RECOMMENDED) the verifier accepts. Each entry MAY use the wildcard tokens defined in §5.8: leading `*.<suffix>` (RFC 4592, exactly one label), mid `<a>.⋯.<b>` (DynamicIdentifier, exactly one label), or trailing `<prefix>.*` (one or more labels). Strings without these tokens are byte-equality. Replaces the deprecated single `dns` field. |
 | <span class="field">podSelector</span> | label selector | <span class="opt">optional</span> | Cluster-internal traffic: matches pods bearing these labels. |
@@ -354,7 +349,6 @@ traffic in that direction).
 | <span class="field">ports[]</span> | list of objects | <span class="req">required</span> | Each entry: `name` (`<protocol>-<port>` e.g. `TCP-443`), `protocol` (`TCP`/`UDP`/`SCTP`), `port` (uint16, nullable per §5.4). |
 
 ```yaml
-# In a paired NetworkNeighborhood document:
 spec:
   containers:
   - name: payment-app
@@ -389,19 +383,12 @@ spec:
       - {name: TCP-9090, protocol: TCP, port: 9090}
 ```
 
-The deprecated `dns` (single string) field is retained only for backward
-compatibility with v0 NetworkNeighborhood instances; v0.0.2 SBoB producers
-MUST emit `dnsNames` (list) instead. Same applies symmetrically to both
-`egress[]` and `ingress[]` entries.
+
 
 ### 4.8 policyBinding  {#4-8-policybinding}
 
 A map keyed by a **vendor-neutral action verb** whose value is a fine-grained
-allow / deny clause for that action. Each action verb describes WHAT the rule
-detects, not which engine implements it. Mapping action verbs to specific
-runtime engine rule IDs (kubescape, Falco, Tetragon, …) is a verifier
-responsibility — TODO: reference mapping.
-
+allow / deny clause for that action. 
 The action verb namespace uses lower-snake-case strings, prefixed by category:
 `exec.*` (process spawning), `file.*` (filesystem activity), `net.*` (network),
 `syscall.*` (raw syscalls), `cap.*` (capability anomalies), `cred.*` (credential
@@ -415,87 +402,28 @@ in-spec name <span class="field">policyBinding</span> is the SBOB-facing
 alias. The two refer to the same data and verifiers MUST accept both
 spellings on read.
 
-**Key (current code shape):** the map is keyed by the **engine-specific
-rule ID** — kubescape rule IDs in the current code base (`R0001`,
-`R1006`, `R1002`, etc.). The longer-term target — a **vendor-neutral
-action verb** namespace (`syscall.unshare`, `kernel.module_load`, …) —
-is described in Appendix B as a v0.0.2 sharpening goal but is NOT yet
-the wire-level key. Producers writing for the current verifier MUST
-use rule IDs; the verb registry is reserved.
+**Key:** the map is keyed by the **engine-specific
+rule ID** — currently a numerical value referencing the CEL rule in kubescape (`R0001`,
+`R1006`, `R1002`).
 
-**Value (current code shape):**
+The longer-term target — a **vendor-neutral
+action verb** namespace (`syscall.unshare`, `kernel.module_load`, …) —
+will be described in Appendix 
+
+**Value :**
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| <span class="field">&lt;rule-id&gt;.allowedProcesses</span> (JSON: `processAllowed`) | list of strings | <span class="opt">optional</span> | Process `comm` names that ARE permitted to perform the action. |
-| <span class="field">&lt;rule-id&gt;.allowedContainer</span> (JSON: `containerAllowed`) | **boolean** | <span class="opt">optional</span> | When `true`, the rule does not fire on any process inside the container. When `false` / absent, only `allowedProcesses` matches are permitted. (Note: spec earlier modelled this as a list; the current binding uses a boolean — this is a known shape mismatch that v0.0.2 may revisit.) |
+| <span class="field">&lt;rule-id&gt;.allowedProcesses</span> | list of strings | <span class="opt">optional</span> | Process `comm` names that ARE permitted to perform the action. |
+
 
 ```yaml
 policyBinding:
   syscall.unshare:           # vendor-neutral verb (was kubescape Rule1006)
     allowProcess: [runc]     # only runc may unshare
-  kernel.module_load:        # kernel.module_load
-    containerAllowed: false  # only listed processes (here: none) may insmod
 ```
 
-A verifier MUST evaluate `policyBinding` clauses **after** the structural
-checks (§4.3 – §4.7); a `policyBinding` deny event SHOULD be surfaced with
-**both** the action verb (canonical, for cross-vendor SOC pipelines) AND
-the engine-specific rule ID (e.g. kubescape `R1006`, Falco rule name) for
-operator traceability.
 
-A verifier MAY skip an action verb that its underlying engine does not
-implement, but it MUST log the skip (severity informational) so the operator
-knows that section of the SBoB went unenforced. A SBoB document MUST NOT
-fail to load because its `policyBinding` references verbs the verifier
-doesn't recognise — verbs are forward-extensible.
-
-> <strong>TODO (v0.0.2 blocker).</strong> The action-verb namespace listed
-> above and detailed in Appendix B is enumerated by current kubescape
-> coverage; it is NOT yet a stable, vendor-neutral standard. Before
-> v0.0.2 ships, this needs:
->
-> 1. **A formal verb registry** 
-
-**Worked example — mapping a Falco rule to a SBoB action verb.**
-Falco's stock `Linux Kernel Module Loaded` rule (excerpted from
-falco-rules):
-
-```yaml
-- rule: Linux Kernel Module Loaded
-  desc: Detect any kernel module load on a Linux host (insmod / modprobe)
-  condition: >
-    evt.type in (init_module, finit_module) and
-    evt.dir = > and
-    not user_known_module_load
-  output: >
-    Kernel module loaded by %proc.cmdline (user=%user.name pid=%proc.pid
-    image=%container.image.repository event=%evt.type)
-  priority: WARNING
-  tags: [host, mitre_persistence, T1547.006]
-```
-
-The same intent expressed in a SBoB `policyBinding`:
-
-```yaml
-policyBinding:
-  kernel.module_load:               # canonical action verb (Appendix B §B.6)
-    allowProcess: [runc, modprobe]  # plus your custom kmod loader if any;
-                                    # leave empty to forbid entirely
-```
-
-<!-- How the mapping works at evaluation time:
-
-| Falco field | SBoB / verifier-emitted equivalent |
-|---|---|
-| `evt.type in (init_module, finit_module)` | The verb itself — `kernel.module_load` is *defined* as those two syscalls. |
-| `not user_known_module_load` (Falco macro) | `allowProcess` list. The macro's process-name allow-set becomes a clean YAML list. |
-| `output` template | The verifier's drift-event payload — same fields (`proc.cmdline` ↔ `event.cmdline`, `proc.pid` ↔ `event.pid`, `user.name` ↔ `event.user`), just shaped to the canonical SBoB drift schema. |
-| `priority: WARNING` | Verifier-side severity defaulting; SBoB's `signature.profile_tampered` etc. set the floor, operators raise. |
-| `tags: [mitre_persistence, T1547.006]` | Surfaced unchanged on the drift event so SOC pipelines keying on MITRE ATT&CK still group. |
-
-Producing this mapping table on a per-engine basis is the registry
-work item #3 above. -->
 
 ## 5. Pattern and wildcard semantics {#5-pattern-semantics}
 
