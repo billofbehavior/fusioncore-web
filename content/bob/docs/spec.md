@@ -57,6 +57,7 @@ draft: false
   <dt>Version</dt><dd>0.0.3</dd>
   <dt>Stage</dt><dd>Proposed</dd>
   <dt>Status</dt><dd>First implementation is being tested, Feedback welcome</dd>
+  <dt>Where to report comments </dt><dd>Typos: https://github.com/billofbehavior/fusioncore-web </dd>
 </dl>
 
 
