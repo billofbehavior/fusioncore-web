@@ -46,6 +46,14 @@ draft: false
 <div class="spec-doc" markdown="1">
 
 
+<dl class="status">
+  <dt>Document</dt><dd>Software Bill of Behavior</dd>
+  <dt>Version</dt><dd>0.0.3</dd>
+  <dt>Stage</dt><dd>Proposed</dd>
+  <dt>Status</dt><dd>First implementation is being tested, Feedback welcome</dd>
+</dl>
+
+
 <details class="toc" open>
   <summary>Contents</summary>
   <ol>
@@ -72,55 +80,52 @@ draft: false
 
 ## Abstract {#abstract .no-rule}
 
-A **Software Bill of Behavior** (SBoB) is a signed, declarative document that
+A **Software Bill of Behavior** (SBOB) is a signed, declarative document that
 states what a piece of software is **intended to do at runtime** —
 specifically, which Linux capabilities it requires, which files it expects to
-open, which child processes it spawns, which network destinations it accepts/establishes,
-and which kernel-level rules govern its more sensitive operations. The
-declaration is published by the vendor (or steward) of the software, signed,
-and made available alongside the software package so that runtime verifiers
-can compare the live behavior of a deployed instance against the declared
-intent and emit drift events on any deviation.
-Software operators can extend and/or overwrite the vendors-supplied SBOB.
+open, which child processes it spawns, which network destinations it accepts/establishes.
 
-This document specifies version **0.0.3** of the SBoB document format. It
-defines an envelope based on the kubescape `ApplicationProfile` Custom
-Resource and `NetworkNeigbourhood`, a set of structural fields, and a precise pattern-and-wildcard
-semantics for paths, arguments, ports, and headers. It does NOT define the
-CPU-stack-profile layer — that is in a separate extension
-document, [spec-stackprofile-v0.0.1](../drafts/spec-stackprofile-v0.0.1/).
+
+This document specifies version **0.0.3** of the SBOB document format.
 It does not specify in how many seperate files such a spec would be supplied, only the definitions of the fields.
+
+
+##### Reference implementation
+Note: not all features are fully implemented/merged to main in CNCF Kubescape yet. Those are marked as such.
 
 ## 1. Introduction {#1-introduction}
 
 ### 1.1 What an SBOB is for {#1-1-purpose}
 
-The SBOB expresses, in machine-readable
+The SBOB expresses, in machine-readable and human-readable
 form, the **prescriptive intent** of the software author: the set of
-behaviors the software is designed to exhibit. Anything outside that set is
-either a vendor mistake (to be fixed in the next release) or a runtime
-compromise (to be alerted on) or the user using it against the intended purpose.
+behaviors the software is designed to exhibit. 
 
-The format is intended to satisfy three audiences simultaneously:
 
-* **Detection engineering** — enable automated alerts on the policy violation, giving the detector a vendor-signed expected baseline. 
-* **Supply-chain assurance** — let downstream consumers verify that what they deployed matches what the vendor declared.
-* **Compliance** — produce evidence for regulatory regimes (NIS 2) that the operator knows what their software does, and can detect when it does something else.
+The quality of an SBOB can be judged by:
+- its ability to distinguish malicious from intentional behavior
+- its transferability (portability) across linux-based systems
+- its compatibility with standard gitOps tooling
+- its usability by humans (time to first detection)
+
+
 
 #### 1.1.1 Kernel vs User-Space: Universal Applicability
-The SBOB is designed to be achievable, first and foremost.
-Which is why we start specifying it at the lowest common denominator: the Linux Kernel 
-and for high-compatibility, we will rely on the ABI or other long-term-stable elements, first.
-This means, that SBOBs in phase 0 only contain application-`independent` properties.
+The SBOB is designed to make runtime security more achievable, not to replace existing approaches such as the Linux Security Modules.
+
+
+To serve all application languages, an SBOB is based on the lowest common denominator: the Linux Kernel 
+and for high-compatibility, we will rely on the ABI or other long-term-stable elements. 
 
 ### 1.2 Relationship to existing standards {#1-2-relationship-to-existing-standards}
 
 | Other artifact | What it covers | Relationship to SBOB |
 |---|---|---|
-| **SBoM** (CycloneDX, SPDX) | static composition (packages, versions, licences) | complementary — different question |
-| **VEX** | Vendor declared exploitability of a CVE|  complementary — different question |
-| **kubescape `ApplicationProfile` CRD** | runtime-observed behavior captured by an in-cluster operator | **this spec** standardises elements of an `ApplicationProfile` to be translatable|
-| **Seccomp / AppArmor profile** | kernel-enforced syscall and resource policy | adjacent — an SBoB MAY transpile into a seccomp profile, but the SBoB is itself declarative, not enforced |
+| **SBOM** (CycloneDX, SPDX) | static composition (packages, versions, licences) | complementary — solves the question of `ingredients` |
+| **RBOM** (in-toto,rapidford)| execution-aware refinement of SBOM | complementary — solves the question of `reachability` |
+| **VEX** | Vendor declared exploitability of a CVE|  complementary — solves the question of `CVE relevance` |
+| **kubescape `ApplicationProfile`** | runtime-observed behavior captured by an in-cluster operator | Raw ingredient, this document shows how to abstract it to and SBOB|
+| **Seccomp / AppArmor profile** | kernel-enforced syscall and resource policy | adjacent — an SBoB MAY transpile into a seccomp profile, but the SBOB is itself declarative, not enforced |
 
 ### 1.3 Conformance language {#1-3-conformance}
 
