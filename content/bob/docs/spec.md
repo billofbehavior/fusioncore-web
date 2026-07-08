@@ -478,7 +478,7 @@ Ports appear in two contexts curretly
 * **<span class="field">endpoints[].endpoint</span> string** — for http, use the integer 0 to express the intent of `ANY PORT`.
   `:0/api/data`
 
-<!-- * **<span class="field">NetworkNeighbor.ports[].port</span>** — TODO: backlog for node-agent to alert on ports here -->
+* **<span class="field">NetworkNeighbor.ports[].port</span>** — [TODO](https://github.com/kubescape/node-agent/issues/852)
 
 
 
@@ -492,17 +492,15 @@ order. Each entry is one of:
 |---|---|---|
 | **IPv4 / IPv6 literal** | `162.0.217.171`, `2001:db8::1` | Byte-equality on the parsed IP. The textual canonicalisation is the verifier's responsibility (e.g. `2001:db8::1` and `2001:0db8:0000:0000:0000:0000:0000:0001` MUST compare equal). |
 | **CIDR** | `10.0.0.0/8`, `2001:db8::/32` | The verifier parses the entry with `net.ParseCIDR` (or equivalent) once and stores the `*net.IPNet`; matches via `IPNet.Contains(observedIP)`. |
-| **0.0.0.0/0** | `*` | (RFC 4632, all IPv4) and `::/0` (RFC 4291, all IPv6). Matches any observed IP. |
+| **\*** | `*` | `0.0.0.0/0` (RFC 4632, all IPv4) and `::/0` (RFC 4291, all IPv6). Matches any observed IP. |
 
 
 
 ### 5.8 DNS name matching {#5-8-network-wildcards}
 
-A v0.0.2 verifier matches an observed DNS name (from the workload's
-own `getaddrinfo` / `res_query` event captured by the runtime sensor —
-see §8.2) against the
-<span class="field">dnsNames[]</span> list using the **same wildcard
-token vocabulary as paths and argv**, applied at the DNS-label level:
+Matches an observed DNS name (from the workload's
+own `getaddrinfo` / `res_query` event see §8.2) against the
+<span class="field">dnsNames[]</span> 
 
 | Form | Position | Semantics | Example | Matches | Doesn't |
 |---|---|---|---|---|---|
@@ -510,7 +508,6 @@ token vocabulary as paths and argv**, applied at the DNS-label level:
 | `*.<suffix>` | leading | RFC 4592 — **exactly one** label before `<suffix>` | `*.example.com.` | `api.example.com.`, `webhook.example.com.` | `v1.api.example.com.`, `example.com.` (apex), `.example.com.` (empty label) |
 | `<a>.⋯.<b>` | mid | DynamicIdentifier — **exactly one** label between `<a>` and `<b>` | `svc.⋯.kubernetes.io.` | `svc.kube-system.kubernetes.io.` | `svc.kubernetes.io.`, `svc.a.b.kubernetes.io.` |
 | `<prefix>.*` | trailing | WildcardIdentifier — **one or more** labels after `<prefix>` (never zero) | `mycorp.com.*` | `mycorp.com.api.`, `mycorp.com.api.v1.` | `mycorp.com.` (apex match — zero rejected) |
-| `**` (recursive zero-or-more) | — | **NOT in v0.0.2** | — | — | reserved for v0.0.3 |
 
 #### Rationale for the token choices
 
@@ -526,8 +523,7 @@ token vocabulary as paths and argv**, applied at the DNS-label level:
 * **Trailing `*` = one-or-more** matches the path semantic in §5.1 — a
   trailing `*` MUST consume at least one label, never zero, so
   `mycorp.com.*` does not silently allow access to the bare apex.
-* The token `⋯` (U+22EF, MIDLINE HORIZONTAL ELLIPSIS) is one Unicode
-  codepoint, **not** three ASCII periods.
+
 
 #### Trailing-dot normalisation
 
