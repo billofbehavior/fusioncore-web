@@ -407,12 +407,13 @@ policyBinding:
     allowProcess: [runc]     # only runc may unshare
 ```
 
-The longer-term target : The action verb namespace uses lower-snake-case strings, prefixed by category:
-`exec.*` (process spawning), `file.*` (filesystem activity), `net.*` (network),
-`syscall.*` (raw syscalls), `cap.*` (capability anomalies), `cred.*` (credential
-material), `kernel.*` (kernel-level operations), `malware.*` (malware
-heuristics), `signature.*` (profile-signature integrity).
-will be described in Appendix 
+<span class="ri unmerged">Future</span>: The action verb namespace shall use lower-snake-case strings, prefixed by category:  
+`exec.*` (process spawning),  
+`file.*` (filesystem activity),  
+`net.*` (network),  
+`syscall.*` (raw syscalls),  
+etc
+This is not ready.
 
 
 ## 5. Pattern and wildcard semantics {#5-pattern-semantics}
