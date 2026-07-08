@@ -511,13 +511,10 @@ own `getaddrinfo` / `res_query` event see §8.2) against the
 
 #### Rationale for the token choices
 
-* **Leading `*` = exactly one label** is RFC 4592, the only form with a
-  ratified standard. Bind, CoreDNS, Cilium and Kubernetes ingress all
-  honour it as one-label semantics. Adopting it verbatim avoids
-  introducing a fork-specific dialect for the most common case.
+* **Leading `*` = exactly one label** is RFC 4592
 * **Mid-label `*` is non-standard** — bind/coredns reject it, cilium
   uses regex, Calico has its own glob form. v0.0.2 deliberately uses
-  the project's existing `⋯` (DynamicIdentifier) token for the mid
+  the project's existing `⋯` token for the mid
   position, so the wire format never claims RFC 4592 compliance for a
   non-standard shape and producers' intent is unambiguous.
 * **Trailing `*` = one-or-more** matches the path semantic in §5.1 — a
@@ -525,11 +522,9 @@ own `getaddrinfo` / `res_query` event see §8.2) against the
   `mycorp.com.*` does not silently allow access to the bare apex.
 
 
-#### Trailing-dot normalisation
+#### Trailing-dots
 
-A v0.0.2 verifier MUST normalise both the profile entry and the
-observed name to FQDN form (with trailing dot) before comparison.
-Producers SHOULD emit the trailing dot; verifiers MUST accept either.
+are required.
 
 #### Apex matching
 
@@ -551,20 +546,11 @@ The verifier matches each observed name against EVERY entry in
 unordered. A NONE list (`dnsNames: []`) per §5.4 means "no DNS traffic
 intended" — any DNS observation is a hard violation.
 
-#### Cross-section: ports and selectors
 
-For `podSelector` / `namespaceSelector`, wildcarding is delegated to
-the underlying Kubernetes label-selector machinery (set-based matchers
-like `In`/`NotIn`/`Exists`); v0.0.2 verifiers MUST pass these through
-to their cluster's standard label evaluation rather than reimplementing.
-
-For `ports[].port`, the empty list `[]` is NONE per §5.4 and the
-absent field is NULL per §5.4. The literal `0` is RFC 6335-reserved
-("any port") sugar; verifiers MUST treat `port: 0` as a wildcard.
 
 ## 6. Verifier algorithm {#6-verifier-algorithm}
 
-### 6.1 Inputs {#6-1-inputs}
+WIP
 
 <!-- A conformant verifier consumes:
 
@@ -572,7 +558,7 @@ absent field is NULL per §5.4. The literal `0` is RFC 6335-reserved
 2. A live observation stream from a runtime sensor (kubescape node-agent,
    Falco, Tetragon, or equivalent) over a configured window. -->
 
-### 6.2 Step-by-step {#6-2-algorithm}
+
 
 <!-- For each container in <span class="field">spec.containers[]</span> AND
 its paired NetworkNeighborhood (§4.7):
