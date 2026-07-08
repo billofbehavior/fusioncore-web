@@ -1,5 +1,5 @@
 ---
-title: "SBoB specification — v0.0.3"
+title: "SBOB specification — v0.0.3"
 weight: 20
 type: "docs"
 draft: false
