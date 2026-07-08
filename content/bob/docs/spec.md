@@ -389,26 +389,10 @@ spec:
 
 A map keyed by a **vendor-neutral action verb** whose value is a fine-grained
 allow / deny clause for that action. 
-The action verb namespace uses lower-snake-case strings, prefixed by category:
-`exec.*` (process spawning), `file.*` (filesystem activity), `net.*` (network),
-`syscall.*` (raw syscalls), `cap.*` (capability anomalies), `cred.*` (credential
-material), `kernel.*` (kernel-level operations), `malware.*` (malware
-heuristics), `signature.*` (profile-signature integrity).
 
-A map of fine-grained allow / deny clauses, one per rule the verifier knows
-how to evaluate. In the kubescape envelope the JSON field is named
-<span class="field">rulePolicies</span> on the container entry; the
-in-spec name <span class="field">policyBinding</span> is the SBOB-facing
-alias. The two refer to the same data and verifiers MUST accept both
-spellings on read.
 
-**Key:** the map is keyed by the **engine-specific
-rule ID** — currently a numerical value referencing the CEL rule in kubescape (`R0001`,
-`R1006`, `R1002`).
+**Key:** engine-specific rule ID, currently a numerical value referencing the CEL rule in kubescape (e.g. `R0001`).
 
-The longer-term target — a **vendor-neutral
-action verb** namespace (`syscall.unshare`, `kernel.module_load`, …) —
-will be described in Appendix 
 
 **Value :**
 
@@ -419,10 +403,16 @@ will be described in Appendix
 
 ```yaml
 policyBinding:
-  syscall.unshare:           # vendor-neutral verb (was kubescape Rule1006)
+  syscall.unshare:           # vendor-neutral verb (in kubescape `Rule1006`)
     allowProcess: [runc]     # only runc may unshare
 ```
 
+The longer-term target : The action verb namespace uses lower-snake-case strings, prefixed by category:
+`exec.*` (process spawning), `file.*` (filesystem activity), `net.*` (network),
+`syscall.*` (raw syscalls), `cap.*` (capability anomalies), `cred.*` (credential
+material), `kernel.*` (kernel-level operations), `malware.*` (malware
+heuristics), `signature.*` (profile-signature integrity).
+will be described in Appendix 
 
 
 ## 5. Pattern and wildcard semantics {#5-pattern-semantics}
@@ -433,26 +423,20 @@ storms result.
 
 ### 5.1 Path wildcards `*` and `⋯` {#5-1-path-star}
 
-Two wildcard tokens are defined for path components. Their semantics
-differ.
+Two wildcard tokens are defined for path components. 
 
-**`⋯` (U+22EF, MIDLINE HORIZONTAL ELLIPSIS, DynamicIdentifier) —
+**`⋯` (U+22EF) —
 exactly one segment.** A single Unicode codepoint, NOT three ASCII
 periods. Matches one full path segment (zero-or-more characters that
-do not contain `/`). Equivalent in arity to glob's single-`*` but spelt
-distinctly so the trie collapse in the kubescape analyzer can mark
-"this segment was promoted from concrete to dynamic" without colliding
-with the broader `*` wildcard.
+do not contain `/`). Spelt
+distinctly to avoid colliding with accidential use of globs.
 
-**`*` (WildcardIdentifier) — variable arity, position-dependent.**
+**`*` (PathWildcard) — variable arity, position-dependent.**
 
 * When `*` appears **mid-path** (i.e. there are more segments after it),
   it matches **zero or more consecutive segments**.
 * When `*` appears **trailing** (last segment of the pattern), it matches
-  **one or more remaining segments** — never zero. This is what prevents
-  `/etc/*` from silently matching the bare `/etc` directory; without the
-  one-or-more rule, file-access detection would have a blind spot the
-  size of the directory entry itself.
+  **one or more remaining segments** — never zero. 
 
 | Pattern | Matches | Does not match |
 |---|---|---|
@@ -461,70 +445,29 @@ with the broader `*` wildcard.
 | `/a/*/b` (mid) | `/a/b`, `/a/x/b`, `/a/x/y/b` | `/a/x/c` |
 | `/a/⋯/b` | `/a/x/b` | `/a/b`, `/a/x/y/b` |
 
-A literal `*` or `⋯` in a path can be expressed with a backslash escape
-`\*` / `\⋯` (no implementation requirement in v0.0.3; flagged in §9 for
-v0.0.2).
 
-### 5.2 Multi-segment wildcard {#5-2-multi-segment}
-
-The mid-path zero-or-more semantic of `*` (§5.1) handles the common
-multi-segment case — `/foo/*/bar` matches one or many intermediate
-segments — and the trie analyzer collapses runs of consecutive `*`
-into single equivalent forms (`/*/*/*` and `/foo/*/*/bar` are well-defined
-patterns the matcher accepts). For an unbounded suffix tail, use a
-trailing `*` (1-or-more remaining segments per §5.1).
 
 
 
 ### 5.3 Exec-argument wildcards {#5-3-exec-arg-wildcards}
 
 The `*` and `⋯` tokens of §5.1 are **path** wildcards. An `exec` entry's `args`
-vector uses a distinct set, matched position-by-position and anchored at both
-ends:
+vector uses 
 
-* **`⋯` (DynamicIdentifier) — exactly one argument.** Matches one whole argv
-  entry, whatever its contents.
-* **`⋯⋯` (ExecArgsWildcard) — zero or more arguments.** Absorbs a run of
+* **`⋯⋯` (WildcardExecs) — zero or more arguments.** Absorbs a run of
   consecutive argv entries, including none: `[/bin/foo, '⋯⋯']` matches
   `/bin/foo` with any tail (or none), whereas `[/bin/foo]` matches only the
   bare invocation with no arguments.
 
 `*` is **not** an argument wildcard — inside `args` it is a literal asterisk.
-The exec-argument matcher (§6) recognises only `⋯` and `⋯⋯`.
 
 
 
 ### 5.4 Absent (NULL) vs explicit-empty (NONE) {#5-4-empty-vs-absent}
 
- The distinction
-between **absent** (the YAML key is missing entirely) and
-**explicit-empty** (the YAML key is present with an empty value) is
-load-bearing for both producer intent and verifier behavior, and
-producers MUST get it right.
-
-The two forms encode different statements about the workload:
-
-| YAML form | Spelling | Producer's stated intent | Verifier MUST |
-|---|---|---|---|
-| **NULL — field absent** | `# (no execs: line)` | "I make **no claim** about this category. Treat my workload as **non-deterministic** for it." | Apply implementation-defined behavior. The verifier MAY choose any policy it can defend (silently allow, log-only, downgrade alert severity). The producer accepts whatever the deployment-time verifier does — they did not constrain it. |
-| **NONE — explicit empty** | `execs: []` (or, sugar, `execs: NONE`) | "I declare an **intentional, zero-activity** policy: this workload produces NO observations of this category, and any observation is a violation." | Treat any live observation in this category as a hard violation. Emit a drift event on the first event. |
-| **non-empty list** | `execs: [{path: …}]` | "These are the permitted values; everything else is a violation." | Live observations MUST be a subset of the listed values per §6.2. |
+TBD
 
 
-> TODO: this is currently no in the kubescape code
-
-Why the distinction matters:
-
-* **NULL is a humility statement.** A vendor publishing a profile that
-  doesn't model `egress` (because they haven't measured it, or because
-  the workload's network behavior is genuinely user-driven) writes the
-  `egress` key out of the YAML entirely. Verifiers can apply a default
-  posture appropriate to their environment — strict deny, learn-mode,
-  permissive — without a false statement of intent in the SBoB.
-* **NONE is a security claim.** A vendor that publishes `execs: []`
-  asserts a property of the binary: "this image never spawns child
-  processes". Any verifier observing an `execve` is then acting on a
-  vendor-witnessed contract violation.
 
 
 
