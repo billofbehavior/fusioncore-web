@@ -254,20 +254,21 @@ A list of HTTP-level endpoints the workload is expected to expose
 (<span class="field">direction: inbound</span>) or call
 (<span class="field">direction: outbound</span>).
 
-| Field | Type | Required | Description |
+| Field | Type | Description |
 |---|---|---|---|
-| <span class="field">endpoint</span> | string | <span class="req">required</span> | Pattern of the form `<host>:<port>/<path>`. Each component supports wildcards per §5. |
-| <span class="field">methods</span> | list of strings | <span class="opt">optional</span> | HTTP verbs (`GET`, `POST`, …) the endpoint accepts or sends. |
-| <span class="field">headers</span> | map or null | <span class="opt">optional</span> | Map of `<header-name>: <expected-value-pattern>`. Per §5.4: omitted = NULL (verifier-defined), `headers: null` or `headers: {}` = NONE (no extra headers expected), present-with-entries = constraint. **TODO (sharpen):** the kubescape CRD currently serialises `headers` as a raw JSON blob (`json.RawMessage`) plus `omitempty`, which collapses absent vs `null` vs `{}` at the Go-binding layer. Verifier-side preservation of the §5.4 distinction is not yet implemented; v0.0.2 needs either an explicit `headersIntent` enum field (`null` / `none` / `set`) or a custom unmarshaller. |
-| <span class="field">direction</span> | enum | <span class="req">required</span> | `inbound` or `outbound`. |
+| <span class="field">endpoint</span> | string |  Pattern of the form `:<port>/<path>`. Each component supports wildcards per §5. |
+| <span class="field">methods</span> | list of strings | HTTP verbs (`GET`, `POST`, …) the endpoint accepts or sends. |
+| <span class="field">headers</span> | map or null |  Map of `<header-name>: <expected-value-pattern>`.  |
+| <span class="field">direction</span> | enum | `inbound` or `outbound`. |
 
 ```yaml
 endpoints:
 - endpoint: ":0/api/data"   # any port, exact path
-  methods: [GET, POST]
+  methods: [GET, POST]      
   headers: null             # explicit, no extra headers expected
   direction: outbound
 ```
+<span class="ri defacto">The desired degree of specificity in methods and headers is under debate</span> 
 
 ### 4.5 execs {#4-5-execs}
 
@@ -276,29 +277,18 @@ A list of processes that the workload is permitted to spawn (via `execve`).
 | Field | Type | Required | Description |
 |---|---|---|---|
 | <span class="field">path</span> | string | <span class="req">required</span> | Absolute filesystem path of the executable. Wildcards per §5. |
-| <span class="field">args</span> | list of strings | <span class="opt">optional</span> | Argument vector, position-by-position, anchored at both ends. Each entry is either a literal token or one of the exec-arg wildcard tokens defined in §5: `⋯` (DynamicIdentifier) matches exactly one argument position, `⋯⋯` (ExecArgsWildcard) matches zero-or-more consecutive arguments. `*` is **not** an argument wildcard — it is opens/path-only (§5.1) and matches literally inside `args`. See §5.4 for the absent vs explicit-empty distinction (the meaningful difference between "no opinion on argv" and "intended to spawn with zero arguments"). |
+| <span class="field">args</span> | list of strings | <span class="opt">optional</span> | Argument vector. Each entry is either a literal token or one of the exec-arg wildcard tokens defined in §5: `⋯` (DynamicIdentifier) matches exactly one argument position in a path, `⋯⋯` (ExecArgsWildcard) matches zero-or-more consecutive arguments. `*` is **not** an argument wildcard — it matches literally inside `args`. |
 
 ```yaml
 execs:
 - path: /usr/sbin/apache2          # exact installation path
   args: [/usr/sbin/apache2, '⋯⋯']  # anchored argv[0] then any tail
-- path: /bin/sh                    # path-only — see §5.4
-- path: /usr/bin/curl
-  args: []                         # explicit NONE, no argv expected
+- path: /⋯/apache2                 # relative installation path
+  args: [/⋯/apache2, '⋯⋯']         
 ```
 
-The argv match is anchored at both ends (every runtime argument MUST be
-consumed by the profile vector, either via a literal, a `⋯`, or absorbed
-into a `⋯⋯`-run). The match is case-sensitive and byte-exact for literals.
-For path, the comparison rules are identical to 5.1
 
-> **TODO (v0.0.2 sharpening).** The current kubescape CRD tags
-> `ExecCalls.Path` as protobuf `opt` and JSON `omitempty`, which would
-> let a producer emit `execs: [{}]` (no path, no args) without
-> server-side rejection. The spec requires `path`; admission-time
-> validation (apiserver write strategy or an admission webhook) is the
-> right place to enforce it because the binding cannot. Tracked
-> as an open issue against the storage CRD.
+
 
 ### 4.6 opens {#4-6-opens}
 
