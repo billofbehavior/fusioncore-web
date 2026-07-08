@@ -663,7 +663,7 @@ spec:
       ipAddresses:                       # v0.0.2 plural form, supersedes singular ipAddress
         - "162.0.217.171"                # IPv4 literal
         - "2001:db8::/32"                # IPv6 CIDR (§5.7)
-      dnsNames:                          # supersedes the deprecated single dns: field
+      dnsNames:                          # supersedes the deprecated single dns field
         - api.stripe.com.                # literal FQDN
         - "*.api.stripe.com."            # RFC 4592 leading-* — exactly one label (§5.8)
       ports:
@@ -724,7 +724,13 @@ This is v0.0.3, a pre-1.0 specification. Field names and semantics are
 stabilising but MAY still change between minor versions; every change is
 recorded in Appendix A, and conformance claims MUST cite a pinned version.
 
-## 9. Open issues for v0.0.2 {#9-open-issues}
+## 9. Open issues 
+
+- Generalisation of rules: names and verbs
+- Notations for common network-masks such as `{pod_cidr}` to be discoverable/replaceable by bobctl
+- Implementation and example of bundling and signing of bundles
+- Support for pod-lifecycle
+- Guidance on `useful syscalls`
 
 <!-- 1. **Recursive wildcard `**`.** v0.0.3 covers multi-segment matching
    via repeated `*` segments per §5.1/§5.2, but a single `**` token with
