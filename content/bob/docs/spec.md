@@ -356,8 +356,8 @@ spec:
     egress:
     - identifier: stripe-api
       type: external
-      ipAddresses: ["162.0.217.171"]      # plural form (v0.0.2 — see §5.7)
-      dnsNames: [api.stripe.com.]
+      ipAddresses: ["162.0.217.171/32"]     
+      dnsNames: [*.api.stripe.com.]
       ports:
       - {name: TCP-443, protocol: TCP, port: 443}
     - identifier: cluster-dns
@@ -371,7 +371,7 @@ spec:
     ingress:
     - identifier: load-balancer-health
       type: internal
-      ipAddresses: ["10.244.0.0/16"]      # cluster pod CIDR — k8s LB probes
+      ipAddresses: ["10.244.0.0/16"]      # TBD: should there be a K8S-SVC-CIDR etc placeholder
       ports:
       - {name: TCP-8080, protocol: TCP, port: 8080}
     - identifier: prometheus-scrape
