@@ -697,13 +697,13 @@ WIP: extend the document above with CPU stack profile + abstraction handles, see
 
 
 ## 8. Security considerations {#8-security-considerations}
-
+<!-- 
 ### 8.1 Wildcards as policy weakening {#8-1-wildcard-weakening}
 
 
 
 ### 8.2 DNS spoofing of egress declarations {#8-2-dns-spoofing}
-<!-- 
+
 A verifier that resolves <span class="field">egress[].dnsNames</span> at
 verification time would be exposed to local DNS spoofing — a compromised
 resolver could shrink-wrap the verifier's accept-set to whatever the
@@ -713,12 +713,12 @@ they MUST evaluate DNS-name observations against the
 observed query name**, taken from the workload's own DNS query event
 (typically captured by the runtime sensor at the `getaddrinfo` /
 `res_query` boundary). IP-address observations are matched separately
-against <span class="field">ipAddress</span> per §5.7. -->
+against <span class="field">ipAddress</span> per §5.7. 
 
 ### 8.3 Capability surface {#8-3-capability-surface}
 
-
-### 8.4 Spec maturity {#8-4-maturity}
+-->
+###  Spec maturity {#8-4-maturity}
 
 This is v0.0.3, a pre-1.0 specification. Field names and semantics are
 stabilising but MAY still change between minor versions; every change is
