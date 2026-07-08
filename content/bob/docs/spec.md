@@ -418,9 +418,7 @@ This is not ready.
 
 ## 5. Pattern and wildcard semantics {#5-pattern-semantics}
 
-This section is the spec's most operationally important. Verifiers and
-producers MUST agree on these semantics or false-positive / false-negative
-storms result.
+Relevant to abstract exact kernel events into a `semantic` and `portable` description of `intent`.
 
 ### 5.1 Path wildcards `*` and `⋯` {#5-1-path-star}
 
