@@ -41,6 +41,12 @@ draft: false
 .spec-doc .req { color: #D43F5B; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
 .spec-doc .opt { color: #7a808c; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
 .spec-doc h2 .secnum, .spec-doc h3 .secnum, .spec-doc h4 .secnum { display: inline-block; min-width: 2.4em; color: #C3A50D; font-variant-numeric: tabular-nums; }
+/* Reference-implementation status markers — see the "Reference implementation" note in §1. */
+.spec-doc .ri { display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 999px; padding: 0.05em 0.55em; vertical-align: middle; margin: 0 0.15em; white-space: nowrap; }
+.spec-doc .ri.defacto  { color: #33447a; background: #eef1fb; border: 1px solid #c2ccec; }
+.spec-doc .ri.unmerged { color: #6b3fa0; background: #f4eefc; border: 1px solid #d9c8f0; }
+.spec-doc .ri-note { border-left: 4px solid #4A5B8C; background: #f5f7fc; padding: 0.8rem 1.1rem; margin: 1.2rem 0 1.8rem; border-radius: 3px; font-size: 0.92rem; }
+.spec-doc .ri-note b { color: #1c2030; }
 </style>
 
 <div class="spec-doc" markdown="1">
@@ -90,9 +96,6 @@ This document specifies version **0.0.3** of the SBOB document format.
 It does not specify in how many seperate files such a spec would be supplied, only the definitions of the fields.
 
 
-##### Reference implementation
-Note: not all features are fully implemented/merged to main in CNCF Kubescape yet. Those are marked as such.
-
 ## 1. Introduction {#1-introduction}
 
 ### 1.1 What an SBOB is for {#1-1-purpose}
@@ -124,8 +127,8 @@ and for high-compatibility, we will rely on the ABI or other long-term-stable el
 | **SBOM** (CycloneDX, SPDX) | static composition (packages, versions, licences) | complementary — solves the question of `ingredients` |
 | **RBOM** (in-toto,rapidford)| execution-aware refinement of SBOM | complementary — solves the question of `reachability` |
 | **VEX** | Vendor declared exploitability of a CVE|  complementary — solves the question of `CVE relevance` |
-| **kubescape `ApplicationProfile`** | runtime-observed behavior captured by an in-cluster operator | Raw ingredient, this document shows how to abstract it to and SBOB|
-| **Seccomp / AppArmor profile** | kernel-enforced syscall and resource policy | adjacent — an SBoB MAY transpile into a seccomp profile, but the SBOB is itself declarative, not enforced |
+| **kubescape `ApplicationProfile`** | runtime-observed behavior captured by an in-cluster operator | Raw ingredient, this document shows how to abstract it into an SBOB|
+| **Seccomp / AppArmor profile** | kernel-enforced syscall and resource policy | adjacent — an SBoB MAY transpile into a seccomp profile |
 
 ### 1.3 Conformance language {#1-3-conformance}
 
@@ -135,21 +138,33 @@ in this document are to be interpreted as described in
 [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174) when, and only when, they
 appear in all capitals.
 
+#### Reference implementation {#1-4-reference-implementation}
+
+This specification is in continuous feedback interaction with its **reference implementation** in [CNCF Kubescape](https://deploy-preview-127--kubescape-io.netlify.app/docs/operator/bill-of-behavior). We use two markers:
+
+<div class="ri-note">
+
+- Not all features are fully implemented / merged to `main` in CNCF Kubescape yet. Those are marked <span class="ri unmerged">unmerged</span>.
+- Some parts are not yet generalized from the reference implementation to a formal specification. Those are marked <span class="ri defacto">de-facto</span>.
+
+
+</div>
+
 ## 2. Conformance {#2-conformance}
 
-A **conformant SBoB document** is a (set of) YAML or JSON document(s) that:
+A **conformant SBOB document** is a (set of) YAML document(s) that:
 
 1. Has the envelope described in §4.1, with `apiVersion`, `kind`, `metadata`, and `spec` populated.
 2. Contains at least one entry under <span class="field">spec.containers[]</span>.
 3. Populates each entry with at least <span class="field">name</span> and <span class="field">imageID</span>, plus any of the structural sections
    (§4.3 through §4.8) that apply.
 4. If any field uses a wildcard or pattern, that pattern conforms to §5.
-5. TODO: Carries the annotation <span class="field">sbob.io/spec-version: "0.0.3"</span>.
+5. <span class="ri defacto">is of kind</span> <span class="field">spdx.softwarecomposition.kubescape.io/v1beta1</span>
 6. Distinguishes absent fields (NULL) from explicit-empty fields (NONE) per §5.4 in its YAML form, even when the underlying language binding collapses the two.
 
 A **conformant verifier**:
 
-1. Refuses to evaluate documents whose <span class="field">sbob.io/spec-version</span> it does not understand.
+1. Matches the SBOB name <span class="ri defacto">using a label</span>  <span class="field">kubescape.io/user-defined-profile</span> or <span class="field">user-defined-network</span> 
 2. Implements every match step in §6 against every section of §4 that the document populates.
 3. Treats absent fields (NULL — non-deterministic, implementation-defined posture) and explicit empty-collection fields (NONE — declared
    zero-activity, hard violation on first observation) **differently** (§5.4).
@@ -158,19 +173,15 @@ A **conformant verifier**:
 
 ## 3. Document structure {#3-document-structure}
 
-An SBoB document is a single YAML stream containing one Kubernetes-style resource. 
-The reuse of the kubescape `ApplicationProfile` envelope is deliberate — it lets existing kubescape tooling consume an SBoB without
-modification, and lets an SBoB act as a Custom Resource in a cluster when desired.
+An SBOB document is a single YAML stream containing one Kubernetes-style resource. 
+
 
 ```yaml
 apiVersion: spdx.softwarecomposition.kubescape.io/v1beta1
-kind: ApplicationProfile
 metadata:
   name: <release-or-image-shortname>
-  annotations:
-    sbob.io/spec-version: "0.0.3"
 spec:
-  architectures: [<arch-token>, ...]
+  architectures: [...]
   containers:
   - type: init| null
   - name: <container-name>
