@@ -297,8 +297,8 @@ combinations under which it is permitted to open them.
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| <span class="field">path</span> | string | <span class="req">required</span> | Filesystem path, absolute. Wildcards per §5: `⋯` (U+22EF, DynamicIdentifier) matches exactly one segment; `*` (WildcardIdentifier) matches zero-or-more segments mid-path and one-or-more segments when trailing. Multi-segment / any-depth coverage uses repeated `*` segments (`/*/*/foo` etc.), per §5.2. |
-| <span class="field">flags</span> | list of strings | <span class="req">required</span> | Subset of `O_RDONLY`, `O_WRONLY`, `O_RDWR`, `O_CREAT`, `O_TRUNC`, `O_APPEND`, `O_CLOEXEC`, `O_NONBLOCK`, `O_DIRECTORY`, `O_NOFOLLOW`, `O_PATH`. The live `open(2)` flags MUST be a subset of this list (see §5.5). |
+| <span class="field">path</span> | string | <span class="req">required</span> | Filesystem path, absolute. Wildcards per §5: `⋯` (U+22EF, DynamicIdentifier) matches exactly one segment; `*` (WildcardIdentifier) matches zero-or-more segments mid-path and one-or-more segments when trailing.  |
+| <span class="field">flags</span> | list of strings | <span class="req">required</span> | Subset of `O_RDONLY`, `O_WRONLY`, `O_RDWR`, `O_CREAT`, `O_TRUNC`, `O_APPEND`, `O_CLOEXEC`, `O_NONBLOCK`, `O_DIRECTORY`, `O_NOFOLLOW`, `O_PATH`. See Kernel documentation |
 
 ```yaml
 opens:
@@ -308,11 +308,13 @@ opens:
   path: /etc/resolv.conf         # exact
 - flags: [O_RDONLY, O_WRONLY]
   path: /opt/*/vendor/app/node/*  # mid-path * is 0+ segments (§5.1), trailing * is 1+ segments
+- flags: [O_RDONLY, O_WRONLY]
+  path: /opt/⋯/vendor/app/node/*  # mid-path ⋯ is 1 segments (§5.1), trailing * is 1+ segments
 ```
 
 ### 4.7 egress and ingress {#4-7-egress}
 
-Two parallel lists of network neighbours the workload is permitted to
+Two parallel lists the workload is permitted to
 exchange traffic with:
 
 - <span class="field">egress[]</span> — destinations the workload is
@@ -320,22 +322,13 @@ exchange traffic with:
 - <span class="field">ingress[]</span> — peers the workload is permitted
   to **accept connections from** (the peer initiates)
 
-Both lists carry entries of the same `NetworkNeighbor` shape (table
+Both lists carry entries of the same  shape (table
 below) and are evaluated by symmetric verifier paths — every IP / DNS /
 CIDR / wildcard rule in §5.7 and §5.8 applies identically to both
 directions. Producers MAY populate either list, both, or neither
 (absent = NULL per §5.4; explicit empty = NONE — declared zero
 traffic in that direction).
 
-> **Implementation note.** In the kubescape envelope, network behavior is
-> served by a *separate* Custom Resource — `NetworkNeighborhood` — whose
-> `spec.containers[].egress[]` and `spec.containers[].ingress[]` fields
-> mirror the shape below. A v0.0.2 SBoB document that wishes to declare
-> network intent MUST emit BOTH an `ApplicationProfile` (for capabilities
-> / execs / opens) AND a same-named `NetworkNeighborhood` (for the
-> network sections); their `metadata.name`/`metadata.namespace` MUST
-> match exactly so verifiers can correlate them. Single-document
-> serialisation of both is permitted as a YAML stream of two resources.
 
 > **Note on current rule coverage.** As of v0.0.2 the kubescape default
 > rule set (R0005, R0011, R1003, R1009, etc.) only consults
@@ -347,7 +340,7 @@ traffic in that direction).
 > yet. Producers MAY author custom rules that do, and the matchers
 > behave identically to their egress counterparts.
 
-Each entry — in either list — is one `NetworkNeighbor`:
+
 
 | Field | Type | Required | Description |
 |---|---|---|---|
