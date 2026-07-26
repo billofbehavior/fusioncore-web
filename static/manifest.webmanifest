@@ -8,8 +8,8 @@
   "background_color": "#400049",
   "theme_color": "#400049",
   "icons": [
-    { "src": "/brand/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/brand/icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "/brand/favicon.svg",  "type": "image/svg+xml", "sizes": "any" }
+    { "src": "/brand/fusioncore/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/brand/fusioncore/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/brand/fusioncore/icon.svg",  "type": "image/svg+xml", "sizes": "any" }
   ]
 }
