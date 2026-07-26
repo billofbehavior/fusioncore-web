@@ -12,15 +12,28 @@ featured:
   speakers: "Constanze Roedig, Markus G., Teodor P."
 
 videos:
-  - id: "VA-ne25QX9g"
-    title: "Tutorial: Attack Defense — Leverage eBPF to Reveal Attack Flows"
-    event: "CNCF / KubeCon"
-    speakers: "Constanze Roedig, Markus G., Teodor P."
+  # Newest first — the carousel opens on slides 0 and 1.
+  - id: "4-XCEJkmxmM"
+    title: "Noisebusters and the signal in the dark — identify malicious alerts locally and in real time"
+    event: "Cloud Native Summit Munich 2026"
+    speakers: "Constanze Roedig"
 
   - id: "vIMoLpdsZZA"
     title: "Multi-messenger Security: Adaptive Kubernetes SOC"
     event: "CNCF / KubeCon"
     speakers: "Constanze Roedig, Ben Hirschberg, Dom Delnano"
+
+
+  - id: "VA-ne25QX9g"
+    title: "Tutorial: Attack Defense — Leverage eBPF to Reveal Attack Flows"
+    event: "CNCF / KubeCon"
+    speakers: "Constanze Roedig, Markus G., Teodor P."
+
+
+  - id: "q6wjWHmKwN4"
+    title: "All for one, and one for all! Find more and store less by combining eBPF suites"
+    event: "Cloud Native Zürich 2026"
+    speakers: "Constanze Roedig"
 
   - id: "jETmMin6-_M"
     title: "Security Theater or Real Defense? Navigating Cloud-Native Security"
