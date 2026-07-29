@@ -50,6 +50,36 @@
   </div>
 </section>
 
+<!-- ============== EXAMPLE / IN ACTION ============== -->
+<section id="example" class="band">
+  <div class="band__inner band__inner--reading">
+    <p class="band__kicker">See it in action</p>
+    <h2>SBoB contrast, by application type</h2>
+    <p>
+      An SBoB is produced <strong>per application type</strong>, so the declared behavior is specific to what
+      that kind of software legitimately does at runtime. <strong>Redis</strong> is an example of a database
+      (<code>db</code>): its SBoB says a database reads its own config and serves clients — and little else.
+    </p>
+    <p>
+      The animation walks a Redis <strong>kill-chain</strong> and shows how each step is covered by the
+      Kubescape detection rules the SBoB generates — turning a prescriptive declaration of intent into
+      concrete runtime detection coverage.
+    </p>
+    <figure class="fig-screen">
+      <img src="{{ "bob/redis-killchain.gif" | relURL }}"
+           alt="Redis kill-chain — each attack step mapped to the Kubescape rule coverage generated from the Redis SBoB"
+           width="990" height="594" loading="lazy">
+      <figcaption>
+        A Redis kill-chain vs. the Kubescape rule coverage derived from its SBoB. Source:
+        <a href="https://github.com/k8sstormcenter/bob/tree/main/example/redis-client">k8sstormcenter/bob · example/redis-client</a>.
+      </figcaption>
+    </figure>
+    <p>Reproduce the contrast with <code>bobctl</code>:</p>
+    <pre><code>bobctl contrast --profile example/redis-client/sbobs/ap-redis.yaml \
+  --type database --expect reads-host-files --strict</code></pre>
+  </div>
+</section>
+
 <!-- ============== STEWARDSHIP ============== -->
 <section id="stewardship" class="band band--soft">
   <div class="band__inner">
