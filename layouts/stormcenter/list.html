@@ -56,14 +56,18 @@
 
 <!-- ============== GET INVOLVED ============== -->
 <section id="contact" class="band">
-  <div class="band__inner">
+  <div class="band__inner band__inner--reading">
     <p class="band__kicker">Getting Started</p>
     <h2>See the full evidence pre-correlation</h2>
     <p>
-      With the new UI, you can now visualize the full evidence collected by the SOC. 
+      With the new UI, you can now visualize the full evidence collected by the SOC.
 
       To try it out, you can deploy the SOC via skaffold on a kubernetes.
     </p>
+    <figure class="fig-screen">
+      <img src="{{ "stormcenter/evidence_full_capture.gif" | relURL }}" alt="Three-stage animation — a redis SBOB (allowed behaviour: PING, GET, SET, EXPIRE) is broken by a CVE-2022-0543 Lua sandbox escape (whoami, /etc/shadow read, C2 lookup, fileless exec); Kubescape rules fire (R0001, R1005, R0006, R0010, R0002); DX sees the violation and issues OrderExportAll; the Adaptive-Write captures the full evidence set." loading="lazy">
+      <figcaption>SBOB contrast → full evidence capture (redis, CVE-2022-0543 Lua sandbox escape): a single behavioural violation against the signed SBOB makes DX steer the Adaptive-Write to collect the <em>complete</em> evidence set — every specimen of the incident, not just the trigger.</figcaption>
+    </figure>
   </div>
 </section>
 
