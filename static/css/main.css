@@ -370,52 +370,12 @@ body[data-section="bob"] .hero__art img {
   max-width: var(--maxw);   /* same cap as the rest of the site (~1280px) */
 }
 
-/* Per-figure sizing modifiers — apply to <figure class="fig-…"> */
-.band__inner--reading figure.fig-small {
-  max-width: 700px;
-  margin: 2rem auto;
-}
-.band__inner--reading figure.fig-small img {
-  width: 100%;
-  max-width: 100%;
-}
-.band__inner--reading figure.fig-screen {
-  text-align: center;
-  margin: 2rem 0;
-}
-.band__inner--reading figure.fig-screen img {
-  max-height: 85vh;
-  width: auto;
-  max-width: 100%;
-  margin: 0 auto;
-  display: block;
-}
-/* Hero image breaks out of the reading column for a wider lead visual */
-.band__inner--reading figure.hero {
-  margin: 0 -2rem 2rem -2rem;
-  text-align: center;
-}
-.band__inner--reading figure.hero img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-}
-/* In-flow figures fit the column exactly — predictable width, every image */
-.band__inner--reading figure {
-  margin: 2rem 0;
-  text-align: center;
-}
-.band__inner--reading figure img {
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 85vh;        /* cap height at one screen; aspect ratio preserved by max-* pair */
-  display: block;
-  margin: 0 auto;          /* center when narrower than column due to vh cap */
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
+/* Figures — ONE place, unscoped, left-aligned, mobile-friendly.
+   The figure shrinks to its image (fit-content) so the caption lines up with
+   it; images never overflow. No per-section (--reading) scoping, no centering. */
+figure { margin: 2rem 0; width: fit-content; max-width: 100%; }
+figure img { max-width: 100%; height: auto; display: block; border-radius: 4px; }
+figcaption { font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem; }
 .band__inner--reading pre {
   font-size: 0.88rem;
   line-height: 1.55;
@@ -594,7 +554,7 @@ body[data-section="bob"] .hero__art img {
 
 .material-form {
   max-width: 36rem;
-  margin: 0 auto;
+  margin: 0;
   padding: 2rem;
   background: rgba(0,0,0,0.18);
   border: 1px solid var(--rule, rgba(255,255,255,0.10));
@@ -1053,13 +1013,3 @@ code {
   .band { padding: 2.5rem 1.25rem; }
   .site-footer__inner { grid-template-columns: 1fr; }
 }
-
-/* Left-align content figures, their images, and the signup form
-   (override the earlier center rules — nothing sits middle-aligned). */
-.band__inner--reading figure,
-.band__inner--reading figure.fig-screen,
-.band__inner--reading figure.hero { text-align: left; }
-.band__inner--reading figure img,
-.band__inner--reading figure.fig-screen img,
-.band__inner--reading figure.hero img { margin-left: 0; margin-right: 0; }
-.material-form { margin-left: 0; margin-right: 0; }
