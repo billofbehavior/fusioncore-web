@@ -7,7 +7,11 @@
            alt="{{ .Params.brand_full | default "fusioncore.ai" }}">
       <span class="topnav__brand-text">{{ .Params.brand_full | default "fusioncore.ai" }}</span>
     </a>
-    <nav class="topnav__menu" aria-label="Primary">
+    <input type="checkbox" id="nav-toggle" class="topnav__toggle" aria-hidden="true">
+    <label for="nav-toggle" class="topnav__burger" aria-label="Toggle menu" aria-controls="nav-menu">
+      <span></span><span></span><span></span>
+    </label>
+    <nav class="topnav__menu" id="nav-menu" aria-label="Primary">
       <a href="https://fusioncore.ai" rel="external">fusioncore.ai</a>
       <a href="{{ "/bob/" | relURL }}">Bill of Behavior</a>
       <a href="{{ "/stormcenter/" | relURL }}">Storm Center</a>

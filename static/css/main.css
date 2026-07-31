@@ -194,6 +194,10 @@ a:hover { color: var(--ink); }
 }
 .topnav__menu a:hover { color: var(--accent); }
 
+/* Mobile nav toggle — invisible on desktop; becomes a hamburger ≤720px (below). */
+.topnav__toggle { display: none; }
+.topnav__burger { display: none; }
+
 /* -------- Hero -------- */
 .hero {
   background:
@@ -234,6 +238,46 @@ body[data-section="bob"] .hero__art img {
     text-align: left;
   }
   .hero__art img { max-width: 220px; }
+
+  /* --- Mobile hamburger nav --- */
+  .topnav__brand-text { font-size: 0.98rem; }
+  .topnav__burger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 11px 10px;
+    cursor: pointer;
+  }
+  .topnav__burger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  body[data-section="bob"] .topnav__burger span { background: #1a1a1a; }
+  /* Nav collapses; the checkbox reveals it as a full-width column. */
+  .topnav__menu {
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    gap: 0;
+    font-size: 1rem;
+  }
+  #nav-toggle:checked ~ .topnav__menu { display: flex; }
+  .topnav__menu a {
+    padding: 0.7rem 0.25rem;
+    border-top: 1px solid rgba(255,255,255,0.10);
+  }
+  body[data-section="bob"] .topnav__menu a { border-top-color: rgba(0,0,0,0.10); }
+  /* Hamburger morphs to an X when open. */
+  #nav-toggle:checked ~ .topnav__burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  #nav-toggle:checked ~ .topnav__burger span:nth-child(2) { opacity: 0; }
+  #nav-toggle:checked ~ .topnav__burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 }
 .hero__kicker {
   font-size: 0.78rem;
@@ -601,6 +645,19 @@ body[data-section="bob"] .hero__art img {
   margin: 0.5rem 0 1rem;
 }
 .material-form__actions { margin-top: 1.5rem; }
+
+/* Notify signup sits on the light BoB page — lift the dark material-form styling. */
+#notify .material-form {
+  max-width: 40rem;
+  background: var(--bg-soft);
+  border-color: rgba(0,0,0,0.12);
+}
+#notify .material-form__row input[type="email"] {
+  background: #fff;
+  border-color: rgba(0,0,0,0.22);
+}
+#notify .material-form__row--check span,
+#notify .material-form__hint { color: #555; }
 
 /* --------- Reel carousel ------------------------------------------------- */
 .reel-carousel {
