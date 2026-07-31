@@ -9,12 +9,12 @@
       <p class="hero__lede">
         An adaptive eBPF detection stack for Kubernetes. We combine mature
         open-source projects into a tunable signal-to-noise SOC, with
-        node-local detection and a sovereign architecture.
+        node-local, real-time detection and a sovereign architecture.
       </p>
       <ul class="hero__pills">
-        <li>eBPF first</li>
+        <li>optimize data-volume</li>
         <li>tunable S/N</li>
-        <li>NetIdee &amp; FFG funded</li>
+        <li>real-time detection</li>
       </ul>
       <div class="hero__cta">
         <a class="btn btn--primary" href="https://github.com/k8sstormcenter">GitHub org</a>
@@ -35,10 +35,8 @@
     <h2>An adaptive detection stack.</h2>
     <p>
       <strong>To detect attack paths, you need sensors and interpretation:</strong> The Kubernetes StormCenter is a
-      research program that fuses several mature open-source eBPF projects
-      into a single, tunable detection plane: protocol capture from Pixie, runtime
-      anomaly detection from Kubescape, and Signal to Noise tuning
-      via the Bill of Behavior reference implementation `bobctl`.
+      research program that fuses several mature open-source eBPF projects into a single, tunable detection plane: protocol capture from Pixie, runtime
+      anomaly detection from Kubescape, and Signal to Noise tuning via the Software Bill of Behavior tuner: `bobctl`.
     </p>
     <p>
       Each component is upstream-maintained; and we work closely with the maintainers.
@@ -46,11 +44,10 @@
 
     <h3>Components</h3>
     <ul class="links">
-      <li><a href="https://github.com/k8sstormcenter">github.com/k8sstormcenter</a> — research org &amp; deliverables</li>
+      <li><a href="https://github.com/k8sstormcenter/soc">github.com/k8sstormcenter</a> — the SOC deployment</li>
       <li><a href="https://github.com/pixie-io">github.com/pixie-io</a>  — eBPF observability plane</li>
       <li><a href="https://github.com/kubescape">github.com/kubescape</a> — runtime anomaly detection</li>
-      <li><a href="https://github.com/k8sstormcenter/bobctl">bobctl</a> — Bill-of-Behavior generator (not yet publicly released)</li>
-      <li>ClickHouse — adaptive-write data lake</li>
+      <li><a href="https://github.com/k8sstormcenter/bob">bobctl</a> — Bill-of-Behavior generator</li>
     </ul>
   </div>
 </section>
@@ -60,11 +57,12 @@
 <!-- ============== GET INVOLVED ============== -->
 <section id="contact" class="band">
   <div class="band__inner">
-    <p class="band__kicker">Get involved</p>
-    <h2>Use it. Break it. Tell us.</h2>
+    <p class="band__kicker">Getting Started</p>
+    <h2>See the full evidence pre-correlation</h2>
     <p>
-      COMING SOON : a list of live-labs to try out — write to
-      <a href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a>.
+      With the new UI, you can now visualize the full evidence collected by the SOC. 
+
+      To try it out, you can deploy the SOC via skaffold on a kubernetes.
     </p>
   </div>
 </section>
