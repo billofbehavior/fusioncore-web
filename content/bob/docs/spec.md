@@ -29,14 +29,14 @@ An SBOB is a declarative document that states what a piece of software is **inte
 
 ## What a document looks like
 
-An illustrative document: the workload may run `curl`, but never with `--insecure`, may read its configuration, and is intended to open no outbound connections at all.
+An illustrative document for a web shop. nginx starts with its usual arguments, and only nginx may read its configuration. `curl` may only call the payments API, never with `--insecure` or `-k`. The one outbound peer is that API, over TLS 1.3, and the request may carry a name and a card number. Personal data never travels in cleartext.
 
 ```yaml
 apiVersion: profiles.sbob/v1beta1
 kind: RuntimeProfile
 subject: container
 metadata:
-  name: web
+  name: shop
   annotations:
     # written by a person, so it may govern a workload
     sbob/managed-by: User
@@ -45,17 +45,35 @@ spec:
   architectures: [amd64]
   capabilities: [CAP_NET_BIND_SERVICE]
   execs:
-  - {path: /usr/bin/curl, args: [curl, ⋯⋯]}
+  - {path: /usr/sbin/nginx, argsRegex: 'nginx( -g daemon\x20off;)?'}
+  - {path: /usr/bin/curl, argsRegex: 'curl -fsS https://payments\.example\.com/v1/[^ ]*'}
   opens:
-  - {path: /etc/nginx/⋯⋯, flags: [O_RDONLY]}
-  # present and empty: no outbound peers intended
-  egress: []
+  # only the nginx binary may read its configuration
+  - {path: /etc/nginx/⋯⋯, flags: [O_RDONLY], processes: [/usr/sbin/nginx]}
+  egress:
+  - identifier: payments
+    type: external
+    dnsNames: [payments.example.com]
+    ports: [{name: TCP-443, protocol: TCP, port: 443}]
+    extensions: {tls: {minVersion: "1.3"}}
+  endpoints:
+  - endpoint: ":443/v1/charges"
+    methods: [POST]
+    direction: outbound
+    extensions:
+      peer: payments
+      requires: [tls]
+      data: {request: [pii.name, pii.card], response: []}
   subtract:
     execs:
-    - {path: /usr/bin/curl, args: [curl, --insecure, ⋯⋯]}
+    # bare or with its path: curl or /usr/bin/curl
+    - {path: /usr/bin/curl, argsRegex: '([^ ]*/)?curl( [^ ]*)* (--insecure|-k)( [^ ]*)*'}
+    endpoints:
+    # personal data never travels in cleartext
+    - {endpoint: ":0/*", direction: outbound, extensions: {requires: [cleartext], data: {request: ["pii.*"]}}}
 ```
 
-`⋯` stands for exactly one path segment or argument, `⋯⋯` for a run of them. An observation is admitted when an allow entry matches it and no subtract entry does.
+In an `argsRegex`, a space separates two arguments and `[^ ]*` stays inside one; `\x20` is a space within an argument. In paths, `⋯` stands for exactly one segment and `⋯⋯` for a run of them. `processes` names the executables that may open a file. The `extensions` (chapter 8, a draft) state the intended TLS and data classes. An observation is admitted when an allow entry matches it and no subtract entry does.
 
 ## The chapters
 
