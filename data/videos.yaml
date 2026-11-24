@@ -13,6 +13,26 @@ featured:
 
 videos:
   # Newest first — the carousel opens on slides 0 and 1.
+  - id: "FMKW3oa5g5g"
+    title: "Gone in 60 Minutes: Effectively Close the Exploitable Window with Detection as Code"
+    event: "KubeCon + CloudNativeCon North America 2026"
+    speakers: "Ben Hirschberg, Constanze Roedig"
+
+  - id: "Kh8sdVNRg6I"
+    title: "Supply Chain, Runtime and SDLC: A Cloud Native Security Overview"
+    event: "KubeCon + CloudNativeCon North America 2026"
+    speakers: "Constanze Roedig"
+
+  - id: "UyM0OPbW-5Q"
+    title: "Zero Days, Stolen Credentials and Rogue Agents: Runtime Security Is Behavioral"
+    event: "CNCF Bulgaria"
+    speakers: "Constanze Roedig"
+
+  - id: "e2pYzwdEWRs"
+    title: "Zoom in and you shall find: Adaptive Kubernetes SOC that stays sovereign and reduces data volume"
+    event: "Cloud Native Days Austria 2026"
+    speakers: "Constanze Roedig"
+
   - id: "4-XCEJkmxmM"
     title: "Noisebusters and the signal in the dark — identify malicious alerts locally and in real time"
     event: "Cloud Native Summit Munich 2026"
@@ -30,6 +50,16 @@ videos:
     speakers: "Constanze Roedig, Markus G., Teodor P."
 
 
+  - id: "o3wxucy9aeY"
+    title: "Open Source SecurityCon: Welcome + Opening Remarks"
+    event: "Open Source SecurityCon Europe 2026 (program committee co-chairs)"
+    speakers: "Brandt Keller, Constanze Roedig"
+
+  - id: "hHvu6iFY0mY"
+    title: "Open Source SecurityCon: Closing Remarks"
+    event: "Open Source SecurityCon Europe 2026 (program committee co-chairs)"
+    speakers: "Brandt Keller, Constanze Roedig"
+
   - id: "q6wjWHmKwN4"
     title: "All for one, and one for all! Find more and store less by combining eBPF suites"
     event: "Cloud Native Zürich 2026"
@@ -39,6 +69,16 @@ videos:
     title: "Security Theater or Real Defense? Navigating Cloud-Native Security"
     event: "CNCF / KubeCon"
     speakers: "Rotem R., Constanze R., Megan W., Stefana M., Oshrat N."
+
+  - id: "zTx53q8PLnQ"
+    title: "Hello BOB: Cloud Native Cybersecurity with Bill of Behaviors"
+    event: "Pure Performance podcast"
+    speakers: "Constanze Roedig"
+
+  - id: "NjWCiRly9vM"
+    title: "Adopt the Bill of Behaviour into your daily workflow: bobctl"
+    event: "Cloud Native Denmark 2025, Aarhus"
+    speakers: "Constanze Roedig"
 
   - id: "YDIW2CY8WPI"
     title: "Brewing the Kubernetes Storm Center: Open Source Threat Intelligence"

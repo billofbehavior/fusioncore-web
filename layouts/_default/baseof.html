@@ -70,7 +70,8 @@
 
   {{ partial "schema.html" . }}
 
-  <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
+  {{/* Cache-bust: the query changes whenever main.css changes, so browsers never pair new HTML with an old cached stylesheet (GitHub Pages caches it for 10 min). */}}
+  <link rel="stylesheet" href="{{ "css/main.css" | relURL }}?v={{ readFile "static/css/main.css" | md5 | truncate 10 "" }}">
 
   {{/* Per-page favicon: front matter `favicon: <slug>` selects from static/brand/<slug>/.
        Fallback to the geometric BoB logomark at the static root. */}}

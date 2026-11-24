@@ -38,7 +38,7 @@
         behavior: the programs a workload starts, the files it opens, the capabilities it uses and the peers it talks to.
       </p>
       <p>
-        The vendor declares the behavior. The user verifies it. Defenders get up-to-date detection rules with
+        The vendor declares the behavior. The user verifies and extends it. Defenders get up-to-date detection defaults with
         every release, usable for detection engineering, for verifying exposure and for compliance
         (EU Cyber Resilience Act, NIS&nbsp;2, DORA).
       </p>
@@ -79,13 +79,13 @@
     <p>
       Each animation binds an SBOB to an application, then runs common attack types of its ecosystem against it.
       <strong>Left:</strong> what was tried and what was detected.
-      <strong>Middle:</strong> the SBOB, its allow list as bars and what stays denied below.
-      <strong>Right:</strong> three numbers that should all be zero.
+      <strong>Middle:</strong> the SBOB, its allowlist as bars and what stays denied below.
+      <strong>Right:</strong> three KPIs, ideally zero:
     </p>
     <dl class="kpi">
       <div><dt>D</dt><dd>attack steps not detected</dd></div>
       <div><dt>N</dt><dd>alerts under the application's usual traffic</dd></div>
-      <div><dt>P</dt><dd>extra alerts on a second cluster</dd></div>
+      <div><dt>P</dt><dd>extra alerts on different infrastructure</dd></div>
     </dl>
 
     <figure class="clip clip--lead">
@@ -94,7 +94,7 @@
         <source src="{{ "bob/contrast/flux-helm.mp4" | relURL }}" type="video/mp4">
       </video>
       <figcaption>
-        <strong>Flux helm-controller, a CNCF project.</strong> Every step that landed was detected; D, N and P are all zero.
+        <strong>Flux helm-controller, preliminary example.</strong> 
         <a href="{{ $repo }}/blob/main/docs/contrast/flux-helm.gif">Full size</a>
       </figcaption>
     </figure>
@@ -106,8 +106,8 @@
           <source src="{{ "bob/contrast/mongodb.mp4" | relURL }}" type="video/mp4">
         </video>
         <figcaption>
-          <strong>MongoDB, an application nobody prepared for.</strong> bobctl was told only that it is a database
-          and found the rest itself.
+          <strong>MongoDB used a `generic database` where the maintainer supplied benign traffic</strong> bobctl was told only that it is a database
+          and found the rest itself. That being said, any profile is ever only as good as its benign testing.
           <a href="{{ $repo }}/blob/main/docs/contrast/mongodb.gif">Full size</a>
         </figcaption>
       </figure>
@@ -117,15 +117,14 @@
           <source src="{{ "bob/contrast/nginx2root.mp4" | relURL }}" type="video/mp4">
         </video>
         <figcaption>
-          <strong>nginx, a web server written in C.</strong> One step went undetected (D&nbsp;=&nbsp;1), and the
-          result shows it.
+          <strong>nginx, recently affected by CVE "nginx2root"</strong> it is also possible to load a real (publicly known) exploit and see its signature. This is not 
           <a href="{{ $repo }}/blob/main/docs/contrast/nginx2root.gif">Full size</a>
         </figcaption>
       </figure>
     </div>
 
     <p class="band__note">
-      Simulated attacks only. A detection on an application means the SBOB can detect that class of weakness,
+      By default, bobctl uses simulated attacks only. A detection on an application means the SBOB can detect that class of weakness,
       not that the application has it. bobctl is not a penetration-testing tool.
     </p>
   </div>
@@ -139,9 +138,9 @@
     <ol class="steps">
       <li><strong>Learn.</strong> Run the application with its usual traffic. The agent records what it executes, opens and connects to.</li>
       <li><strong>Generalize.</strong> bobctl turns the recording into an SBOB: a broad allow list, and a subtract list of what stays denied.</li>
-      <li><strong>Replay.</strong> The usual traffic again, with the SBOB bound. It must stay silent.</li>
-      <li><strong>Simulate.</strong> Common attack types of that ecosystem: a shell started by the server, a download tool, a credential file read. Every step must alert. Stand-ins only, nothing is exploited.</li>
-      <li><strong>Ship.</strong> D, N and P all zero: the SBOB goes out with the release. Otherwise improve the traffic and run again.</li>
+      <li><strong>Replay.</strong> The usual traffic again, with the SBOB bound. It must stay silent or you know that you have false positives/blind spots</li>
+      <li><strong>Simulate.</strong> Common attack types of that ecosystem: a shell started by the server, a download tool, a credential file read.</li>
+      <li><strong>Ship.</strong> Ideally the KPIs: D, N and P are all zero.</li>
     </ol>
 
     <h3>Try it with bobctl</h3>
@@ -169,7 +168,7 @@ bobctl apply -f sbob.yaml -n NS</code></pre>
     <div class="tiles">
       <div class="tile">
         <h3>CNCF projects</h3>
-        <p>SBOBs the Contrast workflow produced, one directory per project.</p>
+        <p>SBOBs are currently WIP for:</p>
         <ul class="chips">
           {{ range slice
                (slice "Argo" "argo") (slice "cert-manager" "cert-manager") (slice "CloudNativePG" "cloudnative-pg")
@@ -183,7 +182,7 @@ bobctl apply -f sbob.yaml -n NS</code></pre>
 
       <div class="tile">
         <h3>Other software</h3>
-        <p>One SBOB file per application, from the same workflow.</p>
+        <p>WIP for</p>
         <ul class="chips">
           {{ range slice "Adminer" "Kafka" "MariaDB" "Memcached" "MongoDB" "nginx" "pypiserver" "Tomcat" "Verdaccio" "WordPress" }}
             <li><a href="{{ $ex }}/contrast">{{ . }}</a></li>
@@ -194,34 +193,33 @@ bobctl apply -f sbob.yaml -n NS</code></pre>
 
       <a class="tile tile--link" href="{{ $ex }}/nats">
         <h3>Walkthrough: NATS</h3>
-        <p>From an empty cluster to a bound SBOB for an application nobody prepared, with the public bobctl only. About 25 minutes.</p>
+        <p>From an empty cluster to a bound SBOB for an application deployment for which no specific vulnerability corpus was collected prior:</p>
         <span class="tile__more">example/nats →</span>
       </a>
 
       <div class="tile">
-        <h3>A real exploit: PHP2Shell</h3>
-        <p>An unpatched PHP behind Apache, and WordPress, tested with a real exploit as shown at KubeCon NA.</p>
+        <h3>If you wish to test the patch of a real exploit: PHP2Shell</h3>
+        <p>An unpatched PHP behind Apache, and WordPress, as shown at KubeCon NA 2026.</p>
         <p class="tile__links">
-          <a href="{{ $ex }}/php2shell">example/php2shell</a>
           <a href="{{ $ex }}/php2shell-wordpress">example/php2shell-wordpress</a>
           <a href="https://www.youtube.com/watch?v=FMKW3oa5g5g">Talk recording</a>
         </p>
       </div>
 
-      <div class="tile">
+<!--       <div class="tile">
         <h3>Attack chains</h3>
         <p>One attack chain across several pods, with a table of which rules fired and which stayed silent.</p>
         <p class="tile__links">
           <a href="{{ $ex }}/chain">example/chain</a>
           <a href="{{ $ex }}/ingress-nightmare">example/ingress-nightmare</a>
         </p>
-      </div>
+      </div> -->
 
-      <a class="tile tile--link" href="{{ $ex }}/github-runner">
+<!--       <a class="tile tile--link" href="{{ $ex }}/github-runner">
         <h3>GitHub runners</h3>
         <p>Self-hosted GitHub Actions runners with no attack-distinguishing alerts on clean builds, proven with an attack suite.</p>
         <span class="tile__more">example/github-runner →</span>
-      </a>
+      </a> -->
     </div>
   </div>
 </section>
@@ -230,11 +228,11 @@ bobctl apply -f sbob.yaml -n NS</code></pre>
 <section id="spec" class="band band--soft">
   <div class="band__inner">
     <p class="band__kicker">Specification</p>
-    <h2>Version {{ site.Params.sbob_spec_version }}, written in the open</h2>
+    <h2>Version {{ site.Params.sbob_spec_version }}, very much in progress</h2>
     <p>
       The specification defines the document, how its patterns match, how learned behavior is generalized,
       how a vendor's SBOB combines with your own additions, how detection rules use it, and how other engines
-      could read it. It is a draft: feedback from people who build runtime-security tools is what it needs most.
+      could read it. 
     </p>
     <div class="tiles tiles--4">
       <a class="tile tile--link" href="{{ "/bob/docs/spec/" | relURL }}">
