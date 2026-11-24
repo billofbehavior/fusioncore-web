@@ -1,6 +1,6 @@
 ---
 title: "Bill of Behavior"
-description: "Software Bill of Behavior (SBoB) — an open standard for declaring, verifying and auditing the runtime behavior of software."
+description: "Software Bill of Behavior (SBOB): an open standard for declaring, verifying and auditing the runtime behavior of software."
 brand_mark: "bob-registered"
 brand_full: "Bill of Behavior"
 brand_attribution: 'by <a href="https://fusioncore.ai">fusioncore.ai</a>'
@@ -9,5 +9,7 @@ favicon: "bob-registered"
 # unless a page overrides it in its own front matter.
 cascade:
   favicon: "bob-registered"
+  brand_mark: "bob-registered"
+  brand_full: "Bill of Behavior"
 ---
 <!-- Body rendered by layouts/bob/list.html. -->

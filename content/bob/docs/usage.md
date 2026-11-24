@@ -2,6 +2,7 @@
 title: "Usage"
 weight: 30
 type: "docs"
+draft: true
 # Source of truth: kubescape.io/docs/docs/operator/bill-of-behavior/usage.md
 ---
 
